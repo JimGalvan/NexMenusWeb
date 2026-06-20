@@ -52,6 +52,12 @@ interface EditorHoursRow {
   closeTime: string;
 }
 
+interface EditorHoursSummaryRow {
+  dayLabel: string;
+  timeLabel: string;
+  closed: boolean;
+}
+
 const ACCENTS = ['#22224b', '#0E7490', '#15803D', '#C2410C', '#BE123C', '#7C3AED'];
 // Mirrors the API's ImageValidator limits for an instant client-side rejection.
 const LOGO_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
@@ -286,6 +292,7 @@ export class EditorPageComponent {
   readonly photoMaxFileSize = LOGO_MAX_SIZE_LABEL;
 
   hoursRows = signal<EditorHoursRow[]>(cloneHours(DEFAULT_HOURS));
+  hoursSheetOpen = signal(false);
   private hoursTouched = signal(false);
 
   // ---- derived ----
@@ -301,6 +308,7 @@ export class EditorPageComponent {
   readonly sheetItem = computed(() => this.items().find(i => i.id === this.sheetId()) ?? null);
   readonly editTitle = computed(() => (this.draft()?.id && this.itemExists(this.draft()!.id) ? 'Edit item' : 'New item'));
   readonly operatingHoursText = computed(() => formatOperatingHours(this.hoursRows()));
+  readonly hoursSummaryRows = computed(() => summarizeHours(this.hoursRows()));
 
 
   constructor() {
@@ -741,21 +749,32 @@ function cloneHours(rows: EditorHoursRow[]): EditorHoursRow[] {
 }
 
 function formatOperatingHours(rows: EditorHoursRow[]): string {
-  const groups: { start: EditorHoursRow; end: EditorHoursRow; text: string }[] = [];
-  for (const row of rows) {
-    const text = row.closed ? 'Closed' : `${formatTime(row.openTime)}-${formatTime(row.closeTime)}`;
-    const last = groups.at(-1);
-    if (last?.text === text) last.end = row;
-    else groups.push({ start: row, end: row, text });
-  }
-  return groups
+  return groupHours(rows)
     .map(group => {
-      const day = group.start.key === group.end.key ? group.start.shortDay : `${group.start.shortDay}-${group.end.shortDay}`;
-      return `${day} ${group.text}`;
+      const day = group.start.key === group.end.key ? group.start.shortDay : group.start.shortDay + '-' + group.end.shortDay;
+      return day + ' ' + group.text;
     })
     .join('; ');
 }
 
+function summarizeHours(rows: EditorHoursRow[]): EditorHoursSummaryRow[] {
+  return groupHours(rows).map(group => ({
+    dayLabel: group.start.key === group.end.key ? group.start.day : group.start.day + ' - ' + group.end.day,
+    timeLabel: group.text,
+    closed: group.text === 'Closed',
+  }));
+}
+
+function groupHours(rows: EditorHoursRow[]): { start: EditorHoursRow; end: EditorHoursRow; text: string }[] {
+  const groups: { start: EditorHoursRow; end: EditorHoursRow; text: string }[] = [];
+  for (const row of rows) {
+    const text = row.closed ? 'Closed' : formatTime(row.openTime) + ' - ' + formatTime(row.closeTime);
+    const last = groups.at(-1);
+    if (last?.text === text) last.end = row;
+    else groups.push({ start: row, end: row, text });
+  }
+  return groups;
+}
 function formatTime(time: string): string {
   const [hourRaw, minuteRaw = '00'] = time.split(':');
   const hour = Number(hourRaw);

@@ -271,6 +271,7 @@
 .ed-formhead__title { font-weight: 700; font-size: 15px; }
 .ed-save { border: none; background: transparent; font-size: 15px; font-weight: 800; padding: 8px; }
 
+.ed-drop { position: relative; }
 .ed-photo {
   width: 100%;
   height: 168px;
@@ -342,6 +343,7 @@
 
 /* ---- details extras ---- */
 .ed-logo-row { display: flex; align-items: center; gap: 14px; }
+.ed-logo-row > .ed-drop { flex: 0 0 auto; }
 .ed-logo {
   width: 62px;
   height: 62px;
@@ -385,15 +387,56 @@
 .ed-divider { height: 1px; background: var(--line-soft); margin: 24px 0; }
 .ed-hours { border: 1.5px solid var(--line); border-radius: 13px; overflow: hidden; }
 .ed-hours__row {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(98px, 0.78fr) minmax(0, 1.22fr);
+  gap: 12px;
   align-items: center;
-  justify-content: space-between;
   padding: 12px 14px;
 }
 .ed-hours__row:not(:first-child) { border-top: 1px solid var(--line-soft); }
-.ed-hours__day { font-size: 13.5px; font-weight: 600; color: var(--text-2); }
-.ed-hours__time { font-size: 13px; font-weight: 600; color: var(--text-3); }
-.ed-hours__time.is-closed { color: var(--muted-2); }
+.ed-hours__row.is-closed .ed-hours__times { opacity: 0.48; }
+.ed-hours__dayblock { min-width: 0; }
+.ed-hours__day { display: block; font-size: 13.5px; font-weight: 700; color: var(--text-2); }
+.ed-hours__closed {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 5px;
+  font-size: 12px;
+  font-weight: 650;
+  color: var(--muted);
+}
+.ed-hours__closed input { width: 14px; height: 14px; accent-color: var(--accent); }
+.ed-hours__times { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 7px; align-items: center; }
+.ed-hours__input {
+  width: 100%;
+  min-width: 0;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  padding: 9px 8px;
+  background: var(--surface);
+  color: var(--text-3);
+  font-size: 12.5px;
+  font-weight: 700;
+  text-align: center;
+  outline: none;
+}
+.ed-hours__input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-tint); }
+.ed-hours__input:disabled { cursor: not-allowed; background: var(--panel-2); }
+.ed-hours__dash { color: var(--muted-2); font-size: 11px; font-weight: 700; }
+
+.ed-section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-top: 18px; }
+.ed-field-label--inline { margin: 0 0 9px; }
+.ed-link-btn { border: none; background: transparent; color: var(--accent); font: inherit; font-size: 14px; font-weight: 800; padding: 0 0 9px; }
+.ed-hours-summary { border: 1.5px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--surface); }
+.ed-hours-summary__row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 15px 20px; }
+.ed-hours-summary__row:not(:first-child) { border-top: 1px solid var(--line-soft); }
+.ed-hours-summary__day { min-width: 0; color: var(--text-2); font-size: 15px; font-weight: 750; }
+.ed-hours-summary__time { flex: 0 0 auto; color: var(--text-3); font-size: 14px; font-weight: 700; text-align: right; }
+.ed-hours-summary__time.is-closed { color: var(--muted-2); }
+.ed-hours-sheet__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 2px 14px; }
+.ed-hours-sheet__head h2 { font-weight: 800; font-size: 18px; letter-spacing: -0.01em; }
+.ed-hours--editor { max-height: min(62vh, 520px); overflow-y: auto; }
 
 /* ---- manage categories ---- */
 .ed-subhead {

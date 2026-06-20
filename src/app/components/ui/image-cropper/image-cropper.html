@@ -6,7 +6,7 @@
   </div>
 
   <div class="crop-screen__stage-wrap">
-    <div class="crop-screen__stage" [class.is-round]="round()" [style.aspect-ratio]="aspectRatio()">
+    <div #stage class="crop-screen__stage" [class.is-round]="round()">
       <img #img [src]="imageSrc()" crossorigin="anonymous" />
       @if (!round()) {
         <div class="crop-screen__grid">

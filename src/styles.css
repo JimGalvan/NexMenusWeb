@@ -4,15 +4,18 @@
    Mobile-first: everything scales from a single-column phone layout up.
    ============================================================ */
 
-/* FilePond is mounted only for its drag/drop + validation; the page's own
-   buttons are the visible trigger, so its rendered root stays off-screen. */
+/* FilePond is mounted invisibly over its own trigger button (see .ed-drop)
+   so the button's own design shows through, while clicks AND native
+   drag-and-drop still land on FilePond's real dropzone underneath. */
 .filepond--root.fp-headless {
   position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
+  inset: 0;
+  margin: 0;
   opacity: 0;
-  pointer-events: none;
+  cursor: pointer;
+}
+.filepond--root.fp-headless .filepond--drop-label {
+  height: 100%;
 }
 
 :root {
