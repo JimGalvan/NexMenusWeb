@@ -1,0 +1,105 @@
+.crop-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  background: #111114;
+}
+.crop-screen__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 14px 12px;
+  flex: 0 0 auto;
+}
+.crop-screen__cancel {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #D4D4D8;
+  font-size: 14.5px;
+  font-weight: 600;
+  padding: 8px;
+}
+.crop-screen__title {
+  font-weight: 700;
+  font-size: 14px;
+  color: #fff;
+}
+.crop-screen__done {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  padding: 8px;
+}
+.crop-screen__stage-wrap {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+}
+.crop-screen__stage {
+  position: relative;
+  width: min(86vw, 300px);
+  max-height: 70vh;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15);
+  background: #000;
+}
+.crop-screen__stage.is-round {
+  border-radius: 50%;
+}
+.crop-screen__stage img {
+  display: block;
+  max-width: none;
+}
+/* Cropper.js v1 trick for a round preview: mask the view-box + face. */
+.crop-screen__stage.is-round ::ng-deep .cropper-view-box,
+.crop-screen__stage.is-round ::ng-deep .cropper-face {
+  border-radius: 50%;
+}
+.crop-screen__grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.crop-screen__grid-v {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.35);
+}
+.crop-screen__grid-h {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.35);
+}
+.crop-screen__zoom {
+  flex: 0 0 auto;
+  padding: 18px 30px 40px;
+}
+.crop-screen__zoom-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.crop-screen__zoom-row input[type='range'] {
+  flex: 1;
+  accent-color: #fff;
+}
+.crop-screen__hint {
+  text-align: center;
+  color: #6B7280;
+  font-size: 12px;
+  margin-top: 14px;
+}

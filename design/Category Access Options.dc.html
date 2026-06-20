@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+.sc{scrollbar-width:none;}
+.sc::-webkit-scrollbar{display:none;}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#E9E9EC;font-family:'Manrope',system-ui,sans-serif;color:#18181B;padding:44px 36px 70px;">
+
+  <div style="max-width:1180px;margin:0 auto 30px;">
+    <div style="font-size:12px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#A1A1AA;">NexMenus · Editor</div>
+    <h1 style="font-size:34px;font-weight:800;letter-spacing:-0.02em;margin:10px 0 0;line-height:1.05;">Where to put “Manage categories”</h1>
+    <p style="font-size:15.5px;line-height:1.55;color:#52525B;max-width:680px;margin:12px 0 0;text-wrap:pretty;">Four ways to surface category management from the Items view, instead of the easy-to-miss icon at the end of the chip row. Each shows the same top region of the editor.</p>
+  </div>
+
+  <div style="max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(2,1fr);gap:26px;">
+
+    <!-- ============ OPTION A ============ -->
+    <div>
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:12px;">
+        <span style="width:22px;height:22px;border-radius:7px;background:#22224b;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex:0 0 auto;">A</span>
+        <div>
+          <div style="font-size:15px;font-weight:800;letter-spacing:-0.01em;">Labeled “Categories” header + Manage</div>
+          <div style="font-size:13px;color:#71717A;margin-top:2px;">A titled row above the chips with a clear text link. Most discoverable.</div>
+        </div>
+      </div>
+      <div style="background:#fff;border-radius:26px;overflow:hidden;box-shadow:0 12px 30px rgba(20,20,40,0.10),0 0 0 1px rgba(0,0,0,0.04);">
+        <div style="background:#fff;padding:14px 16px 0;">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:3px;color:#52525B;font-size:13.5px;font-weight:600;"><svg width="8" height="14" viewBox="0 0 9 16" fill="none"><path d="M8 1 1 8l7 7" stroke="#52525B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Menus</div>
+            <div style="display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:10px;background:rgba(34,34,75,0.08);color:#22224b;font-size:12.5px;font-weight:700;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.9"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.9"/></svg>Preview</div>
+          </div>
+          <div style="font-weight:800;font-size:21px;letter-spacing:-0.02em;margin-top:6px;">Ocean &amp; Farm</div>
+          <div style="display:flex;background:#F4F4F5;border-radius:11px;padding:4px;gap:4px;margin-top:12px;">
+            <div style="flex:1;text-align:center;padding:9px;border-radius:9px;background:#fff;color:#22224b;font-size:13.5px;font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,0.12);">Items</div>
+            <div style="flex:1;text-align:center;padding:9px;border-radius:9px;color:#71717A;font-size:13.5px;font-weight:700;">Details</div>
+          </div>
+        </div>
+        <!-- highlight: labeled header -->
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 16px 8px;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#A1A1AA;">Categories</div>
+          <div style="display:flex;align-items:center;gap:5px;color:#22224b;font-size:13px;font-weight:700;background:rgba(34,34,75,0.07);padding:6px 11px;border-radius:9px;outline:2px solid rgba(34,34,75,0.18);outline-offset:2px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 7h11M4 17h7" stroke="#22224b" stroke-width="1.9" stroke-linecap="round"/><circle cx="18" cy="7" r="2.4" stroke="#22224b" stroke-width="1.9"/><circle cx="14" cy="17" r="2.4" stroke="#22224b" stroke-width="1.9"/></svg>
+            Manage
+          </div>
+        </div>
+        <div class="sc" style="display:flex;gap:8px;overflow-x:auto;padding:4px 16px 16px;">
+          <span style="padding:8px 14px;border-radius:999px;background:#22224b;color:#fff;font-size:13px;font-weight:600;white-space:nowrap;">All</span>
+          <span style="padding:8px 14px;border-radius:999px;background:#F4F4F5;color:#52525B;font-size:13px;font-weight:600;white-space:nowrap;">Starters</span>
+          <span style="padding:8px 14px;border-radius:999px;background:#F4F4F5;color:#52525B;font-size:13px;font-weight:600;white-space:nowrap;">From the Sea</span>
+          <span style="padding:8px 14px;border-radius:999px;background:#F4F4F5;color:#52525B;font-size:13px;font-weight:600;white-space:nowrap;">Mains</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ OPTION B ============ -->
+    <div>
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:12px;">
+        <span style="width:22px;height:22px;border-radius:7px;background:#22224b;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex:0 0 auto;">B</span>
+        <div>
+          <div style="font-size:15px;font-weight:800;letter-spacing:-0.01em;">“Edit” pill pinned before the chips</div>
+          <div style="font-size:13px;color:#71717A;margin-top:2px;">A fixed text button at the row start — iOS-familiar, always visible.</div>
+        </div>
+      </div>
+      <div style="background:#fff;border-radius:26px;overflow:hidden;box-shadow:0 12px 30px rgba(20,20,40,0.10),0 0 0 1px rgba(0,0,0,0.04);">
+        <div style="background:#fff;padding:14px 16px 0;">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:3px;color:#52525B;font-size:13.5px;font-weight:600;"><svg width="8" height="14" viewBox="0 0 9 16" fill="none"><path d="M8 1 1 8l7 7" stroke="#52525B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Menus</div>
+            <div style="display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:10px;background:rgba(34,34,75,0.08);color:#22224b;font-size:12.5px;font-weight:700;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.9"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.9"/></svg>Preview</div>
+          </div>
+          <div style="font-weight:800;font-size:21px;letter-spacing:-0.02em;margin-top:6px;">Ocean &amp; Farm</div>
+          <div style="display:flex;background:#F4F4F5;border-radius:11px;padding:4px;gap:4px;margin-top:12px;">
+            <div style="flex:1;text-align:center;padding:9px;border-radius:9px;background:#fff;color:#22224b;font-size:13.5px;font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,0.12);">Items</div>
+            <div style="flex:1;text-align:center;padding:9px;border-radius:9px;color:#71717A;font-size:13.5px;font-weight:700;">Details</div>
+          </div>
+        </div>
+        <!-- highlight: pinned Edit + chips -->
+        <div style="display:flex;align-items:center;gap:8px;padding:18px 16px 16px;">
+          <div style="display:flex;align-items:center;gap:5px;color:#22224b;font-size:13px;font-weight:700;background:rgba(34,34,75,0.07);padding:8px 13px;border-radius:999px;white-space:nowrap;flex:0 0 auto;outline:2px solid rgba(34,34,75,0.18);outline-offset:2px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="#22224b" stroke-width="1.7" stroke-linejoin="round"/><path d="m14 6 4 4" stroke="#22224b" stroke-width="1.7"/></svg>
+            Edit
+          </div>
+          <div style="width:1px;height:24px;background:rgba(0,0,0,0.08);flex:0 0 auto;"></div>
+          <div class="sc" style="display:flex;gap:8px;overflow-x:auto;flex:1;">
+            <span style="padding:8px 14px;border-radius:999px;background:#22224b;color:#fff;font-size:13px;font-weight:600;white-space:nowrap;">All</span>
+            <span style="padding:8px 14px;border-radius:999px;background:#F4F4F5;color:#52525B;font-size:13px;font-weight:600;white-space:nowrap;">Starters</span>
+            <span style="padding:8px 14px;border-radius:999px;background:#F4F4F5;color:#52525B;font-size:13px;font-weight:600;white-space:nowrap;">Mains</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ OPTION C ============ -->
+    <div>
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:12px;">
+        <span style="width:22px;height:22px;border-radius:7px;background:#22224b;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex:0 0 auto;">C</span>
+        <div>
+          <div style="font-size:15px;font-weight:800;letter-spacing:-0.01em;">Overflow “⋯” menu in the top bar</div>
+          <div style="font-size:13px;color:#71717A;margin-top:2px;">Scales to more menu-level actions (reorder, duplicate, share…).</div>
+        </div>
+      </div>
+      <div style="background:#fff;border-radius:26px;overflow:hidden;box-shadow:0 12px 30px rgba(20,20,40,0.10),0 0 0 1px rgba(0,0,0,0.04);position:relative;">
+        <div style="background:#fff;padding:14px 16px 0;">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:3px;color:#52525B;font-size:13.5px;font-weight:600;"><svg width="8" height="14" viewBox="0 0 9 16" fill="none"><path d="M8 1 1 8l7 7" stroke="#52525B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Menus</div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div style="display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:10px;background:rgba(34,34,75,0.08);color:#22224b;font-size:12.5px;font-weight:700;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.9"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.9"/></svg>Preview</div>
+              <div style="width:36px;height:36px;border-radius:10px;background:#F4F4F5;display:flex;align-items:center;justify-content:center;outline:2px solid rgba(34,34,75,0.22);outline-offset:2px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#52525B"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+              </div>
+            </div>
+          </div>
+          <div style="font-weight:800;font-size:21px;letter-spacing:-0.02em;margin-top:6px;">Ocean &amp; Farm</div>
+          <div style="display:flex;background:#F4F4F5;border-radius:11px;padding:4px;gap:4px;margin-top:12px;">
+            <div style="flex:1;text-align:center;padding:9px;border-radius:9px;background:#fff;color:#22224b;font-size:13.5px;font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,0.12);">Items</div>
+            <div style="flex:1;text-align:center;padding:9px;border-radius:9px;color:#71717A;font-size:13.5px;font-weight:700;">Details</div>
+          </div>
+        </div>
+        <div class="sc" style="display:flex;gap:8px;overflow-x:auto;padding:18px 16px 16px;">
+          <span style="padding:8px 14px;border-radius:999px;background:#22224b;color:#fff;font-size:13px;font-weight:600;white-space:nowrap;">All</span>
+          <span style="padding:8px 14px;border-radius:999px;background:#F4F4F5;color:#52525B;font-size:13px;font-weight:600;white-space:nowrap;">Starters</span>
+          <span style="padding:8px 14px;border-radius:999px;background:#F4F4F5;color:#52525B;font-size:13px;font-weight:600;white-space:nowrap;">Mains</span>
+        </div>
+        <!-- popover menu -->
+        <div style="position:absolute;top:54px;right:14px;width:198px;background:#fff;border-radius:14px;box-shadow:0 12px 34px rgba(0,0,0,0.18),0 0 0 1px rgba(0,0,0,0.05);padding:6px;">
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 11px;border-radius:9px;background:#F4F4F5;font-size:13.5px;font-weight:700;color:#22224b;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 7h11M4 17h7" stroke="#22224b" stroke-width="1.9" stroke-linecap="round"/><circle cx="18" cy="7" r="2.4" stroke="#22224b" stroke-width="1.9"/><circle cx="14" cy="17" r="2.4" stroke="#22224b" stroke-width="1.9"/></svg>
+            Manage categories
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 11px;font-size:13.5px;font-weight:600;color:#3F3F46;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M8 9h8M8 15h8" stroke="#3F3F46" stroke-width="1.9" stroke-linecap="round"/></svg>
+            Reorder items
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 11px;font-size:13.5px;font-weight:600;color:#3F3F46;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="8" y="8" width="12" height="12" rx="2" stroke="#3F3F46" stroke-width="1.8"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" stroke="#3F3F46" stroke-width="1.8"/></svg>
+            Duplicate menu
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ OPTION D ============ -->
+    <div>
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:12px;">
+        <span style="width:22px;height:22px;border-radius:7px;background:#22224b;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex:0 0 auto;">D</span>
+        <div>
+          <div style="font-size:15px;font-weight:800;letter-spacing:-0.01em;">Inline edit mode (chips become editable)</div>
+          <div style="font-size:13px;color:#71717A;margin-top:2px;">An “Edit” toggle turns chips into rename/delete pills — no separate screen.</div>
+        </div>
+      </div>
+      <div style="background:#fff;border-radius:26px;overflow:hidden;box-shadow:0 12px 30px rgba(20,20,40,0.10),0 0 0 1px rgba(0,0,0,0.04);">
+        <div style="background:#fff;padding:14px 16px 0;">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:3px;color:#52525B;font-size:13.5px;font-weight:600;"><svg width="8" height="14" viewBox="0 0 9 16" fill="none"><path d="M8 1 1 8l7 7" stroke="#52525B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Menus</div>
+            <div style="display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:10px;background:rgba(34,34,75,0.08);color:#22224b;font-size:12.5px;font-weight:700;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.9"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.9"/></svg>Preview</div>
+          </div>
+          <div style="font-weight:800;font-size:21px;letter-spacing:-0.02em;margin-top:6px;">Ocean &amp; Farm</div>
+          <div style="display:flex;background:#F4F4F5;border-radius:11px;padding:4px;gap:4px;margin-top:12px;">
+            <div style="flex:1;text-align:center;padding:9px;border-radius:9px;background:#fff;color:#22224b;font-size:13.5px;font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,0.12);">Items</div>
+            <div style="flex:1;text-align:center;padding:9px;border-radius:9px;color:#71717A;font-size:13.5px;font-weight:700;">Details</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 16px 8px;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#A1A1AA;">Editing categories</div>
+          <div style="color:#22224b;font-size:13px;font-weight:800;outline:2px solid rgba(34,34,75,0.18);outline-offset:3px;border-radius:4px;">Done</div>
+        </div>
+        <div class="sc" style="display:flex;gap:8px;overflow-x:auto;padding:4px 16px 16px;">
+          <span style="display:inline-flex;align-items:center;gap:7px;padding:8px 10px 8px 13px;border-radius:999px;background:#fff;border:1.5px solid #E4E4E7;color:#27272A;font-size:13px;font-weight:600;white-space:nowrap;">Starters<span style="width:18px;height:18px;border-radius:50%;background:#FEE2E2;color:#DC2626;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;">−</span></span>
+          <span style="display:inline-flex;align-items:center;gap:7px;padding:8px 10px 8px 13px;border-radius:999px;background:#fff;border:1.5px solid #E4E4E7;color:#27272A;font-size:13px;font-weight:600;white-space:nowrap;">From the Sea<span style="width:18px;height:18px;border-radius:50%;background:#FEE2E2;color:#DC2626;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1;">−</span></span>
+          <span style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;background:transparent;border:1.5px dashed #C4C4CC;color:#71717A;font-size:13px;font-weight:700;white-space:nowrap;">+ New</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="max-width:1180px;margin:30px auto 0;background:#fff;border-radius:18px;padding:22px 24px;box-shadow:0 0 0 1px rgba(0,0,0,0.04);">
+    <div style="font-size:13px;font-weight:800;letter-spacing:0.02em;color:#18181B;margin-bottom:12px;">My take</div>
+    <div style="font-size:14px;line-height:1.6;color:#52525B;text-wrap:pretty;">
+      <strong style="color:#18181B;">A</strong> is the most discoverable and self-explanatory — a labeled “Categories · Manage” reads clearly and gives the section a title.
+      <strong style="color:#18181B;">B</strong> keeps it compact and always-visible by pinning an “Edit” button so it never scrolls away.
+      <strong style="color:#18181B;">C</strong> is best if you expect more menu-level actions (reorder, duplicate, share) — it’s a home for all of them.
+      <strong style="color:#18181B;">D</strong> is the lightest touch — quick rename/delete inline — but reorder and longer names get cramped on a phone.
+      I’d go with <strong style="color:#18181B;">A</strong>, or <strong style="color:#18181B;">C</strong> if you’re planning more per-menu actions soon.
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

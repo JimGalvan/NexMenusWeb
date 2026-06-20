@@ -1,0 +1,64 @@
+<div class="account">
+  <header class="account__head">
+    <h1>Account</h1>
+    <p>Your profile, plan and settings.</p>
+  </header>
+
+  <!-- profile -->
+  <section class="profile">
+    <div class="profile__avatar">{{ initials() }}</div>
+    <div class="profile__id">
+      <div class="profile__name">{{ name() }}</div>
+      <div class="profile__email">{{ email() }}</div>
+    </div>
+    <span class="profile__edit">Edit</span>
+  </section>
+
+  <!-- plan -->
+  <section class="plan">
+    <div>
+      <div class="plan__label">Current plan</div>
+      <div class="plan__name">Pro · $15/mo</div>
+    </div>
+    <button class="plan__manage">Manage</button>
+  </section>
+
+  <!-- settings list -->
+  <section class="settings">
+    <button class="settings__row">
+      <span class="settings__icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="3" y="6" width="18" height="12" rx="2" stroke="#3F3F46" stroke-width="1.7"/>
+          <path d="M3 10h18" stroke="#3F3F46" stroke-width="1.7"/>
+        </svg>
+      </span>
+      <span class="settings__label">Plan &amp; billing</span>
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="m9 6 6 6-6 6" stroke="#C4C4CC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="settings__row">
+      <span class="settings__icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="8.5" stroke="#3F3F46" stroke-width="1.7"/>
+          <path d="M9.5 9.5a2.5 2.5 0 0 1 3.7-1.5c1.3.8 1 2.3-.2 3-.6.4-1 .8-1 1.5" stroke="#3F3F46" stroke-width="1.7" stroke-linecap="round"/>
+          <circle cx="12" cy="16" r="1" fill="#3F3F46"/>
+        </svg>
+      </span>
+      <span class="settings__label">Help &amp; support</span>
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="m9 6 6 6-6 6" stroke="#C4C4CC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </section>
+
+  <button class="logout" (click)="logout()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M15 12H4m0 0 4-4m-4 4 4 4M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"
+            stroke="#DC2626" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Log out
+  </button>
+
+  <div class="account__version">NexMenus · v0.1.0</div>
+</div>

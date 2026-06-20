@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+::-webkit-scrollbar{width:0;height:0;}
+.scrollarea{scrollbar-width:none;-ms-overflow-style:none;}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#E9E9EC;font-family:'Manrope',system-ui,sans-serif;padding:44px 32px 60px;color:#18181B;">
+
+  <!-- Page header -->
+  <div style="max-width:1300px;margin:0 auto 38px;">
+    <div style="font-size:12px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#A1A1AA;">NexMenus · Menu redesign</div>
+    <h1 style="font-size:40px;font-weight:800;letter-spacing:-0.02em;margin:10px 0 0;line-height:1.05;">Ocean &amp; Farm</h1>
+    <p style="font-size:16px;line-height:1.55;color:#52525B;max-width:620px;margin:14px 0 0;text-wrap:pretty;">Three mobile-first directions for the customer menu. Tap the categories to explore each one, and tap the <strong>info</strong> button (or "Hours &amp; Location") to see the restaurant-info sheet.</p>
+    <div style="display:flex;align-items:center;gap:10px;margin-top:20px;">
+      <span style="font-size:12.5px;font-weight:600;color:#71717A;">Accent (themeable per restaurant)</span>
+      <span style="{{ swatchStyle }}"></span>
+    </div>
+  </div>
+
+  <!-- Phones -->
+  <div style="max-width:1300px;margin:0 auto;display:flex;gap:48px;flex-wrap:wrap;justify-content:center;">
+
+    <!-- ============ A · PHOTO-FORWARD ============ -->
+    <div style="flex:0 0 auto;">
+      <div style="margin-bottom:18px;max-width:300px;">
+        <div style="display:inline-flex;align-items:center;gap:9px;">
+          <span style="width:20px;height:20px;border-radius:7px;background:#18181B;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;">A</span>
+          <span style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#3F3F46;">Photo-forward</span>
+        </div>
+        <div style="font-size:13px;color:#71717A;margin-top:8px;line-height:1.5;text-wrap:pretty;">Big photos, quick-add buttons and a sticky order bar — the familiar food-delivery feel.</div>
+      </div>
+
+      <div style="width:380px;height:792px;border-radius:42px;background:#fff;overflow:hidden;position:relative;box-shadow:0 30px 60px rgba(20,20,40,0.18),0 0 0 1px rgba(0,0,0,0.05);display:flex;flex-direction:column;">
+        <div style="position:absolute;top:11px;left:50%;transform:translateX(-50%);width:98px;height:27px;border-radius:16px;background:#000;z-index:40;"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 24px 7px;flex:0 0 auto;">
+          <span style="font-size:14px;font-weight:700;">9:41</span>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx="0.6" fill="#18181B"/><rect x="4.5" y="4.5" width="3" height="6.5" rx="0.6" fill="#18181B"/><rect x="9" y="2" width="3" height="9" rx="0.6" fill="#18181B"/><rect x="13.5" y="0" width="3" height="11" rx="0.6" fill="#18181B"/></svg>
+            <svg width="24" height="12" viewBox="0 0 24 12"><rect x="0.5" y="0.5" width="20" height="11" rx="3" stroke="#18181B" stroke-opacity="0.4" fill="none"/><rect x="2" y="2" width="17" height="8" rx="1.8" fill="#18181B"/><rect x="22" y="4" width="1.6" height="4" rx="0.8" fill="#18181B" fill-opacity="0.5"/></svg>
+          </div>
+        </div>
+
+        <div class="scrollarea" style="flex:1;overflow-y:auto;overflow-x:hidden;background:#FAFAFB;">
+          <!-- header -->
+          <div style="padding:14px 18px 16px;background:#fff;">
+            <div style="display:flex;gap:13px;align-items:center;">
+              <div style="{{ logoStyle }}">O&amp;F</div>
+              <div style="flex:1;min-width:0;">
+                <div style="font-weight:800;font-size:20px;letter-spacing:-0.01em;">Ocean &amp; Farm</div>
+                <div style="font-size:12.5px;color:#71717A;margin-top:2px;">Fresh California-inspired cuisine</div>
+              </div>
+              <button style="{{ infoBtnStyle }}" onClick="{{ onInfoA }}">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#52525B" stroke-width="1.8"/><path d="M12 11.5v4.5" stroke="#52525B" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="8" r="1.1" fill="#52525B"/></svg>
+              </button>
+            </div>
+            <div style="display:flex;gap:7px;margin-top:14px;">
+              <span style="display:inline-flex;align-items:center;gap:4px;background:#F4F4F5;color:#3F3F46;font-size:11.5px;font-weight:600;padding:6px 10px;border-radius:9px;"><span style="color:#F59E0B;">★</span> 4.8</span>
+              <span style="display:inline-flex;align-items:center;background:#F4F4F5;color:#3F3F46;font-size:11.5px;font-weight:600;padding:6px 10px;border-radius:9px;">$$ · California</span>
+              <span style="display:inline-flex;align-items:center;gap:5px;background:#ECFDF3;color:#15803D;font-size:11.5px;font-weight:700;padding:6px 10px;border-radius:9px;"><span style="width:6px;height:6px;border-radius:50%;background:#22C55E;"></span>Open</span>
+            </div>
+          </div>
+
+          <!-- sticky pills -->
+          <div style="position:sticky;top:0;z-index:5;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,0,0,0.06);">
+            <div class="scrollarea" style="display:flex;gap:8px;overflow-x:auto;padding:11px 16px;">
+              <sc-for list="{{ pillsA }}" as="p" hint-placeholder-count="5">
+                <button style="{{ p.style }}" onClick="{{ p.onSelect }}">{{ p.name }}</button>
+              </sc-for>
+            </div>
+          </div>
+
+          <!-- cards -->
+          <div style="padding:14px 16px 8px;display:flex;flex-direction:column;gap:14px;">
+            <sc-for list="{{ listA }}" as="it" hint-placeholder-count="3">
+              <div style="background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,0.04),0 8px 20px rgba(0,0,0,0.05);">
+                <div style="{{ it.photoStyle }}">
+                  <sc-if value="{{ it.tag }}" hint-placeholder-val="{{ false }}">
+                    <div style="position:absolute;top:10px;left:10px;display:flex;align-items:center;gap:4px;background:rgba(255,255,255,0.95);color:#B45309;font-size:11px;font-weight:700;padding:5px 9px;border-radius:999px;box-shadow:0 2px 6px rgba(0,0,0,0.12);"><span style="color:#F59E0B;">★</span>Popular</div>
+                  </sc-if>
+                  <button style="{{ addBtnStyle }}">+</button>
+                </div>
+                <div style="padding:12px 14px 14px;">
+                  <div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline;">
+                    <div style="font-weight:700;font-size:15.5px;letter-spacing:-0.01em;">{{ it.name }}</div>
+                    <div style="{{ priceStyleA }}">{{ it.priceLabel }}</div>
+                  </div>
+                  <div style="margin-top:4px;font-size:12.5px;line-height:1.45;color:#71717A;text-wrap:pretty;">{{ it.desc }}</div>
+                </div>
+              </div>
+            </sc-for>
+            <!-- footer -->
+            <div style="border-top:1px solid rgba(0,0,0,0.07);margin-top:6px;padding:18px 4px 2px;text-align:center;">
+              <div style="font-weight:700;font-size:13.5px;">Ocean &amp; Farm</div>
+              <div style="font-size:12px;color:#71717A;margin-top:6px;line-height:1.55;">123 Main Street · Demo City, CA 91234<br>Mon–Sat 9am–10pm · Sun closed</div>
+              <a href="tel:7779996666" style="{{ footerLinkStyle }}">777-999-6666</a>
+            </div>
+            <div style="text-align:center;font-size:11px;color:#C4C4CC;padding:10px 0 6px;">Powered by NexMenus</div>
+          </div>
+
+          <!-- sticky order bar -->
+          <div style="position:sticky;bottom:0;padding:14px 16px 16px;background:linear-gradient(to top,#FAFAFB 72%,rgba(250,250,251,0));">
+            <button style="{{ ctaStyle }}">Call to Order · 777-999-6666</button>
+          </div>
+        </div>
+
+        <!-- info sheet A -->
+        <sc-if value="{{ infoOpenA }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;inset:0;z-index:50;display:flex;flex-direction:column;justify-content:flex-end;">
+            <div style="position:absolute;inset:0;background:rgba(15,15,25,0.42);" onClick="{{ onInfoClose }}"></div>
+            <div style="position:relative;background:#fff;border-radius:26px 26px 0 0;padding:8px 18px 26px;box-shadow:0 -12px 44px rgba(0,0,0,0.22);">
+              <div style="width:40px;height:5px;border-radius:99px;background:#E4E4E7;margin:6px auto 16px;"></div>
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+                <div>
+                  <div style="font-weight:800;font-size:18px;letter-spacing:-0.01em;">Ocean &amp; Farm</div>
+                  <div style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:#15803D;margin-top:5px;"><span style="width:6px;height:6px;border-radius:50%;background:#22C55E;"></span>Open · until 10:00pm</div>
+                </div>
+                <button onClick="{{ onInfoClose }}" style="width:32px;height:32px;border-radius:50%;border:none;background:#F4F4F5;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:0 0 auto;">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 5l14 14M19 5L5 19" stroke="#71717A" stroke-width="2.2" stroke-linecap="round"/></svg>
+                </button>
+              </div>
+              <div style="margin-top:18px;display:flex;gap:12px;align-items:flex-start;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex:0 0 auto;margin-top:1px;"><circle cx="12" cy="12" r="9" stroke="#A1A1AA" stroke-width="1.7"/><path d="M12 7.5V12l3 2" stroke="#A1A1AA" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:700;">Hours</div>
+                  <div style="display:flex;justify-content:space-between;font-size:12.5px;color:#52525B;margin-top:6px;"><span>Mon – Sat</span><span style="font-weight:600;">9:00am – 10:00pm</span></div>
+                  <div style="display:flex;justify-content:space-between;font-size:12.5px;color:#52525B;margin-top:4px;"><span>Sunday</span><span style="font-weight:600;color:#9A9AA3;">Closed</span></div>
+                </div>
+              </div>
+              <div style="height:1px;background:rgba(0,0,0,0.06);margin:16px 0;"></div>
+              <div style="display:flex;gap:12px;align-items:flex-start;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex:0 0 auto;margin-top:1px;"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z" stroke="#A1A1AA" stroke-width="1.7"/><circle cx="12" cy="10" r="2.5" stroke="#A1A1AA" stroke-width="1.7"/></svg>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:700;">Location</div>
+                  <div style="font-size:12.5px;color:#52525B;margin-top:6px;line-height:1.5;">123 Main Street<br>Demo City, CA 91234</div>
+                </div>
+              </div>
+              <a href="tel:7779996666" style="{{ sheetCallStyle }}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 5 5L19 18l-2 3a14 14 0 0 1-12-12L5 4Z" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/></svg>
+                Call 777-999-6666
+              </a>
+              <div style="display:flex;gap:10px;margin-top:10px;">
+                <button style="{{ sheetGhostStyle }}">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z" stroke="#3F3F46" stroke-width="1.7"/><circle cx="12" cy="10" r="2.3" stroke="#3F3F46" stroke-width="1.7"/></svg>
+                  Directions
+                </button>
+                <button style="{{ sheetGhostStyle }}">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="18" cy="5" r="2.4" stroke="#3F3F46" stroke-width="1.7"/><circle cx="6" cy="12" r="2.4" stroke="#3F3F46" stroke-width="1.7"/><circle cx="18" cy="19" r="2.4" stroke="#3F3F46" stroke-width="1.7"/><path d="M8 11l8-5M8 13l8 5" stroke="#3F3F46" stroke-width="1.7"/></svg>
+                  Share
+                </button>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+
+    <!-- ============ B · COMPACT LIST ============ -->
+    <div style="flex:0 0 auto;">
+      <div style="margin-bottom:18px;max-width:300px;">
+        <div style="display:inline-flex;align-items:center;gap:9px;">
+          <span style="width:20px;height:20px;border-radius:7px;background:#18181B;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;">B</span>
+          <span style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#3F3F46;">Compact list</span>
+        </div>
+        <div style="font-size:13px;color:#71717A;margin-top:8px;line-height:1.5;text-wrap:pretty;">Text-led rows with small thumbnails and underline tabs — fast to scan, fits more per screen.</div>
+      </div>
+
+      <div style="width:380px;height:792px;border-radius:42px;background:#fff;overflow:hidden;position:relative;box-shadow:0 30px 60px rgba(20,20,40,0.18),0 0 0 1px rgba(0,0,0,0.05);display:flex;flex-direction:column;">
+        <div style="position:absolute;top:11px;left:50%;transform:translateX(-50%);width:98px;height:27px;border-radius:16px;background:#000;z-index:40;"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 24px 7px;flex:0 0 auto;">
+          <span style="font-size:14px;font-weight:700;">9:41</span>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx="0.6" fill="#18181B"/><rect x="4.5" y="4.5" width="3" height="6.5" rx="0.6" fill="#18181B"/><rect x="9" y="2" width="3" height="9" rx="0.6" fill="#18181B"/><rect x="13.5" y="0" width="3" height="11" rx="0.6" fill="#18181B"/></svg>
+            <svg width="24" height="12" viewBox="0 0 24 12"><rect x="0.5" y="0.5" width="20" height="11" rx="3" stroke="#18181B" stroke-opacity="0.4" fill="none"/><rect x="2" y="2" width="17" height="8" rx="1.8" fill="#18181B"/><rect x="22" y="4" width="1.6" height="4" rx="0.8" fill="#18181B" fill-opacity="0.5"/></svg>
+          </div>
+        </div>
+
+        <div class="scrollarea" style="flex:1;overflow-y:auto;overflow-x:hidden;background:#fff;">
+          <!-- header -->
+          <div style="padding:16px 20px 14px;display:flex;align-items:center;gap:12px;">
+            <div style="{{ logoStyleSm }}">O&amp;F</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-weight:800;font-size:17px;letter-spacing:-0.01em;">Ocean &amp; Farm</div>
+              <div style="font-size:11.5px;color:#9A9AA3;margin-top:1px;">California-inspired · Open until 10pm</div>
+            </div>
+            <button style="{{ infoBtnStyle }}" onClick="{{ onInfoB }}">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#52525B" stroke-width="1.8"/><path d="M12 11.5v4.5" stroke="#52525B" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="8" r="1.1" fill="#52525B"/></svg>
+            </button>
+          </div>
+
+          <!-- sticky underline tabs -->
+          <div style="position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid rgba(0,0,0,0.08);">
+            <div class="scrollarea" style="display:flex;gap:22px;overflow-x:auto;padding:0 20px;">
+              <sc-for list="{{ tabsB }}" as="p" hint-placeholder-count="5">
+                <button style="{{ p.style }}" onClick="{{ p.onSelect }}">{{ p.name }}</button>
+              </sc-for>
+            </div>
+          </div>
+
+          <!-- rows -->
+          <div style="padding:4px 20px 20px;">
+            <sc-for list="{{ listB }}" as="it" hint-placeholder-count="4">
+              <div style="display:flex;gap:14px;align-items:flex-start;padding:15px 0;border-bottom:1px solid rgba(0,0,0,0.07);">
+                <div style="flex:1;min-width:0;">
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <div style="font-weight:700;font-size:15px;letter-spacing:-0.01em;">{{ it.name }}</div>
+                    <sc-if value="{{ it.tag }}" hint-placeholder-val="{{ false }}">
+                      <span style="font-size:9.5px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#B45309;background:#FEF3C7;padding:2px 6px;border-radius:5px;">Popular</span>
+                    </sc-if>
+                  </div>
+                  <div style="margin-top:4px;font-size:12.5px;line-height:1.45;color:#71717A;text-wrap:pretty;">{{ it.desc }}</div>
+                  <div style="{{ priceStyleB }}">{{ it.priceLabel }}</div>
+                </div>
+                <div style="{{ it.thumbStyle }}"></div>
+              </div>
+            </sc-for>
+            <!-- footer -->
+            <div style="border-top:1px solid rgba(0,0,0,0.07);margin-top:8px;padding:18px 0 2px;text-align:center;">
+              <div style="font-weight:700;font-size:13.5px;">Ocean &amp; Farm</div>
+              <div style="font-size:12px;color:#71717A;margin-top:6px;line-height:1.55;">123 Main Street · Demo City, CA 91234<br>Mon–Sat 9am–10pm · Sun closed</div>
+              <a href="tel:7779996666" style="{{ footerLinkStyle }}">777-999-6666</a>
+            </div>
+            <div style="text-align:center;font-size:11px;color:#C4C4CC;padding:12px 0 4px;">Powered by NexMenus</div>
+          </div>
+        </div>
+
+        <!-- info sheet B -->
+        <sc-if value="{{ infoOpenB }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;inset:0;z-index:50;display:flex;flex-direction:column;justify-content:flex-end;">
+            <div style="position:absolute;inset:0;background:rgba(15,15,25,0.42);" onClick="{{ onInfoClose }}"></div>
+            <div style="position:relative;background:#fff;border-radius:26px 26px 0 0;padding:8px 18px 26px;box-shadow:0 -12px 44px rgba(0,0,0,0.22);">
+              <div style="width:40px;height:5px;border-radius:99px;background:#E4E4E7;margin:6px auto 16px;"></div>
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+                <div>
+                  <div style="font-weight:800;font-size:18px;letter-spacing:-0.01em;">Ocean &amp; Farm</div>
+                  <div style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:#15803D;margin-top:5px;"><span style="width:6px;height:6px;border-radius:50%;background:#22C55E;"></span>Open · until 10:00pm</div>
+                </div>
+                <button onClick="{{ onInfoClose }}" style="width:32px;height:32px;border-radius:50%;border:none;background:#F4F4F5;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:0 0 auto;">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 5l14 14M19 5L5 19" stroke="#71717A" stroke-width="2.2" stroke-linecap="round"/></svg>
+                </button>
+              </div>
+              <div style="margin-top:18px;display:flex;gap:12px;align-items:flex-start;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex:0 0 auto;margin-top:1px;"><circle cx="12" cy="12" r="9" stroke="#A1A1AA" stroke-width="1.7"/><path d="M12 7.5V12l3 2" stroke="#A1A1AA" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:700;">Hours</div>
+                  <div style="display:flex;justify-content:space-between;font-size:12.5px;color:#52525B;margin-top:6px;"><span>Mon – Sat</span><span style="font-weight:600;">9:00am – 10:00pm</span></div>
+                  <div style="display:flex;justify-content:space-between;font-size:12.5px;color:#52525B;margin-top:4px;"><span>Sunday</span><span style="font-weight:600;color:#9A9AA3;">Closed</span></div>
+                </div>
+              </div>
+              <div style="height:1px;background:rgba(0,0,0,0.06);margin:16px 0;"></div>
+              <div style="display:flex;gap:12px;align-items:flex-start;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex:0 0 auto;margin-top:1px;"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z" stroke="#A1A1AA" stroke-width="1.7"/><circle cx="12" cy="10" r="2.5" stroke="#A1A1AA" stroke-width="1.7"/></svg>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:700;">Location</div>
+                  <div style="font-size:12.5px;color:#52525B;margin-top:6px;line-height:1.5;">123 Main Street<br>Demo City, CA 91234</div>
+                </div>
+              </div>
+              <a href="tel:7779996666" style="{{ sheetCallStyle }}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 5 5L19 18l-2 3a14 14 0 0 1-12-12L5 4Z" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/></svg>
+                Call 777-999-6666
+              </a>
+              <div style="display:flex;gap:10px;margin-top:10px;">
+                <button style="{{ sheetGhostStyle }}">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z" stroke="#3F3F46" stroke-width="1.7"/><circle cx="12" cy="10" r="2.3" stroke="#3F3F46" stroke-width="1.7"/></svg>
+                  Directions
+                </button>
+                <button style="{{ sheetGhostStyle }}">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="18" cy="5" r="2.4" stroke="#3F3F46" stroke-width="1.7"/><circle cx="6" cy="12" r="2.4" stroke="#3F3F46" stroke-width="1.7"/><circle cx="18" cy="19" r="2.4" stroke="#3F3F46" stroke-width="1.7"/><path d="M8 11l8-5M8 13l8 5" stroke="#3F3F46" stroke-width="1.7"/></svg>
+                  Share
+                </button>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+
+    <!-- ============ C · EDITORIAL ============ -->
+    <div style="flex:0 0 auto;">
+      <div style="margin-bottom:18px;max-width:300px;">
+        <div style="display:inline-flex;align-items:center;gap:9px;">
+          <span style="width:20px;height:20px;border-radius:7px;background:#18181B;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;">C</span>
+          <span style="font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#3F3F46;">Editorial</span>
+        </div>
+        <div style="font-size:13px;color:#71717A;margin-top:8px;line-height:1.5;text-wrap:pretty;">Text-only, serif and quiet — leans into a refined, fine-dining minimalism.</div>
+      </div>
+
+      <div style="width:380px;height:792px;border-radius:42px;background:#fff;overflow:hidden;position:relative;box-shadow:0 30px 60px rgba(20,20,40,0.18),0 0 0 1px rgba(0,0,0,0.05);display:flex;flex-direction:column;">
+        <div style="position:absolute;top:11px;left:50%;transform:translateX(-50%);width:98px;height:27px;border-radius:16px;background:#000;z-index:40;"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 24px 7px;flex:0 0 auto;">
+          <span style="font-size:14px;font-weight:700;">9:41</span>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx="0.6" fill="#18181B"/><rect x="4.5" y="4.5" width="3" height="6.5" rx="0.6" fill="#18181B"/><rect x="9" y="2" width="3" height="9" rx="0.6" fill="#18181B"/><rect x="13.5" y="0" width="3" height="11" rx="0.6" fill="#18181B"/></svg>
+            <svg width="24" height="12" viewBox="0 0 24 12"><rect x="0.5" y="0.5" width="20" height="11" rx="3" stroke="#18181B" stroke-opacity="0.4" fill="none"/><rect x="2" y="2" width="17" height="8" rx="1.8" fill="#18181B"/><rect x="22" y="4" width="1.6" height="4" rx="0.8" fill="#18181B" fill-opacity="0.5"/></svg>
+          </div>
+        </div>
+
+        <div class="scrollarea" style="flex:1;overflow-y:auto;overflow-x:hidden;background:#FCFBF9;">
+          <!-- header -->
+          <div style="padding:28px 20px 16px;text-align:center;">
+            <div style="font-size:10.5px;letter-spacing:0.34em;text-transform:uppercase;color:#A8A29E;">California Kitchen</div>
+            <div style="font-family:'Newsreader',serif;font-size:28px;font-weight:600;letter-spacing:-0.01em;margin-top:9px;color:#1C1917;">Ocean &amp; Farm</div>
+            <div style="width:34px;height:1px;background:rgba(0,0,0,0.25);margin:14px auto 0;"></div>
+            <button style="{{ infoLinkCStyle }}" onClick="{{ onInfoC }}">Hours &amp; Location</button>
+          </div>
+
+          <!-- sticky serif tabs -->
+          <div style="position:sticky;top:0;z-index:5;background:rgba(252,251,249,0.95);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid rgba(0,0,0,0.07);border-bottom:1px solid rgba(0,0,0,0.07);">
+            <div class="scrollarea" style="display:flex;gap:20px;overflow-x:auto;padding:13px 20px;justify-content:center;">
+              <sc-for list="{{ tabsC }}" as="p" hint-placeholder-count="5">
+                <button style="{{ p.style }}" onClick="{{ p.onSelect }}">{{ p.name }}</button>
+              </sc-for>
+            </div>
+          </div>
+
+          <!-- items -->
+          <div style="padding:6px 24px 24px;">
+            <sc-for list="{{ listC }}" as="it" hint-placeholder-count="3">
+              <div style="padding:17px 0;border-bottom:1px solid rgba(0,0,0,0.08);">
+                <div style="display:flex;align-items:flex-start;gap:16px;justify-content:space-between;">
+                  <div style="font-family:'Newsreader',serif;font-size:17.5px;font-weight:600;color:#1C1917;line-height:1.3;flex:1 1 auto;">{{ it.name }}</div>
+                  <div style="{{ priceStyleC }}">{{ it.priceLabel }}</div>
+                </div>
+                <div style="margin-top:6px;font-family:'Newsreader',serif;font-style:italic;font-size:13.5px;color:#78716C;line-height:1.5;max-width:90%;text-wrap:pretty;">{{ it.desc }}</div>
+              </div>
+            </sc-for>
+            <!-- footer -->
+            <div style="border-top:1px solid rgba(0,0,0,0.08);margin-top:10px;padding:20px 4px 2px;text-align:center;">
+              <div style="font-family:'Newsreader',serif;font-size:16px;color:#1C1917;">Ocean &amp; Farm</div>
+              <div style="font-size:11.5px;color:#78716C;margin-top:7px;line-height:1.6;letter-spacing:0.02em;">123 Main Street · Demo City, CA 91234<br>Mon–Sat 9am–10pm · Sun closed</div>
+              <a href="tel:7779996666" style="{{ footerLinkStyle }}">777-999-6666</a>
+            </div>
+            <div style="text-align:center;font-size:11px;color:#CFC9C1;letter-spacing:0.04em;padding:14px 0 4px;">Powered by NexMenus</div>
+          </div>
+        </div>
+
+        <!-- info sheet C -->
+        <sc-if value="{{ infoOpenC }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;inset:0;z-index:50;display:flex;flex-direction:column;justify-content:flex-end;">
+            <div style="position:absolute;inset:0;background:rgba(15,15,25,0.42);" onClick="{{ onInfoClose }}"></div>
+            <div style="position:relative;background:#fff;border-radius:26px 26px 0 0;padding:8px 18px 26px;box-shadow:0 -12px 44px rgba(0,0,0,0.22);">
+              <div style="width:40px;height:5px;border-radius:99px;background:#E4E4E7;margin:6px auto 16px;"></div>
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+                <div>
+                  <div style="font-family:'Newsreader',serif;font-size:20px;font-weight:600;color:#1C1917;">Ocean &amp; Farm</div>
+                  <div style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:#15803D;margin-top:5px;"><span style="width:6px;height:6px;border-radius:50%;background:#22C55E;"></span>Open · until 10:00pm</div>
+                </div>
+                <button onClick="{{ onInfoClose }}" style="width:32px;height:32px;border-radius:50%;border:none;background:#F4F4F5;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:0 0 auto;">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 5l14 14M19 5L5 19" stroke="#71717A" stroke-width="2.2" stroke-linecap="round"/></svg>
+                </button>
+              </div>
+              <div style="margin-top:18px;display:flex;gap:12px;align-items:flex-start;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex:0 0 auto;margin-top:1px;"><circle cx="12" cy="12" r="9" stroke="#A1A1AA" stroke-width="1.7"/><path d="M12 7.5V12l3 2" stroke="#A1A1AA" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:700;">Hours</div>
+                  <div style="display:flex;justify-content:space-between;font-size:12.5px;color:#52525B;margin-top:6px;"><span>Mon – Sat</span><span style="font-weight:600;">9:00am – 10:00pm</span></div>
+                  <div style="display:flex;justify-content:space-between;font-size:12.5px;color:#52525B;margin-top:4px;"><span>Sunday</span><span style="font-weight:600;color:#9A9AA3;">Closed</span></div>
+                </div>
+              </div>
+              <div style="height:1px;background:rgba(0,0,0,0.06);margin:16px 0;"></div>
+              <div style="display:flex;gap:12px;align-items:flex-start;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex:0 0 auto;margin-top:1px;"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z" stroke="#A1A1AA" stroke-width="1.7"/><circle cx="12" cy="10" r="2.5" stroke="#A1A1AA" stroke-width="1.7"/></svg>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:700;">Location</div>
+                  <div style="font-size:12.5px;color:#52525B;margin-top:6px;line-height:1.5;">123 Main Street<br>Demo City, CA 91234</div>
+                </div>
+              </div>
+              <a href="tel:7779996666" style="{{ sheetCallStyle }}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 5 5L19 18l-2 3a14 14 0 0 1-12-12L5 4Z" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/></svg>
+                Call 777-999-6666
+              </a>
+              <div style="display:flex;gap:10px;margin-top:10px;">
+                <button style="{{ sheetGhostStyle }}">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z" stroke="#3F3F46" stroke-width="1.7"/><circle cx="12" cy="10" r="2.3" stroke="#3F3F46" stroke-width="1.7"/></svg>
+                  Directions
+                </button>
+                <button style="{{ sheetGhostStyle }}">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="18" cy="5" r="2.4" stroke="#3F3F46" stroke-width="1.7"/><circle cx="6" cy="12" r="2.4" stroke="#3F3F46" stroke-width="1.7"/><circle cx="18" cy="19" r="2.4" stroke="#3F3F46" stroke-width="1.7"/><path d="M8 11l8-5M8 13l8 5" stroke="#3F3F46" stroke-width="1.7"/></svg>
+                  Share
+                </button>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#22224b&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = { catA: 'From the Sea', catB: 'From the Sea', catC: 'From the Sea', infoOpen: null };
+
+  menu() {
+    const u = (id) => 'https://images.unsplash.com/photo-' + id + '?auto=format&fit=crop&w=600&q=70';
+    return {
+      categories: ['Starters', 'From the Sea', 'Mains', 'Pasta', 'Desserts'],
+      grads: {
+        'Starters': 'linear-gradient(135deg,#e2ecd9,#c7d9ba)',
+        'From the Sea': 'linear-gradient(135deg,#d6e7f0,#b6d2e2)',
+        'Mains': 'linear-gradient(135deg,#eedfcc,#dbc1a5)',
+        'Pasta': 'linear-gradient(135deg,#f1e5ca,#e4cfa2)',
+        'Desserts': 'linear-gradient(135deg,#eedce5,#ddc2d0)',
+      },
+      items: [
+        { c:'Starters', n:'Heirloom Tomato Salad', p:14, d:'Burrata, basil oil, aged balsamic, sea salt', t:'', img:u('1512621776951-a57141f2eefd') },
+        { c:'Starters', n:'Crispy Brussels Sprouts', p:12, d:'Maple glaze, chili, toasted almonds', t:'', img:u('1540420773420-3366772f4999') },
+        { c:'Starters', n:'Little Gem Caesar', p:13, d:'Shaved parmesan, sourdough crumb, lemon', t:'', img:u('1550304943-4f24f54ddde9') },
+        { c:'From the Sea', n:'Grilled Pacific Salmon', p:26, d:'Lemon herb butter, seasonal vegetables', t:'Popular', img:u('1467003909585-2f8a72700288') },
+        { c:'From the Sea', n:'Wild Shrimp Skewers', p:19, d:'Garlic, smoked paprika, charred lime', t:'', img:u('1565680018434-b513d5e5fd47') },
+        { c:'From the Sea', n:'Fresh Oysters · ½ doz', p:18, d:'Mignonette, fresh lemon, cracked pepper', t:'', img:u('1606731070321-705075a9e6f5') },
+        { c:'Mains', n:'Prime Ribeye Steak', p:25, d:'Grilled to perfection, rich and tender', t:'Popular', img:u('1546833999-b9f581a1996d') },
+        { c:'Mains', n:'Farmhouse Sandwich', p:13, d:'Roast chicken, avocado, herb aioli, sourdough', t:'', img:u('1528735602780-2552fd46c7af') },
+        { c:'Mains', n:'Free-Range Roast Chicken', p:22, d:'Yukon potatoes, pan jus, rosemary', t:'', img:u('1598103442097-8b74394b95c6') },
+        { c:'Pasta', n:'Pasta Carbonara', p:23, d:'Creamy egg sauce, crispy bacon, parmesan', t:'Popular', img:u('1612874742237-6526221588e3') },
+        { c:'Pasta', n:'Wild Mushroom Tagliatelle', p:21, d:'Truffle cream, thyme, grana padano', t:'', img:u('1473093295043-cdd812d0e601') },
+        { c:'Pasta', n:'Lemon Ricotta Ravioli', p:20, d:'Brown butter, sage, toasted pine nuts', t:'', img:u('1551183053-bf91a1d81141') },
+        { c:'Desserts', n:'Meyer Lemon Tart', p:10, d:'Torched meringue, almond crust', t:'', img:u('1551024601-bec78aea704b') },
+        { c:'Desserts', n:'Dark Chocolate Mousse', p:11, d:'Sea salt, olive oil, cocoa nib', t:'', img:u('1551024506-0bccd828d307') },
+        { c:'Desserts', n:'Seasonal Fruit Crumble', p:9, d:'Vanilla bean ice cream', t:'', img:u('1488477181946-6428a0291777') },
+      ],
+    };
+  }
+
+  renderVals() {
+    const accent = this.props.accentColor || '#22224b';
+    const m = this.menu();
+
+    const buildTabs = (active, key, kind) => m.categories.map((c) => {
+      const sel = c === active;
+      let style;
+      if (kind === 'A') {
+        style = { padding:'9px 15px', borderRadius:'999px', fontSize:'13.5px', fontWeight:600, whiteSpace:'nowrap', cursor:'pointer', border:'none', flex:'0 0 auto', background: sel ? accent : '#F1F1F4', color: sel ? '#fff' : '#52525B', transition:'background .15s,color .15s', fontFamily:'inherit' };
+      } else if (kind === 'B') {
+        style = { padding:'14px 1px', fontSize:'13.5px', fontWeight:600, whiteSpace:'nowrap', cursor:'pointer', background:'transparent', border:'none', borderBottom: sel ? ('2px solid ' + accent) : '2px solid transparent', color: sel ? accent : '#9A9AA3', flex:'0 0 auto', transition:'color .15s', fontFamily:'inherit' };
+      } else {
+        style = { fontSize:'11.5px', letterSpacing:'0.14em', textTransform:'uppercase', fontFamily:"'Newsreader',serif", cursor:'pointer', background:'transparent', border:'none', whiteSpace:'nowrap', color: accent, opacity: sel ? 1 : 0.34, fontWeight: sel ? 600 : 500, flex:'0 0 auto', transition:'opacity .15s', padding:0 };
+      }
+      return { name: c, style, onSelect: () => this.setState({ [key]: c }) };
+    });
+
+    const listFor = (cat) => m.items.filter((i) => i.c === cat).map((i) => ({
+      name: i.n,
+      desc: i.d,
+      tag: i.t,
+      img: i.img,
+      priceLabel: '$' + i.p,
+      photoStyle: { position:'relative', height:'152px', background: 'url("' + i.img + '") center/cover no-repeat, ' + m.grads[i.c], overflow:'hidden' },
+      thumbStyle: { width:'76px', height:'76px', borderRadius:'14px', flex:'0 0 auto', background: 'url("' + i.img + '") center/cover no-repeat, ' + m.grads[i.c], position:'relative', overflow:'hidden' },
+    }));
+
+    return {
+      accent,
+      swatchStyle: { width:'34px', height:'18px', borderRadius:'6px', background: accent, display:'inline-block', boxShadow:'0 0 0 1px rgba(0,0,0,0.08)' },
+      logoStyle: { width:'46px', height:'46px', borderRadius:'14px', background: accent, color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', fontWeight:800, fontSize:'13px', flex:'0 0 auto', letterSpacing:'0.02em' },
+      logoStyleSm: { width:'38px', height:'38px', borderRadius:'11px', background: accent, color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', fontWeight:800, fontSize:'11px', flex:'0 0 auto', letterSpacing:'0.02em' },
+      addBtnStyle: { position:'absolute', right:'12px', bottom:'12px', width:'34px', height:'34px', borderRadius:'50%', background: accent, color:'#fff', border:'2px solid #fff', fontSize:'20px', fontWeight:400, lineHeight:1, cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 3px 8px rgba(0,0,0,0.22)', paddingBottom:'2px' },
+      ctaStyle: { width:'100%', padding:'15px', borderRadius:'16px', background: accent, color:'#fff', border:'none', fontWeight:700, fontSize:'14px', cursor:'pointer', fontFamily:'inherit', boxShadow:'0 8px 20px rgba(20,20,40,0.18)' },
+      priceStyleA: { fontWeight:800, fontSize:'15px', color: accent, flex:'0 0 auto', fontVariantNumeric:'tabular-nums' },
+      priceStyleB: { marginTop:'8px', fontWeight:800, fontSize:'14px', color: accent, fontVariantNumeric:'tabular-nums' },
+      priceStyleC: { fontFamily:"'Newsreader',serif", fontSize:'16px', fontWeight:600, color: accent, flex:'0 0 auto', lineHeight:'1.3', whiteSpace:'nowrap' },
+      pillsA: buildTabs(this.state.catA, 'catA', 'A'),
+      tabsB: buildTabs(this.state.catB, 'catB', 'B'),
+      tabsC: buildTabs(this.state.catC, 'catC', 'C'),
+      listA: listFor(this.state.catA),
+      listB: listFor(this.state.catB),
+      listC: listFor(this.state.catC),
+
+      // restaurant info
+      infoBtnStyle: { width:'38px', height:'38px', borderRadius:'11px', background:'#F4F4F5', border:'none', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', flex:'0 0 auto' },
+      infoLinkCStyle: { margin:'14px auto 0', display:'inline-flex', alignItems:'center', gap:'6px', background:'transparent', border:'none', cursor:'pointer', fontSize:'10px', letterSpacing:'0.2em', textTransform:'uppercase', color:'#A8A29E', fontFamily:'inherit' },
+      sheetCallStyle: { display:'flex', alignItems:'center', justifyContent:'center', gap:'8px', width:'100%', padding:'14px', borderRadius:'14px', background: accent, color:'#fff', border:'none', fontWeight:700, fontSize:'14px', cursor:'pointer', textDecoration:'none', marginTop:'20px' },
+      sheetGhostStyle: { flex:1, display:'flex', alignItems:'center', justifyContent:'center', gap:'7px', padding:'12px', borderRadius:'12px', background:'#F4F4F5', color:'#3F3F46', border:'none', fontWeight:600, fontSize:'13px', cursor:'pointer', fontFamily:'inherit' },
+      footerLinkStyle: { display:'inline-block', marginTop:'9px', color: accent, fontWeight:700, fontSize:'13px', textDecoration:'none' },
+      infoOpenA: this.state.infoOpen === 'A',
+      infoOpenB: this.state.infoOpen === 'B',
+      infoOpenC: this.state.infoOpen === 'C',
+      onInfoA: () => this.setState({ infoOpen: 'A' }),
+      onInfoB: () => this.setState({ infoOpen: 'B' }),
+      onInfoC: () => this.setState({ infoOpen: 'C' }),
+      onInfoClose: () => this.setState({ infoOpen: null }),
+    };
+  }
+}
+</script>
+</body>
+</html>

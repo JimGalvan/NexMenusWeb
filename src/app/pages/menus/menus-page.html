@@ -1,0 +1,132 @@
+<div class="menus">
+  <header class="menus__head">
+    <h1>Your menus</h1>
+    <p>Manage your menus, QR codes and links.</p>
+  </header>
+
+  @if (loading()) {
+    <div class="menus__loading">Loading your menus…</div>
+  } @else if (menus().length === 0) {
+    <div class="menus__empty">
+      <p>You don't have any menus yet.</p>
+    </div>
+  }
+
+  @for (menu of menus(); track menu.id) {
+    <section class="menu-card">
+      <div class="menu-card__cover">
+        @for (slot of coverSlots(menu); track $index) {
+          <span [style.background]="slot"></span>
+        }
+      </div>
+      <div class="menu-card__body">
+        <div class="menu-card__row">
+          @if (menu.logoUrl) {
+            <img class="menu-card__logo menu-card__logo--img" [src]="menu.logoUrl" [alt]="menu.name + ' logo'" />
+          } @else {
+            <div class="menu-card__logo">{{ initials(menu.name) }}</div>
+          }
+          <div class="menu-card__id">
+            <div class="menu-card__name-line">
+              <span class="menu-card__name">{{ menu.name }}</span>
+              <span class="badge badge--market">{{ menu.market }} · {{ menu.currency }}</span>
+            </div>
+            <div class="menu-card__meta">updated {{ updatedLabel(menu.updatedAt) }}</div>
+          </div>
+        </div>
+
+        <button class="link-row" (click)="copyLink(menu)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" stroke="#9A9AA3" stroke-width="1.7"/>
+            <path d="M3 12h18M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z" stroke="#9A9AA3" stroke-width="1.7"/>
+          </svg>
+          <span class="link-row__url">{{ publicUrl(menu) }}</span>
+          <span class="link-row__copy">Copy</span>
+        </button>
+
+        <div class="menu-card__actions">
+          <a [routerLink]="['/editor', menu.id]" class="action action--primary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+              <path d="m14 6 4 4" stroke="currentColor" stroke-width="1.7"/>
+            </svg>
+            <span>Edit</span>
+          </a>
+          <a routerLink="/app/share" class="action">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="4" y="4" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.7"/>
+              <rect x="14" y="4" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.7"/>
+              <rect x="4" y="14" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.7"/>
+              <path d="M14 14h3v3M20 14v6M17 20h3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+            </svg>
+            <span>QR code</span>
+          </a>
+          <a [routerLink]="['/m', menu.slug]" class="action">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.7"/>
+              <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7"/>
+            </svg>
+            <span>Preview</span>
+          </a>
+          <a routerLink="/app/share" class="action">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="18" cy="5" r="2.4" stroke="currentColor" stroke-width="1.7"/>
+              <circle cx="6" cy="12" r="2.4" stroke="currentColor" stroke-width="1.7"/>
+              <circle cx="18" cy="19" r="2.4" stroke="currentColor" stroke-width="1.7"/>
+              <path d="M8 11l8-5M8 13l8 5" stroke="currentColor" stroke-width="1.7"/>
+            </svg>
+            <span>Share</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  }
+
+  <button class="create-btn" (click)="openCreate()">
+    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    Create new menu
+  </button>
+</div>
+
+@if (createOpen()) {
+  <app-bottom-sheet (dismiss)="createOpen.set(false)">
+    <div class="create">
+      <h2>Create new menu</h2>
+      <p>Give it a name and pick a market — you can change everything else later.</p>
+      <input class="nx-input" placeholder="e.g. Dinner, Weekend Brunch, Drinks"
+             [ngModel]="newMenuName()" (ngModelChange)="newMenuName.set($event)"
+             (keyup.enter)="confirmCreate()" autofocus />
+
+      <div class="create__market">
+        <button class="create__market-btn" [class.is-active]="newMenuMarket() === 'US'"
+                (click)="newMenuMarket.set('US')">
+          <span class="create__market-name">United States</span>
+          <span class="create__market-cur">USD $</span>
+        </button>
+        <button class="create__market-btn" [class.is-active]="newMenuMarket() === 'MX'"
+                (click)="newMenuMarket.set('MX')">
+          <span class="create__market-name">México</span>
+          <span class="create__market-cur">MXN $</span>
+        </button>
+      </div>
+
+      <div class="create__actions">
+        <button class="nx-btn nx-btn--ghost create__cancel" (click)="createOpen.set(false)">Cancel</button>
+        <button class="nx-btn nx-btn--primary" [disabled]="!newMenuName().trim() || creating()" (click)="confirmCreate()">
+          {{ creating() ? 'Creating…' : 'Create menu' }}
+        </button>
+      </div>
+    </div>
+  </app-bottom-sheet>
+}
+
+@if (toast()) {
+  <div class="toast">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="m5 12 5 5L20 6" stroke="#4ADE80" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    {{ toast() }}
+  </div>
+}

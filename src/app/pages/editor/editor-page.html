@@ -1,0 +1,391 @@
+@if (notFound()) {
+  <div class="ed-missing">
+    <p>This menu doesn't exist.</p>
+    <a routerLink="/app/menus" class="nx-btn nx-btn--primary">Back to menus</a>
+  </div>
+} @else {
+<div class="ed" [style.--accent]="accent()" [style.--accent-tint]="tint()">
+
+  @switch (screen()) {
+
+    <!-- ============ OVERVIEW ============ -->
+    @case ('overview') {
+      <div class="ed-screen ed-screen--gray">
+        <div class="ed-head">
+          <div class="ed-head__bar">
+            <button class="ed-back" (click)="exit()">
+              <svg width="9" height="16" viewBox="0 0 9 16" fill="none"><path d="M8 1 1 8l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Menus
+            </button>
+            <button class="ed-preview-btn" (click)="openPreview()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.9"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.9"/></svg>
+              Preview
+            </button>
+          </div>
+          <div class="ed-title">{{ menuName() }}</div>
+          <div class="ed-seg">
+            <button class="ed-seg__btn is-active" (click)="showItems()">Items</button>
+            <button class="ed-seg__btn" (click)="showDetails()">Details</button>
+          </div>
+        </div>
+
+        <div class="ed-cats">
+          <div class="ed-cats__head">
+            <span class="ed-cats__label">Categories</span>
+            <button class="ed-cats__manage" (click)="screen.set('managecats')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 7h11M4 17h7" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="18" cy="7" r="2.4" stroke="currentColor" stroke-width="1.9"/><circle cx="14" cy="17" r="2.4" stroke="currentColor" stroke-width="1.9"/></svg>
+              Manage
+            </button>
+          </div>
+          <div class="ed-chips scrollarea">
+            @for (c of catChips(); track c) {
+              <button class="ed-chip" [class.is-active]="activeCat() === c"
+                      [style.background]="activeCat() === c ? accent() : null"
+                      (click)="activeCat.set(c)">{{ c }}</button>
+            }
+          </div>
+        </div>
+
+        <div class="ed-list scrollarea">
+          @if (filteredItems().length === 0) {
+            <div class="ed-empty">
+              <div class="ed-empty__icon">
+                <svg width="38" height="38" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.4" stroke="#CBD5E1" stroke-width="1.6"/><circle cx="12" cy="12" r="3.4" stroke="#CBD5E1" stroke-width="1.6"/><path d="M19.5 4.5v6M22.5 4.5v6" stroke="#CBD5E1" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </div>
+              <div class="ed-empty__title">No items in {{ emptyCatLabel() }} yet</div>
+              <div class="ed-empty__sub">Add your first item and it'll appear on your live menu the moment you save.</div>
+              <button class="ed-btn-accent ed-empty__btn" [style.background]="accent()" (click)="startAdd()">
+                <span class="ed-plus">+</span> Add your first item
+              </button>
+            </div>
+          } @else {
+            <div class="ed-list__head">
+              <span>{{ filteredItems().length }} {{ filteredItems().length === 1 ? 'item' : 'items' }}</span>
+              @if (canReorderItems()) {
+                <span class="ed-list__reorder">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M8 9h8M8 15h8" stroke="#A1A1AA" stroke-width="2" stroke-linecap="round"/></svg>
+                  Drag to reorder
+                </span>
+              } @else if (activeCat() === 'All') {
+                <span class="ed-list__reorder">Select a category to reorder</span>
+              }
+            </div>
+            <div class="ed-rows" [appSortable]="filteredItemIds()" [sortableDisabled]="!canReorderItems()" (sortableOrderChange)="onItemOrderChange($event)">
+              @for (it of filteredItems(); track it.id) {
+                <div class="ed-row" [class.is-hidden]="it.status === 'hidden'" [attr.data-sortable-id]="it.id">
+                  <span class="ed-row__grip">
+                    <svg width="12" height="20" viewBox="0 0 12 20" fill="#D4D4D8"><circle cx="3" cy="4" r="1.5"/><circle cx="9" cy="4" r="1.5"/><circle cx="3" cy="10" r="1.5"/><circle cx="9" cy="10" r="1.5"/><circle cx="3" cy="16" r="1.5"/><circle cx="9" cy="16" r="1.5"/></svg>
+                  </span>
+                  <button class="ed-row__main" (click)="startEdit(it.id)">
+                    <span class="ed-row__thumb" [style.background]="thumb(it)" [class.is-gray]="it.status === 'sold'"></span>
+                    <span class="ed-row__text">
+                      <span class="ed-row__name-line">
+                        <span class="ed-row__name">{{ it.name }}</span>
+                        @if (badge(it.status); as b) {
+                          <span class="ed-row__badge" [class]="b.cls">{{ b.label }}</span>
+                        }
+                      </span>
+                      <span class="ed-row__meta">${{ it.price }} · {{ it.cat }}</span>
+                    </span>
+                  </button>
+                  <button class="ed-row__more" (click)="openSheet(it.id)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#71717A"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+                  </button>
+                </div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="ed-addbar">
+          <button class="ed-btn-accent" [style.background]="accent()" (click)="startAdd()">
+            <span class="ed-plus ed-plus--lg">+</span> Add item
+          </button>
+        </div>
+      </div>
+    }
+
+    <!-- ============ DETAILS ============ -->
+    @case ('details') {
+      <div class="ed-screen ed-screen--white">
+        <div class="ed-head ed-head--bordered">
+          <div class="ed-head__bar">
+            <button class="ed-back" (click)="exit()">
+              <svg width="9" height="16" viewBox="0 0 9 16" fill="none"><path d="M8 1 1 8l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Menus
+            </button>
+            <button class="ed-preview-btn" (click)="openPreview()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.9"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.9"/></svg>
+              Preview
+            </button>
+          </div>
+          <div class="ed-title">{{ menuName() }}</div>
+          <div class="ed-seg">
+            <button class="ed-seg__btn" (click)="showItems()">Items</button>
+            <button class="ed-seg__btn is-active" (click)="showDetails()">Details</button>
+          </div>
+        </div>
+
+        <div class="ed-form scrollarea">
+          <div class="ed-logo-row">
+            <button type="button" class="ed-logo ed-logo--btn" [style.background]="logoUrl() ? null : accent()"
+                    (click)="logoInput.browse()" [disabled]="logoUploading()" aria-label="Upload logo">
+              @if (logoUrl()) {
+                <img class="ed-logo__img" [src]="logoUrl()" alt="Menu logo" />
+              } @else {
+                {{ initials() }}
+              }
+            </button>
+            <input #logoInput="filePondPick" appFilePondPick type="file" hidden
+                   [acceptedFileTypes]="logoAcceptedTypes" [maxFileSize]="logoMaxFileSize"
+                   (picked)="onLogoPicked($event)" (rejected)="onLogoRejected()" />
+            <div>
+              <div class="ed-logo-row__title">Logo</div>
+              <div class="ed-logo-row__sub">Shown at the top of your live menu</div>
+              <button type="button" class="ed-logo-row__action" (click)="logoInput.browse()" [disabled]="logoUploading()">
+                {{ logoUploading() ? 'Uploading…' : (logoUrl() ? 'Change logo' : 'Upload logo') }}
+              </button>
+            </div>
+          </div>
+
+          <label class="ed-field-label">Menu name</label>
+          <input class="ed-input" [ngModel]="menuName()" (ngModelChange)="menuName.set($event)" placeholder="Restaurant or menu name" />
+
+          <label class="ed-field-label">Tagline</label>
+          <input class="ed-input" [ngModel]="description()" (ngModelChange)="description.set($event)" placeholder="e.g. Fresh California-inspired cuisine" />
+
+          <label class="ed-field-label">Brand accent</label>
+          <div class="ed-swatches">
+            @for (c of accents; track c) {
+              <button class="ed-swatch" [style.background]="c"
+                      [class.is-selected]="accent().toLowerCase() === c.toLowerCase()"
+                      (click)="selectAccent(c)"></button>
+            }
+          </div>
+
+          <div class="ed-divider"></div>
+
+          <label class="ed-field-label">Phone</label>
+          <input class="ed-input" [ngModel]="phone()" (ngModelChange)="phone.set($event)" inputmode="tel" placeholder="Phone number" />
+
+          <label class="ed-field-label">Address</label>
+          <textarea class="ed-input ed-textarea" rows="2" [ngModel]="address()" (ngModelChange)="address.set($event)" placeholder="Street, city, state"></textarea>
+
+          <label class="ed-field-label">Hours</label>
+          <div class="ed-hours">
+            @for (h of hoursRows(); track h.day) {
+              <div class="ed-hours__row">
+                <span class="ed-hours__day">{{ h.day }}</span>
+                <span class="ed-hours__time" [class.is-closed]="h.closed">{{ h.closed ? 'Closed' : (h.openTime + ' – ' + h.closeTime) }}</span>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- ============ MANAGE CATEGORIES ============ -->
+    @case ('managecats') {
+      <div class="ed-screen ed-screen--gray">
+        <div class="ed-subhead">
+          <button class="ed-back" (click)="screen.set('overview')">
+            <svg width="9" height="16" viewBox="0 0 9 16" fill="none"><path d="M8 1 1 8l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Items
+          </button>
+          <div class="ed-subhead__title">Categories</div>
+          <span class="ed-subhead__spacer"></span>
+        </div>
+        <div class="ed-form scrollarea">
+          <div class="ed-hint">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M8 9h8M8 15h8" stroke="#A1A1AA" stroke-width="2" stroke-linecap="round"/></svg>
+            Drag to reorder · tap a name to rename
+          </div>
+          <div class="ed-rows" [appSortable]="cats()" [sortableDisabled]="!canReorderCategories()" (sortableOrderChange)="onCategoryOrderChange($event)">
+            @for (c of cats(); track c; let i = $index) {
+              <div class="ed-catrow" [attr.data-sortable-id]="c">
+                <span class="ed-row__grip">
+                  <svg width="12" height="20" viewBox="0 0 12 20" fill="#D4D4D8"><circle cx="3" cy="4" r="1.5"/><circle cx="9" cy="4" r="1.5"/><circle cx="3" cy="10" r="1.5"/><circle cx="9" cy="10" r="1.5"/><circle cx="3" cy="16" r="1.5"/><circle cx="9" cy="16" r="1.5"/></svg>
+                </span>
+                @if (renamingIdx() === i) {
+                  <input class="ed-catrow__input" [style.borderColor]="accent()"
+                         [ngModel]="catDraftName()" (ngModelChange)="catDraftName.set($event)"
+                         (keyup.enter)="commitRename(i)" />
+                  <button class="ed-catrow__commit" [style.background]="accent()" (click)="commitRename(i)">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="m5 12 5 5L20 6" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button>
+                } @else {
+                  <button class="ed-catrow__main" (click)="startRename(i)">
+                    <span class="ed-catrow__name">{{ c }}</span>
+                    <span class="ed-catrow__count">{{ catCount(c) }}</span>
+                  </button>
+                  <button class="ed-icon-btn" (click)="startRename(i)">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="#71717A" stroke-width="1.7" stroke-linejoin="round"/><path d="m14 6 4 4" stroke="#71717A" stroke-width="1.7"/></svg>
+                  </button>
+                  <button class="ed-icon-btn" (click)="deleteCategory(i)">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M5 7h14M10 7V5h4v2M6 7l1 13h10l1-13" stroke="#DC2626" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button>
+                }
+              </div>
+            }
+          </div>
+          <button class="ed-dashed" (click)="openAddCat('items')">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#52525B" stroke-width="2" stroke-linecap="round"/></svg>
+            New category
+          </button>
+        </div>
+      </div>
+    }
+
+    <!-- ============ EDIT FORM ============ -->
+    @case ('edit') {
+      <div class="ed-screen ed-screen--white">
+        <div class="ed-formhead">
+          <button class="ed-back" (click)="cancelEdit()">
+            <svg width="9" height="16" viewBox="0 0 9 16" fill="none"><path d="M8 1 1 8l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Cancel
+          </button>
+          <div class="ed-formhead__title">{{ editTitle() }}</div>
+          <button class="ed-save" [style.color]="accent()" (click)="saveDraft()">Save</button>
+        </div>
+
+        @if (draft(); as d) {
+          <div class="ed-form scrollarea">
+            <label class="ed-field-label">Photo</label>
+            <input #photoInput="filePondPick" appFilePondPick type="file" hidden
+                   [acceptedFileTypes]="photoAcceptedTypes" [maxFileSize]="photoMaxFileSize"
+                   (picked)="onPhotoPicked($event)" (rejected)="onPhotoRejected()" />
+            <button class="ed-photo" [class.is-empty]="!d.photoUrl"
+                    [style.background]="d.photoUrl ? ('url(' + d.photoUrl + ') center/cover no-repeat, ' + gradientFor(d.cat)) : null"
+                    (click)="photoInput.browse()">
+              @if (d.photoUrl) {
+                <span class="ed-photo__change">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 7h3l1.5-2h7L18 7h2a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z" stroke="#fff" stroke-width="1.7"/><circle cx="12" cy="13" r="3.2" stroke="#fff" stroke-width="1.7"/></svg>
+                  Change
+                </span>
+              } @else {
+                <span class="ed-photo__empty">
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M4 7h3l1.5-2h7L18 7h2a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z" stroke="#A1A1AA" stroke-width="1.6"/><circle cx="12" cy="13" r="3.4" stroke="#A1A1AA" stroke-width="1.6"/></svg>
+                  Add a photo
+                </span>
+              }
+            </button>
+
+            <label class="ed-field-label">Item name</label>
+            <input class="ed-input" [ngModel]="d.name" (ngModelChange)="updateDraft('name', $event)" placeholder="e.g. Grilled Pacific Salmon" />
+
+            <label class="ed-field-label">Price</label>
+            <div class="ed-price">
+              <span>$</span>
+              <input [ngModel]="d.price" (ngModelChange)="onPriceInput($event)" inputmode="decimal" placeholder="0.00" />
+            </div>
+
+            <label class="ed-field-label">Description</label>
+            <textarea class="ed-input ed-textarea" rows="3" [ngModel]="d.desc" (ngModelChange)="updateDraft('desc', $event)" placeholder="Short, appetizing description…"></textarea>
+
+            <label class="ed-field-label">Category</label>
+            <div class="ed-pills">
+              @for (c of cats(); track c) {
+                <button class="ed-pill" [class.is-active]="d.cat === c"
+                        [style.borderColor]="d.cat === c ? accent() : null"
+                        [style.color]="d.cat === c ? accent() : null"
+                        [style.background]="d.cat === c ? tint() : null"
+                        (click)="updateDraft('cat', c)">{{ c }}</button>
+              }
+              <button class="ed-pill ed-pill--add" (click)="openAddCat('form')">+ New</button>
+            </div>
+
+            <label class="ed-field-label">Availability</label>
+            <div class="ed-seg ed-seg--avail">
+              <button class="ed-seg__btn" [class.is-active]="d.status === 'available'"
+                      [style.color]="d.status === 'available' ? accent() : null"
+                      (click)="updateDraft('status', 'available')">Available</button>
+              <button class="ed-seg__btn" [class.is-active]="d.status === 'sold'"
+                      [style.color]="d.status === 'sold' ? accent() : null"
+                      (click)="updateDraft('status', 'sold')">Sold out</button>
+              <button class="ed-seg__btn" [class.is-active]="d.status === 'hidden'"
+                      [style.color]="d.status === 'hidden' ? accent() : null"
+                      (click)="updateDraft('status', 'hidden')">Hidden</button>
+            </div>
+
+            @if (itemExists(d.id)) {
+              <button class="ed-delete-row" (click)="deleteFromForm()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 7h14M10 7V5h4v2M6 7l1 13h10l1-13" stroke="#DC2626" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Delete item
+              </button>
+            }
+          </div>
+        }
+      </div>
+    }
+
+  }
+
+  <!-- ============ ACTION SHEET ============ -->
+  @if (sheetItem(); as s) {
+    <app-bottom-sheet (dismiss)="sheetId.set(null)">
+      <div class="ed-sheet">
+        <div class="ed-sheet__item">
+          <span class="ed-sheet__thumb" [style.background]="thumb(s)"></span>
+          <div>
+            <div class="ed-sheet__name">{{ s.name }}</div>
+            <div class="ed-sheet__meta">${{ s.price }} · {{ s.cat }}</div>
+          </div>
+        </div>
+        <button class="ed-sheet__btn" (click)="sheetEdit()">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="#3F3F46" stroke-width="1.7" stroke-linejoin="round"/><path d="m14 6 4 4" stroke="#3F3F46" stroke-width="1.7"/></svg>
+          Edit item
+        </button>
+        <button class="ed-sheet__btn" (click)="toggleStatus('sold')">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="#3F3F46" stroke-width="1.7"/><path d="m6.5 6.5 11 11" stroke="#3F3F46" stroke-width="1.7"/></svg>
+          {{ s.status === 'sold' ? 'Mark as available' : 'Mark as sold out' }}
+        </button>
+        <button class="ed-sheet__btn" (click)="toggleStatus('hidden')">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="#3F3F46" stroke-width="1.7"/><circle cx="12" cy="12" r="3" stroke="#3F3F46" stroke-width="1.7"/><path d="m4 3 16 18" stroke="#3F3F46" stroke-width="1.7" stroke-linecap="round"/></svg>
+          {{ s.status === 'hidden' ? 'Unhide on menu' : 'Hide from menu' }}
+        </button>
+        <button class="ed-sheet__btn ed-sheet__btn--danger" (click)="deleteItem(s.id); sheetId.set(null)">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M5 7h14M10 7V5h4v2M6 7l1 13h10l1-13" stroke="#DC2626" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Delete item
+        </button>
+      </div>
+    </app-bottom-sheet>
+  }
+
+  <!-- ============ ADD CATEGORY SHEET ============ -->
+  @if (addCatOpen()) {
+    <app-bottom-sheet (dismiss)="addCatOpen.set(false)">
+      <div class="ed-addcat">
+        <h2>New category</h2>
+        <p>Add a section to your menu — like Sides, Cocktails or Kids.</p>
+        <input class="nx-input" placeholder="Category name"
+               [ngModel]="newCatName()" (ngModelChange)="newCatName.set($event)"
+               (keyup.enter)="addCategory()" />
+        <div class="ed-addcat__actions">
+          <button class="nx-btn nx-btn--ghost ed-addcat__cancel" (click)="addCatOpen.set(false)">Cancel</button>
+          <button class="nx-btn nx-btn--primary" [style.background]="accent()"
+                  [disabled]="!newCatName().trim()" (click)="addCategory()">Add category</button>
+        </div>
+      </div>
+    </app-bottom-sheet>
+  }
+
+  <!-- ============ CROP STEP ============ -->
+  @if (cropSrc(); as src) {
+    <app-image-cropper
+      [imageSrc]="src"
+      [aspectRatio]="cropAspect()"
+      [round]="cropRound()"
+      [title]="cropTitle()"
+      (cropped)="onCropConfirmed($event)"
+      (dismiss)="onCropDismissed()" />
+  }
+
+  <!-- ============ TOAST ============ -->
+  @if (toast()) {
+    <div class="ed-toast">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="m5 12 5 5L20 6" stroke="#4ADE80" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      {{ toast() }}
+    </div>
+  }
+</div>
+}

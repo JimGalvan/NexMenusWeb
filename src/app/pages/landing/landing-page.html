@@ -1,0 +1,106 @@
+<div class="lp">
+  <!-- NAV -->
+  <header class="lp-nav">
+    <div class="lp-nav__inner">
+      <app-brand-logo [size]="21" />
+      <nav class="lp-nav__links">
+        <a routerLink="/login">Log in</a>
+        <a routerLink="/register" class="nx-btn nx-btn--primary lp-nav__cta">Start free</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="lp-hero">
+    <div class="lp-hero__copy">
+      <span class="lp-badge">
+        <span class="lp-badge__dot"></span>QR menus for restaurants
+      </span>
+      <h1 class="lp-hero__title">Your menu, live in minutes.</h1>
+      <p class="lp-hero__sub">
+        Build a beautiful, photo-forward digital menu, print your QR code, and update
+        prices or sold-out items right from your phone. No app, no code.
+      </p>
+      <div class="lp-hero__actions">
+        <a routerLink="/register" class="nx-btn nx-btn--primary">Start free — it's free to launch</a>
+        <a routerLink="/login" class="lp-link">
+          I already have an account
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+      </div>
+      <div class="lp-proof">
+        <div class="lp-proof__avatars" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+        <p><strong>2,000+ restaurants</strong> serve their menu with NexMenus</p>
+      </div>
+    </div>
+
+    <!-- Product preview card -->
+    <div class="lp-hero__art">
+      <div class="lp-glow" aria-hidden="true"></div>
+      <div class="lp-phone">
+        <div class="lp-phone__head">
+          <div class="lp-phone__avatar">O&amp;F</div>
+          <div>
+            <div class="lp-phone__name">Ocean &amp; Farm</div>
+            <div class="lp-phone__tag">Fresh California cuisine</div>
+          </div>
+        </div>
+        <div class="lp-phone__chips">
+          <span class="lp-chip lp-chip--on">From the Sea</span>
+          <span class="lp-chip">Mains</span>
+        </div>
+        <div class="lp-dish">
+          <div class="lp-dish__photo">
+            <span class="lp-dish__badge">★ Popular</span>
+            <span class="lp-dish__add">+</span>
+          </div>
+          <div class="lp-dish__body">
+            <div class="lp-dish__row">
+              <span class="lp-dish__title">Grilled Pacific Salmon</span>
+              <span class="lp-dish__price">$26</span>
+            </div>
+            <div class="lp-dish__desc">Lemon herb butter, seasonal vegetables</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lp-float lp-float--qr">
+        <div class="lp-qr" aria-hidden="true"></div>
+        <div>
+          <div class="lp-float__title">Scan to view</div>
+          <div class="lp-float__sub">Table 7 · Ocean &amp; Farm</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="lp-cta">
+    <div class="lp-cta__card">
+      <div class="lp-cta__glow" aria-hidden="true"></div>
+      <h2>Ready to put your menu online?</h2>
+      <p>Join 2,000+ restaurants serving a beautiful, always-current menu. Free to launch — no credit card needed.</p>
+      <div class="lp-cta__actions">
+        <a routerLink="/register" class="nx-btn lp-cta__primary">Start free</a>
+        <a routerLink="/login" class="lp-cta__ghost">Log in</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="lp-footer">
+    <div class="lp-footer__inner">
+      <app-brand-logo [size]="19" />
+      <p class="lp-footer__copy">© {{ year }} NexMenus. All rights reserved.</p>
+      <div class="lp-footer__links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+      </div>
+    </div>
+  </footer>
+</div>

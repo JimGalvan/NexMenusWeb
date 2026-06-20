@@ -1,0 +1,11 @@
+.qr {
+  display: grid;
+  gap: 0;
+  background: #fff;
+}
+.qr span {
+  background: transparent;
+}
+.qr span.qr__on {
+  background: #18181b;
+}

@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+::-webkit-scrollbar{width:0;height:0;}
+.scrollarea{scrollbar-width:none;-ms-overflow-style:none;}
+.scrollarea::-webkit-scrollbar{display:none;}
+input,textarea,button{font-family:inherit;}
+textarea{resize:none;}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#E9E9EC;font-family:'Manrope',system-ui,sans-serif;padding:44px 32px 60px;color:#18181B;">
+
+  <div style="max-width:1100px;margin:0 auto 32px;">
+    <div style="font-size:12px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#A1A1AA;">NexMenus · Editor redesign</div>
+    <h1 style="font-size:38px;font-weight:800;letter-spacing:-0.02em;margin:10px 0 0;line-height:1.05;">Edit your menu — from your phone</h1>
+    <p style="font-size:15.5px;line-height:1.55;color:#52525B;max-width:600px;margin:13px 0 0;text-wrap:pretty;">A clickable prototype of the owner editing flow. Tap an item to edit it, tap <strong>⋯</strong> for actions, add a new item, crop its photo, and switch categories — <strong>Drinks</strong> is empty so you can see the first-time state.</p>
+  </div>
+
+  <div style="max-width:1100px;margin:0 auto;display:flex;gap:44px;align-items:flex-start;justify-content:center;flex-wrap:wrap;">
+
+    <!-- legend -->
+    <div style="flex:0 0 220px;padding-top:8px;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#A1A1AA;margin-bottom:14px;">What's clickable</div>
+      <div style="display:flex;flex-direction:column;gap:13px;">
+        <div style="display:flex;gap:10px;align-items:flex-start;"><span style="{{ dotStyle }}"></span><span style="font-size:13px;color:#52525B;line-height:1.45;">Tap any item to open the edit form</span></div>
+        <div style="display:flex;gap:10px;align-items:flex-start;"><span style="{{ dotStyle }}"></span><span style="font-size:13px;color:#52525B;line-height:1.45;"><strong>⋯</strong> opens hide · sold out · delete</span></div>
+        <div style="display:flex;gap:10px;align-items:flex-start;"><span style="{{ dotStyle }}"></span><span style="font-size:13px;color:#52525B;line-height:1.45;">Add item → fill the form → crop the photo</span></div>
+        <div style="display:flex;gap:10px;align-items:flex-start;"><span style="{{ dotStyle }}"></span><span style="font-size:13px;color:#52525B;line-height:1.45;">Switch to <strong>Drinks</strong> for the empty state</span></div>
+        <div style="display:flex;gap:10px;align-items:flex-start;"><span style="{{ dotStyle }}"></span><span style="font-size:13px;color:#52525B;line-height:1.45;"><strong>Items / Details</strong> tabs; <strong>← Menus</strong> exits to the list</span></div>
+      </div>
+    </div>
+
+    <!-- PHONE -->
+    <div style="width:380px;height:800px;border-radius:42px;background:#fff;overflow:hidden;position:relative;box-shadow:0 30px 60px rgba(20,20,40,0.18),0 0 0 1px rgba(0,0,0,0.05);display:flex;flex-direction:column;flex:0 0 auto;">
+      <div style="position:absolute;top:11px;left:50%;transform:translateX(-50%);width:98px;height:27px;border-radius:16px;background:#000;z-index:60;"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 24px 7px;flex:0 0 auto;background:#fff;z-index:30;">
+        <span style="font-size:14px;font-weight:700;">9:41</span>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx="0.6" fill="#18181B"/><rect x="4.5" y="4.5" width="3" height="6.5" rx="0.6" fill="#18181B"/><rect x="9" y="2" width="3" height="9" rx="0.6" fill="#18181B"/><rect x="13.5" y="0" width="3" height="11" rx="0.6" fill="#18181B"/></svg>
+          <svg width="24" height="12" viewBox="0 0 24 12"><rect x="0.5" y="0.5" width="20" height="11" rx="3" stroke="#18181B" stroke-opacity="0.4" fill="none"/><rect x="2" y="2" width="17" height="8" rx="1.8" fill="#18181B"/><rect x="22" y="4" width="1.6" height="4" rx="0.8" fill="#18181B" fill-opacity="0.5"/></svg>
+        </div>
+      </div>
+
+      <!-- ============ OVERVIEW ============ -->
+      <sc-if value="{{ isOverview }}" hint-placeholder-val="{{ true }}">
+        <div style="flex:1;display:flex;flex-direction:column;min-height:0;background:#F4F4F5;">
+          <div style="background:#fff;">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:0 8px;">
+              <a href="Home.dc.html" style="display:flex;align-items:center;gap:3px;color:#52525B;font-size:14.5px;font-weight:600;padding:8px;text-decoration:none;">
+                <svg width="9" height="16" viewBox="0 0 9 16" fill="none"><path d="M8 1 1 8l7 7" stroke="#52525B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Menus
+              </a>
+              <button style="{{ previewBtnStyle }}" onClick="{{ onPreview }}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.9"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.9"/></svg>
+                Preview
+              </button>
+            </div>
+            <div style="padding:2px 18px 0;">
+              <div style="font-weight:800;font-size:22px;letter-spacing:-0.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ menuName }}</div>
+            </div>
+            <div style="padding:12px 16px 12px;">
+              <div style="display:flex;background:#F4F4F5;border-radius:11px;padding:4px;gap:4px;">
+                <button style="{{ segItemsStyle }}" onClick="{{ onShowItems }}">Items</button>
+                <button style="{{ segDetailsStyle }}" onClick="{{ onShowDetails }}">Details</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- category chips -->
+          <div style="background:#fff;border-bottom:1px solid rgba(0,0,0,0.06);">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 16px 5px;">
+              <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#A1A1AA;">Categories</div>
+              <button style="{{ manageCatsLinkStyle }}" onClick="{{ onManageCats }}">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 7h11M4 17h7" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="18" cy="7" r="2.4" stroke="currentColor" stroke-width="1.9"/><circle cx="14" cy="17" r="2.4" stroke="currentColor" stroke-width="1.9"/></svg>
+                Manage
+              </button>
+            </div>
+            <div class="scrollarea" style="display:flex;gap:8px;overflow-x:auto;padding:0 16px 11px;">
+              <sc-for list="{{ cats }}" as="c" hint-placeholder-count="5">
+                <button style="{{ c.style }}" onClick="{{ c.onSelect }}">{{ c.name }}</button>
+              </sc-for>
+            </div>
+          </div>
+
+          <!-- list / empty -->
+          <div class="scrollarea" style="flex:1;overflow-y:auto;padding:14px 16px 96px;">
+            <sc-if value="{{ showEmpty }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:54px 24px 0;">
+                <div style="width:88px;height:88px;border-radius:26px;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 2px rgba(0,0,0,0.04),0 10px 24px rgba(0,0,0,0.05);">
+                  <svg width="38" height="38" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.4" stroke="#CBD5E1" stroke-width="1.6"/><circle cx="12" cy="12" r="3.4" stroke="#CBD5E1" stroke-width="1.6"/><path d="M19.5 4.5v6M22.5 4.5v6" stroke="#CBD5E1" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </div>
+                <div style="font-weight:800;font-size:18px;line-height:1.3;margin-top:20px;">No items in {{ emptyCat }} yet</div>
+                <div style="font-size:13.5px;color:#71717A;line-height:1.5;margin-top:8px;max-width:250px;text-wrap:pretty;">Add your first item and it'll appear on your live menu the moment you save.</div>
+                <button style="{{ emptyBtnStyle }}" onClick="{{ onAdd }}">
+                  <span style="font-size:18px;line-height:1;margin-right:2px;">+</span> Add your first item
+                </button>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ hasItems }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin:0 4px 10px;">
+                <div style="font-size:12.5px;font-weight:700;color:#71717A;">{{ countLabel }}</div>
+                <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:#A1A1AA;font-weight:600;">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M8 9h8M8 15h8" stroke="#A1A1AA" stroke-width="2" stroke-linecap="round"/></svg>
+                  Drag to reorder
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <sc-for list="{{ visibleItems }}" as="it" hint-placeholder-count="4">
+                  <div style="{{ it.rowStyle }}">
+                    <div style="color:#D4D4D8;flex:0 0 auto;display:flex;align-items:center;cursor:grab;">
+                      <svg width="12" height="20" viewBox="0 0 12 20" fill="#D4D4D8"><circle cx="3" cy="4" r="1.5"/><circle cx="9" cy="4" r="1.5"/><circle cx="3" cy="10" r="1.5"/><circle cx="9" cy="10" r="1.5"/><circle cx="3" cy="16" r="1.5"/><circle cx="9" cy="16" r="1.5"/></svg>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:0;cursor:pointer;" onClick="{{ it.onEdit }}">
+                      <div style="{{ it.thumbStyle }}"></div>
+                      <div style="flex:1;min-width:0;">
+                        <div style="display:flex;align-items:center;gap:7px;">
+                          <div style="font-weight:700;font-size:14.5px;letter-spacing:-0.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ it.name }}</div>
+                          <sc-if value="{{ it.hasBadge }}" hint-placeholder-val="{{ false }}">
+                            <span style="{{ it.badgeStyle }}">{{ it.badgeLabel }}</span>
+                          </sc-if>
+                        </div>
+                        <div style="font-size:12.5px;color:#71717A;margin-top:3px;">{{ it.meta }}</div>
+                      </div>
+                    </div>
+                    <button style="width:34px;height:34px;border-radius:10px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:0 0 auto;" onClick="{{ it.onSheet }}">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="#71717A"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+                    </button>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+
+          <!-- sticky add bar -->
+          <div style="position:absolute;left:0;right:0;bottom:0;padding:14px 16px 22px;background:linear-gradient(to top,#F4F4F5 68%,rgba(244,244,245,0));">
+            <button style="{{ addBtnStyle }}" onClick="{{ onAdd }}">
+              <span style="font-size:19px;line-height:1;margin-right:4px;">+</span> Add item
+            </button>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ============ MENU DETAILS (restaurant info, 1:1 with the menu) ============ -->
+      <sc-if value="{{ isDetails }}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1;display:flex;flex-direction:column;min-height:0;background:#fff;">
+          <div style="background:#fff;border-bottom:1px solid rgba(0,0,0,0.06);">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:0 8px;">
+              <a href="Home.dc.html" style="display:flex;align-items:center;gap:3px;color:#52525B;font-size:14.5px;font-weight:600;padding:8px;text-decoration:none;">
+                <svg width="9" height="16" viewBox="0 0 9 16" fill="none"><path d="M8 1 1 8l7 7" stroke="#52525B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Menus
+              </a>
+              <button style="{{ previewBtnStyle }}" onClick="{{ onPreview }}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.9"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.9"/></svg>
+                Preview
+              </button>
+            </div>
+            <div style="padding:2px 18px 0;">
+              <div style="font-weight:800;font-size:22px;letter-spacing:-0.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ menuName }}</div>
+            </div>
+            <div style="padding:12px 16px 12px;">
+              <div style="display:flex;background:#F4F4F5;border-radius:11px;padding:4px;gap:4px;">
+                <button style="{{ segItemsStyle }}" onClick="{{ onShowItems }}">Items</button>
+                <button style="{{ segDetailsStyle }}" onClick="{{ onShowDetails }}">Details</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="scrollarea" style="flex:1;overflow-y:auto;padding:18px 18px 30px;">
+            <!-- identity -->
+            <div style="display:flex;align-items:center;gap:14px;">
+              <div style="{{ detailsLogoStyle }}">
+                O&amp;F
+                <div style="position:absolute;right:-5px;bottom:-5px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.2);display:flex;align-items:center;justify-content:center;">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 7h3l1.5-2h7L18 7h2a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z" stroke="#52525B" stroke-width="1.8"/><circle cx="12" cy="13" r="3.2" stroke="#52525B" stroke-width="1.8"/></svg>
+                </div>
+              </div>
+              <div style="flex:1;">
+                <div style="font-weight:700;font-size:15px;">Logo</div>
+                <div style="font-size:12.5px;color:#71717A;margin-top:2px;line-height:1.45;">Shown at the top of your live menu</div>
+              </div>
+            </div>
+
+            <!-- name -->
+            <div style="margin-top:22px;">
+              <div style="font-size:12px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#A1A1AA;margin-bottom:9px;">Menu name</div>
+              <input value="{{ menuName }}" onInput="{{ onMenuName }}" placeholder="Restaurant or menu name" style="{{ inputStyle }}" style-focus="{{ inputFocusStyle }}" />
+            </div>
+
+            <!-- tagline -->
+            <div style="margin-top:18px;">
+              <div style="font-size:12px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#A1A1AA;margin-bottom:9px;">Tagline</div>
+              <input value="{{ menuTagline }}" onInput="{{ onTagline }}" placeholder="e.g. Fresh California-inspired cuisine" style="{{ inputStyle }}" style-focus="{{ inputFocusStyle }}" />
+            </div>
+
+            <!-- accent -->
+            <div style="margin-top:20px;">
+              <div style="font-size:12px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#A1A1AA;margin-bottom:11px;">Brand accent</div>
+              <div style="display:flex;gap:11px;flex-wrap:wrap;">
+                <sc-for list="{{ accentSwatches }}" as="sw" hint-placeholder-count="6">
+                  <button style="{{ sw.style }}" onClick="{{ sw.onSelect }}"></button>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="height:1px;background:rgba(0,0,0,0.07);margin:24px 0;"></div>
+
+            <!-- contact -->
+            <div style="font-size:12px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#A1A1AA;margin-bottom:9px;">Phone</div>
+            <input value="{{ detailsPhone }}" onInput="{{ onPhone }}" inputmode="tel" placeholder="Phone number" style="{{ inputStyle }}" style-focus="{{ inputFocusStyle }}" />
+
+            <div style="margin-top:18px;">
+              <div style="font-size:12px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#A1A1AA;margin-bottom:9px;">Address</div>
+              <textarea rows="2" value="{{ detailsAddress }}" onInput="{{ onAddress }}" placeholder="Street, city, state" style="{{ textareaStyle }}" style-focus="{{ inputFocusStyle }}"></textarea>
+            </div>
+
+            <!-- hours -->
+            <div style="margin-top:18px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;">
+                <div style="font-size:12px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#A1A1AA;">Hours</div>
+                <span style="{{ hoursEditStyle }}">Edit</span>
+              </div>
+              <div style="border:1.5px solid #E4E4E7;border-radius:13px;overflow:hidden;">
+                <sc-for list="{{ hoursRows }}" as="h" hint-placeholder-count="3">
+                  <div style="{{ h.rowStyle }}">
+                    <span style="font-size:13.5px;font-weight:600;color:#27272A;">{{ h.day }}</span>
+                    <span style="{{ h.timeStyle }}">{{ h.time }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ============ MANAGE CATEGORIES ============ -->
+      <sc-if value="{{ isManageCats }}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1;display:flex;flex-direction:column;min-height:0;background:#F4F4F5;">
+          <div style="background:#fff;border-bottom:1px solid rgba(0,0,0,0.06);">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 8px 10px;">
+              <button style="display:flex;align-items:center;gap:3px;border:none;background:transparent;cursor:pointer;color:#52525B;font-size:14.5px;font-weight:600;padding:8px;" onClick="{{ onManageDone }}">
+                <svg width="9" height="16" viewBox="0 0 9 16" fill="none"><path d="M8 1 1 8l7 7" stroke="#52525B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Items
+              </button>
+              <div style="font-weight:700;font-size:15px;">Categories</div>
+              <div style="width:64px;"></div>
+            </div>
+          </div>
+          <div class="scrollarea" style="flex:1;overflow-y:auto;padding:16px 16px 30px;">
+            <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:#A1A1AA;font-weight:600;margin:0 2px 12px;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M8 9h8M8 15h8" stroke="#A1A1AA" stroke-width="2" stroke-linecap="round"/></svg>
+              Drag to reorder · tap a name to rename
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <sc-for list="{{ manageCats }}" as="c" hint-placeholder-count="5">
+                <div style="{{ c.rowStyle }}">
+                  <div style="color:#D4D4D8;flex:0 0 auto;display:flex;align-items:center;cursor:grab;">
+                    <svg width="12" height="20" viewBox="0 0 12 20" fill="#D4D4D8"><circle cx="3" cy="4" r="1.5"/><circle cx="9" cy="4" r="1.5"/><circle cx="3" cy="10" r="1.5"/><circle cx="9" cy="10" r="1.5"/><circle cx="3" cy="16" r="1.5"/><circle cx="9" cy="16" r="1.5"/></svg>
+                  </div>
+                  <sc-if value="{{ c.isRenaming }}" hint-placeholder-val="{{ false }}">
+                    <input value="{{ c.draftName }}" onInput="{{ c.onRenameInput }}" style="{{ c.renameInputStyle }}" />
+                    <button style="{{ c.commitBtnStyle }}" onClick="{{ c.onCommitRename }}">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="m5 12 5 5L20 6" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                  </sc-if>
+                  <sc-if value="{{ c.notRenaming }}" hint-placeholder-val="{{ true }}">
+                    <div style="flex:1;min-width:0;cursor:pointer;" onClick="{{ c.onStartRename }}">
+                      <div style="font-weight:700;font-size:14.5px;letter-spacing:-0.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ c.name }}</div>
+                      <div style="font-size:12px;color:#9A9AA3;margin-top:2px;">{{ c.countLabel }}</div>
+                    </div>
+                    <button style="{{ manageIconBtnStyle }}" onClick="{{ c.onStartRename }}">
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="#71717A" stroke-width="1.7" stroke-linejoin="round"/><path d="m14 6 4 4" stroke="#71717A" stroke-width="1.7"/></svg>
+                    </button>
+                    <button style="{{ manageIconBtnStyle }}" onClick="{{ c.onDelete }}">
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M5 7h14M10 7V5h4v2M6 7l1 13h10l1-13" stroke="#DC2626" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+            <button style="{{ manageAddStyle }}" onClick="{{ onOpenAddCat }}">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#52525B" stroke-width="2" stroke-linecap="round"/></svg>
+              New category
+            </button>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ============ EDIT FORM ============ -->
+      <sc-if value="{{ isEdit }}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1;display:flex;flex-direction:column;min-height:0;background:#fff;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 12px 12px;border-bottom:1px solid rgba(0,0,0,0.07);">
+            <button style="display:flex;align-items:center;gap:3px;border:none;background:transparent;cursor:pointer;color:#52525B;font-size:14.5px;font-weight:600;padding:8px;" onClick="{{ onCancel }}">
+              <svg width="9" height="16" viewBox="0 0 9 16" fill="none"><path d="M8 1 1 8l7 7" stroke="#52525B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Cancel
+            </button>
+            <div style="font-weight:700;font-size:15px;">{{ editTitle }}</div>
+            <button style="{{ saveTextStyle }}" onClick="{{ onSave }}">Save</button>
+          </div>
+
+          <div class="scrollarea" style="flex:1;overflow-y:auto;padding:18px 18px 30px;">
+            <!-- photo -->
+            <div style="font-size:12px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#A1A1AA;margin-bottom:9px;">Photo</div>
+            <div style="{{ draftPhotoStyle }}" onClick="{{ onCrop }}">
+              <sc-if value="{{ draftHasPhoto }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute;right:10px;bottom:10px;display:flex;align-items:center;gap:5px;background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);color:#fff;font-size:12px;font-weight:600;padding:7px 11px;border-radius:999px;">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 7h3l1.5-2h7L18 7h2a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z" stroke="#fff" stroke-width="1.7"/><circle cx="12" cy="13" r="3.2" stroke="#fff" stroke-width="1.7"/></svg>
+                  Change
+                </div>
+              </sc-if>
+              <sc-if value="{{ draftNoPhoto }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;flex-direction:column;align-items:center;gap:8px;color:#A1A1AA;">
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M4 7h3l1.5-2h7L18 7h2a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z" stroke="#A1A1AA" stroke-width="1.6"/><circle cx="12" cy="13" r="3.4" stroke="#A1A1AA" stroke-width="1.6"/></svg>
+                  <span style="font-size:13px;font-weight:600;">Add a photo</span>
+                </div>
+              </sc-if>
+            </div>
+
+            <!-- name -->
+            <div style="margin-top:20px;">
+              <div style="font-size:12px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#A1A1AA;margin-bottom:9px;">Item name</div>
+              <input value="{{ draftName }}" onInput="{{ onName }}" placeholder="e.g. Grilled Pacific Salmon" style="{{ inputStyle }}" style-focus="{{ inputFocusStyle }}" />
+            </div>
+
+            <!-- price -->
+            <div style="margin-top:18px;">
+              <div style="font-size:12px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#A1A1AA;margin-bottom:9px;">Price</div>
+              <div style="{{ priceWrapStyle }}">
+                <span style="font-size:16px;font-weight:700;color:#71717A;">$</span>
+                <input value="{{ draftPrice }}" onInput="{{ onPrice }}" inputmode="decimal" placeholder="0.00" style="flex:1;border:none;outline:none;background:transparent;font-size:16px;font-weight:600;color:#18181B;" />
+              </div>
+            </div>
+
+            <!-- description -->
+            <div style="margin-top:18px;">
+              <div style="font-size:12px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#A1A1AA;margin-bottom:9px;">Description</div>
+              <textarea rows="3" value="{{ draftDesc }}" onInput="{{ onDesc }}" placeholder="Short, appetizing description…" style="{{ textareaStyle }}" style-focus="{{ inputFocusStyle }}"></textarea>
+            </div>
+
+            <!-- category -->
+            <div style="margin-top:18px;">
+              <div style="font-size:12px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#A1A1AA;margin-bottom:9px;">Category</div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                <sc-for list="{{ draftCats }}" as="c" hint-placeholder-count="5">
+                  <button style="{{ c.style }}" onClick="{{ c.onSelect }}">{{ c.name }}</button>
+                </sc-for>
+                <button style="{{ addCatPillStyle }}" onClick="{{ onOpenAddCatForm }}">+ New</button>
+              </div>
+            </div>
+
+            <!-- availability -->
+            <div style="margin-top:20px;">
+              <div style="font-size:12px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#A1A1AA;margin-bottom:9px;">Availability</div>
+              <div style="display:flex;background:#F4F4F5;border-radius:13px;padding:4px;gap:4px;">
+                <sc-for list="{{ draftStatuses }}" as="s" hint-placeholder-count="3">
+                  <button style="{{ s.style }}" onClick="{{ s.onSelect }}">{{ s.name }}</button>
+                </sc-for>
+              </div>
+            </div>
+
+            <sc-if value="{{ canDelete }}" hint-placeholder-val="{{ false }}">
+              <button style="{{ deleteRowStyle }}" onClick="{{ onDeleteFromForm }}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 7h14M10 7V5h4v2M6 7l1 13h10l1-13" stroke="#DC2626" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Delete item
+              </button>
+            </sc-if>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ============ CROP ============ -->
+      <sc-if value="{{ isCrop }}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1;display:flex;flex-direction:column;min-height:0;background:#111114;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 14px 12px;">
+            <button style="border:none;background:transparent;cursor:pointer;color:#D4D4D8;font-size:14.5px;font-weight:600;padding:8px;" onClick="{{ onCropCancel }}">Cancel</button>
+            <div style="font-weight:700;font-size:14px;color:#fff;">Move &amp; Scale</div>
+            <button style="{{ cropDoneStyle }}" onClick="{{ onCropDone }}">Done</button>
+          </div>
+          <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:0 24px;">
+            <div style="position:relative;width:300px;height:300px;border-radius:18px;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,0.15);">
+              <div style="{{ cropPhotoStyle }}"></div>
+              <div style="position:absolute;inset:0;pointer-events:none;">
+                <div style="position:absolute;left:33.33%;top:0;bottom:0;width:1px;background:rgba(255,255,255,0.35);"></div>
+                <div style="position:absolute;left:66.66%;top:0;bottom:0;width:1px;background:rgba(255,255,255,0.35);"></div>
+                <div style="position:absolute;top:33.33%;left:0;right:0;height:1px;background:rgba(255,255,255,0.35);"></div>
+                <div style="position:absolute;top:66.66%;left:0;right:0;height:1px;background:rgba(255,255,255,0.35);"></div>
+              </div>
+            </div>
+          </div>
+          <div style="padding:18px 30px 40px;">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#9CA3AF"><circle cx="11" cy="11" r="7" stroke="#9CA3AF" stroke-width="2" fill="none"/><path d="M11 8v6M8 11h6" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/><path d="m20 20-3.5-3.5" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/></svg>
+              <input type="range" min="1" max="2.4" step="0.01" value="{{ cropZoom }}" onInput="{{ onZoom }}" style="{{ rangeStyle }}" />
+            </div>
+            <div style="text-align:center;color:#6B7280;font-size:12px;margin-top:14px;">Pinch or drag the slider to frame your dish</div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ============ PREVIEW (what diners see) ============ -->
+      <sc-if value="{{ isPreview }}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1;display:flex;flex-direction:column;min-height:0;background:#FAFAFB;">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 8px 12px;background:#18181B;flex:0 0 auto;">
+            <button style="display:flex;align-items:center;gap:5px;border:none;background:transparent;cursor:pointer;color:#fff;font-size:14px;font-weight:600;padding:8px 10px;" onClick="{{ onExitPreview }}">
+              <svg width="9" height="16" viewBox="0 0 9 16" fill="none"><path d="M8 1 1 8l7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Back to editing
+            </button>
+            <div style="display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.55);padding-right:12px;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="rgba(255,255,255,0.55)" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="rgba(255,255,255,0.55)" stroke-width="2"/></svg>
+              Preview
+            </div>
+          </div>
+
+          <div class="scrollarea" style="flex:1;overflow-y:auto;">
+            <div style="padding:16px 18px;background:#fff;">
+              <div style="display:flex;gap:13px;align-items:center;">
+                <div style="{{ logoStyle }}">O&amp;F</div>
+                <div style="flex:1;min-width:0;">
+                  <div style="font-weight:800;font-size:20px;letter-spacing:-0.01em;">{{ menuName }}</div>
+                  <div style="font-size:12.5px;color:#71717A;margin-top:2px;">{{ menuTagline }}</div>
+                </div>
+              </div>
+              <div style="display:flex;gap:7px;margin-top:14px;">
+                <span style="display:inline-flex;align-items:center;gap:4px;background:#F4F4F5;color:#3F3F46;font-size:11.5px;font-weight:600;padding:6px 10px;border-radius:9px;"><span style="color:#F59E0B;">★</span> 4.8</span>
+                <span style="display:inline-flex;align-items:center;background:#F4F4F5;color:#3F3F46;font-size:11.5px;font-weight:600;padding:6px 10px;border-radius:9px;">$$ · California</span>
+                <span style="display:inline-flex;align-items:center;gap:5px;background:#ECFDF3;color:#15803D;font-size:11.5px;font-weight:700;padding:6px 10px;border-radius:9px;"><span style="width:6px;height:6px;border-radius:50%;background:#22C55E;"></span>Open</span>
+              </div>
+            </div>
+
+            <div style="position:sticky;top:0;z-index:5;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,0,0,0.06);">
+              <div class="scrollarea" style="display:flex;gap:8px;overflow-x:auto;padding:11px 16px;">
+                <sc-for list="{{ previewCats }}" as="c" hint-placeholder-count="5">
+                  <button style="{{ c.style }}" onClick="{{ c.onSelect }}">{{ c.name }}</button>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="padding:14px 16px 28px;display:flex;flex-direction:column;gap:14px;">
+              <sc-if value="{{ emptyPreview }}" hint-placeholder-val="{{ false }}">
+                <div style="text-align:center;color:#A1A1AA;font-size:13.5px;padding:44px 0;">No items in this category yet.</div>
+              </sc-if>
+              <sc-for list="{{ previewItems }}" as="it" hint-placeholder-count="3">
+                <div style="background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,0.04),0 8px 20px rgba(0,0,0,0.05);">
+                  <div style="{{ it.photoStyle }}">
+                    <sc-if value="{{ it.isSold }}" hint-placeholder-val="{{ false }}">
+                      <div style="position:absolute;inset:0;background:rgba(17,17,20,0.42);display:flex;align-items:center;justify-content:center;">
+                        <span style="background:rgba(255,255,255,0.95);color:#18181B;font-size:12px;font-weight:700;padding:6px 13px;border-radius:999px;">Sold out</span>
+                      </div>
+                    </sc-if>
+                  </div>
+                  <div style="padding:12px 14px 14px;">
+                    <div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline;">
+                      <div style="font-weight:700;font-size:15.5px;letter-spacing:-0.01em;">{{ it.name }}</div>
+                      <div style="{{ previewPriceStyle }}">{{ it.priceLabel }}</div>
+                    </div>
+                    <div style="margin-top:4px;font-size:12.5px;line-height:1.45;color:#71717A;text-wrap:pretty;">{{ it.desc }}</div>
+                  </div>
+                </div>
+              </sc-for>
+              <div style="text-align:center;font-size:11px;color:#C4C4CC;padding:10px 0 4px;">Powered by NexMenus</div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ============ ACTION SHEET ============ -->
+      <sc-if value="{{ sheetOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;inset:0;z-index:50;display:flex;flex-direction:column;justify-content:flex-end;">
+          <div style="position:absolute;inset:0;background:rgba(15,15,25,0.4);" onClick="{{ onSheetClose }}"></div>
+          <div style="position:relative;background:#fff;border-radius:26px 26px 0 0;padding:8px 14px 26px;box-shadow:0 -10px 40px rgba(0,0,0,0.2);">
+            <div style="width:40px;height:5px;border-radius:99px;background:#E4E4E7;margin:6px auto 12px;"></div>
+            <div style="display:flex;align-items:center;gap:12px;padding:8px 8px 14px;border-bottom:1px solid rgba(0,0,0,0.07);margin-bottom:8px;">
+              <div style="{{ sheetThumbStyle }}"></div>
+              <div style="flex:1;min-width:0;">
+                <div style="font-weight:700;font-size:15px;">{{ sheetName }}</div>
+                <div style="font-size:12.5px;color:#71717A;margin-top:2px;">{{ sheetMeta }}</div>
+              </div>
+            </div>
+            <button style="{{ sheetItemStyle }}" onClick="{{ onSheetEdit }}">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="#3F3F46" stroke-width="1.7" stroke-linejoin="round"/><path d="m14 6 4 4" stroke="#3F3F46" stroke-width="1.7"/></svg>
+              <span style="flex:1;">Edit item</span>
+            </button>
+            <button style="{{ sheetItemStyle }}" onClick="{{ onToggleSold }}">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="#3F3F46" stroke-width="1.7"/><path d="m6.5 6.5 11 11" stroke="#3F3F46" stroke-width="1.7"/></svg>
+              <span style="flex:1;">{{ soldLabel }}</span>
+            </button>
+            <button style="{{ sheetItemStyle }}" onClick="{{ onToggleHide }}">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="#3F3F46" stroke-width="1.7"/><circle cx="12" cy="12" r="3" stroke="#3F3F46" stroke-width="1.7"/><path d="m4 3 16 18" stroke="#3F3F46" stroke-width="1.7" stroke-linecap="round"/></svg>
+              <span style="flex:1;">{{ hideLabel }}</span>
+            </button>
+            <button style="{{ sheetDeleteStyle }}" onClick="{{ onDelete }}">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M5 7h14M10 7V5h4v2M6 7l1 13h10l1-13" stroke="#DC2626" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span style="flex:1;">Delete item</span>
+            </button>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ADD CATEGORY SHEET -->
+      <sc-if value="{{ addCatOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;inset:0;z-index:55;display:flex;flex-direction:column;justify-content:flex-end;">
+          <div style="position:absolute;inset:0;background:rgba(15,15,25,0.4);" onClick="{{ onAddCatClose }}"></div>
+          <div style="position:relative;background:#fff;border-radius:26px 26px 0 0;padding:8px 18px 26px;box-shadow:0 -10px 40px rgba(0,0,0,0.2);">
+            <div style="width:40px;height:5px;border-radius:99px;background:#E4E4E7;margin:6px auto 16px;"></div>
+            <div style="font-weight:800;font-size:18px;letter-spacing:-0.01em;">New category</div>
+            <div style="font-size:13px;color:#71717A;margin-top:4px;line-height:1.45;">Add a section to your menu — like Sides, Cocktails or Kids.</div>
+            <div style="margin-top:16px;">
+              <input value="{{ newCatName }}" onInput="{{ onNewCatName }}" placeholder="Category name" style="{{ inputStyle }}" style-focus="{{ inputFocusStyle }}" />
+            </div>
+            <div style="display:flex;gap:10px;margin-top:14px;">
+              <button style="{{ addCatCancelStyle }}" onClick="{{ onAddCatClose }}">Cancel</button>
+              <button style="{{ addCatConfirmStyle }}" onClick="{{ onAddCatConfirm }}">Add category</button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- TOAST -->
+      <sc-if value="{{ toastOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;left:0;right:0;bottom:96px;z-index:70;display:flex;justify-content:center;pointer-events:none;">
+          <div style="background:#18181B;color:#fff;font-size:13px;font-weight:600;padding:11px 18px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,0.25);display:flex;align-items:center;gap:8px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="m5 12 5 5L20 6" stroke="#4ADE80" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            {{ toast }}
+          </div>
+        </div>
+      </sc-if>
+
+      <div style="position:absolute;bottom:0;left:0;right:0;z-index:80;height:30px;display:flex;justify-content:center;align-items:flex-end;padding-bottom:8px;pointer-events:none;">
+        <div style="width:130px;height:5px;border-radius:99px;background:rgba(0,0,0,0.22);"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#22224b&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this._nid = 200;
+    const u = (id) => 'https://images.unsplash.com/photo-' + id + '?auto=format&fit=crop&w=600&q=70';
+    this.state = {
+      screen: 'overview',
+      activeCat: 'All',
+      accent: '',
+      details: { name:'Ocean & Farm', tagline:'Fresh California-inspired cuisine', phone:'777-999-6666', address:'123 Main Street\nDemo City, CA 91234' },
+      sheetId: null,
+      draft: null,
+      cropZoom: 1.2,
+      previewCat: 'All',
+      toast: '',
+      cats: ['Starters', 'From the Sea', 'Mains', 'Desserts', 'Drinks'],
+      addCatOpen: false,
+      newCatName: '',
+      addCatFrom: 'items',
+      renamingIdx: -1,
+      catDraftName: '',
+      items: [
+        { id:1, cat:'From the Sea', name:'Grilled Pacific Salmon', price:'26', desc:'Lemon herb butter, seasonal vegetables', status:'available', img:u('1467003909585-2f8a72700288') },
+        { id:2, cat:'From the Sea', name:'Wild Shrimp Skewers', price:'19', desc:'Garlic, smoked paprika, charred lime', status:'available', img:u('1565680018434-b513d5e5fd47') },
+        { id:3, cat:'Mains', name:'Prime Ribeye Steak', price:'25', desc:'Grilled to perfection, rich and tender', status:'sold', img:u('1546833999-b9f581a1996d') },
+        { id:4, cat:'Mains', name:'Farmhouse Sandwich', price:'13', desc:'Roast chicken, avocado, herb aioli', status:'available', img:u('1528735602780-2552fd46c7af') },
+        { id:5, cat:'Starters', name:'Heirloom Tomato Salad', price:'14', desc:'Burrata, basil oil, aged balsamic', status:'hidden', img:u('1512621776951-a57141f2eefd') },
+        { id:6, cat:'Desserts', name:'Meyer Lemon Tart', price:'10', desc:'Torched meringue, almond crust', status:'available', img:u('1551024601-bec78aea704b') },
+      ],
+    };
+    this.grads = {
+      'Starters':'linear-gradient(135deg,#e2ecd9,#c7d9ba)',
+      'From the Sea':'linear-gradient(135deg,#d6e7f0,#b6d2e2)',
+      'Mains':'linear-gradient(135deg,#eedfcc,#dbc1a5)',
+      'Desserts':'linear-gradient(135deg,#eedce5,#ddc2d0)',
+      'Drinks':'linear-gradient(135deg,#dfe3ee,#c2c9dd)',
+    };
+    this.catGradPalette = [
+      'linear-gradient(135deg,#e7e0f0,#cfc2e2)',
+      'linear-gradient(135deg,#dfeee0,#bfe0c5)',
+      'linear-gradient(135deg,#f0e6da,#e2cdb0)',
+      'linear-gradient(135deg,#dce8ee,#bdd5e2)',
+      'linear-gradient(135deg,#f0dfe4,#e2c2cf)',
+      'linear-gradient(135deg,#e9e3da,#d3c7b6)',
+    ];
+    this.sampleImg = u('1551024709-8f23befc6f87');
+  }
+
+  flash(msg) {
+    this.setState({ toast: msg });
+    clearTimeout(this._t);
+    this._t = setTimeout(() => this.setState({ toast: '' }), 1900);
+  }
+
+  tile(img, cat, size, extra) {
+    const bg = img ? ('url("' + img + '") center/cover no-repeat, ' + (this.grads[cat] || '#eee')) : (this.grads[cat] || '#eee');
+    return Object.assign({ width:size, height:size, borderRadius:'12px', flex:'0 0 auto', background: bg, position:'relative', overflow:'hidden' }, extra || {});
+  }
+
+  renderVals() {
+    const accent = this.state.accent || this.props.accentColor || '#22224b';
+    const st = this.state;
+    const newCatValid = !!(st.newCatName && st.newCatName.trim());
+
+    const chip = (label, active, onSelect, kind) => {
+      let style;
+      if (kind === 'cat') {
+        style = { padding:'8px 14px', borderRadius:'999px', fontSize:'13px', fontWeight:600, whiteSpace:'nowrap', cursor:'pointer', border:'none', flex:'0 0 auto', background: active ? accent : '#F4F4F5', color: active ? '#fff' : '#52525B', transition:'background .15s,color .15s' };
+      } else if (kind === 'pill') {
+        style = { padding:'9px 14px', borderRadius:'11px', fontSize:'13.5px', fontWeight:600, cursor:'pointer', border: active ? ('1.5px solid ' + accent) : '1.5px solid #E4E4E7', background: active ? this.tintBg(accent) : '#fff', color: active ? accent : '#52525B', transition:'all .15s' };
+      } else {
+        style = { flex:1, padding:'9px 6px', borderRadius:'10px', fontSize:'13px', fontWeight:700, cursor:'pointer', border:'none', background: active ? '#fff' : 'transparent', color: active ? accent : '#71717A', boxShadow: active ? '0 1px 3px rgba(0,0,0,0.12)' : 'none', transition:'all .15s' };
+      }
+      return { name: label, style, onSelect };
+    };
+
+    // overview categories
+    const catNames = ['All'].concat(st.cats);
+    const cats = catNames.map((c) => chip(c, st.activeCat === c, () => this.setState({ activeCat: c }), 'cat'));
+
+    // visible items
+    const all = st.items;
+    const filtered = st.activeCat === 'All' ? all : all.filter((i) => i.cat === st.activeCat);
+    const badgeFor = (status) => {
+      if (status === 'sold') return { label:'Sold out', style:{ fontSize:'10px', fontWeight:700, letterSpacing:'0.03em', color:'#B91C1C', background:'#FEE2E2', padding:'3px 7px', borderRadius:'6px', flex:'0 0 auto' } };
+      if (status === 'hidden') return { label:'Hidden', style:{ fontSize:'10px', fontWeight:700, letterSpacing:'0.03em', color:'#A16207', background:'#FEF3C7', padding:'3px 7px', borderRadius:'6px', flex:'0 0 auto' } };
+      return null;
+    };
+    const visibleItems = filtered.map((i) => {
+      const b = badgeFor(i.status);
+      return {
+        name: i.name,
+        meta: '$' + i.price + '  ·  ' + i.cat,
+        hasBadge: !!b,
+        badgeLabel: b ? b.label : '',
+        badgeStyle: b ? b.style : {},
+        thumbStyle: this.tile(i.img, i.cat, '52px', { filter: i.status === 'sold' ? 'grayscale(1)' : 'none' }),
+        rowStyle: { display:'flex', alignItems:'center', gap:'4px', background:'#fff', borderRadius:'16px', padding:'10px 6px 10px 8px', boxShadow:'0 1px 2px rgba(0,0,0,0.03),0 6px 16px rgba(0,0,0,0.045)', opacity: i.status === 'hidden' ? 0.62 : 1 },
+        onEdit: () => this.startEdit(i.id),
+        onSheet: () => this.setState({ sheetId: i.id }),
+      };
+    });
+
+    // draft / form
+    const d = st.draft || {};
+    const draftCats = st.cats.map((c) => chip(c, d.cat === c, () => this.updateDraft('cat', c), 'pill'));
+    const draftStatuses = [
+      chip('Available', d.status === 'available', () => this.updateDraft('status', 'available'), 'seg'),
+      chip('Sold out', d.status === 'sold', () => this.updateDraft('status', 'sold'), 'seg'),
+      chip('Hidden', d.status === 'hidden', () => this.updateDraft('status', 'hidden'), 'seg'),
+    ];
+
+    // action sheet target
+    const sheetItem = st.items.find((i) => i.id === st.sheetId) || null;
+
+    // customer preview (reflects edits: hidden items removed, sold-out greyed)
+    const catNamesP = ['All'].concat(st.cats);
+    const previewCats = catNamesP.map((c) => chip(c, st.previewCat === c, () => this.setState({ previewCat: c }), 'cat'));
+    const pVisible = st.items.filter((i) => i.status !== 'hidden');
+    const pFiltered = st.previewCat === 'All' ? pVisible : pVisible.filter((i) => i.cat === st.previewCat);
+    const previewItems = pFiltered.map((i) => ({
+      name: i.name,
+      priceLabel: '$' + i.price,
+      desc: i.desc,
+      isSold: i.status === 'sold',
+      photoStyle: { position:'relative', height:'150px', overflow:'hidden', background: 'url("' + i.img + '") center/cover no-repeat, ' + (this.grads[i.cat] || '#eee'), filter: i.status === 'sold' ? 'grayscale(0.5)' : 'none' },
+    }));
+
+    const inputStyle = { width:'100%', border:'1.5px solid #E4E4E7', borderRadius:'13px', padding:'13px 14px', fontSize:'15px', fontWeight:500, color:'#18181B', outline:'none', background:'#fff' };
+
+    return {
+      accent,
+      dotStyle: { width:'7px', height:'7px', borderRadius:'50%', background: accent, flex:'0 0 auto', marginTop:'6px' },
+
+      isOverview: st.screen === 'overview',
+      isEdit: st.screen === 'edit',
+      isCrop: st.screen === 'crop',
+      sheetOpen: !!sheetItem,
+      toastOpen: !!st.toast,
+      toast: st.toast,
+
+      // menu details (1:1 — restaurant info lives on the menu)
+      isDetails: st.screen === 'details',
+      menuName: st.details.name,
+      menuTagline: st.details.tagline,
+      detailsPhone: st.details.phone,
+      detailsAddress: st.details.address,
+      onDetails: () => this.setState({ screen: 'details' }),
+      onShowItems: () => this.setState({ screen: 'overview' }),
+      onShowDetails: () => this.setState({ screen: 'details' }),
+      segItemsStyle: { flex:1, padding:'9px 6px', borderRadius:'9px', fontSize:'13.5px', fontWeight:700, cursor:'pointer', border:'none', background: st.screen === 'overview' ? '#fff' : 'transparent', color: st.screen === 'overview' ? accent : '#71717A', boxShadow: st.screen === 'overview' ? '0 1px 3px rgba(0,0,0,0.12)' : 'none' },
+      segDetailsStyle: { flex:1, padding:'9px 6px', borderRadius:'9px', fontSize:'13.5px', fontWeight:700, cursor:'pointer', border:'none', background: st.screen === 'details' ? '#fff' : 'transparent', color: st.screen === 'details' ? accent : '#71717A', boxShadow: st.screen === 'details' ? '0 1px 3px rgba(0,0,0,0.12)' : 'none' },
+      onMenuName: (e) => this.updateDetails('name', e.target.value),
+      onTagline: (e) => this.updateDetails('tagline', e.target.value),
+      onPhone: (e) => this.updateDetails('phone', e.target.value),
+      onAddress: (e) => this.updateDetails('address', e.target.value),
+      detailsBtnStyle: { width:'38px', height:'38px', borderRadius:'11px', background:'#F4F4F5', border:'none', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', color:'#52525B', flex:'0 0 auto' },
+      detailsLogoStyle: { position:'relative', width:'62px', height:'62px', borderRadius:'18px', background: accent, color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', fontWeight:800, fontSize:'16px', flex:'0 0 auto' },
+      logoStyle: { width:'46px', height:'46px', borderRadius:'14px', background: accent, color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', fontWeight:800, fontSize:'13px', flex:'0 0 auto', letterSpacing:'0.02em' },
+      hoursEditStyle: { fontSize:'12.5px', fontWeight:700, color: accent, cursor:'pointer' },
+      accentSwatches: ['#22224b','#0E7490','#15803D','#C2410C','#BE123C','#7C3AED'].map((c) => ({
+        onSelect: () => this.setState({ accent: c }),
+        style: { width:'40px', height:'40px', borderRadius:'12px', background:c, border:'3px solid #fff', boxShadow: (accent.toLowerCase() === c.toLowerCase()) ? ('0 0 0 2px ' + c) : '0 0 0 1px rgba(0,0,0,0.12)', cursor:'pointer', flex:'0 0 auto' },
+      })),
+      hoursRows: [
+        { d:'Monday – Friday', t:'9:00am – 10:00pm', closed:false },
+        { d:'Saturday', t:'10:00am – 11:00pm', closed:false },
+        { d:'Sunday', t:'Closed', closed:true },
+      ].map((h, idx) => ({
+        day: h.d, time: h.t,
+        rowStyle: { display:'flex', alignItems:'center', justifyContent:'space-between', padding:'12px 14px', borderTop: idx === 0 ? 'none' : '1px solid rgba(0,0,0,0.06)', background:'#fff' },
+        timeStyle: { fontSize:'13px', fontWeight:600, color: h.closed ? '#A1A1AA' : '#52525B' },
+      })),
+
+      cats,
+      visibleItems,
+      hasItems: filtered.length > 0,
+      showEmpty: filtered.length === 0,
+      emptyCat: st.activeCat === 'All' ? 'your menu' : st.activeCat,
+      countLabel: filtered.length + (filtered.length === 1 ? ' item' : ' items'),
+      onAdd: () => this.startAdd(),
+      addBtnStyle: { width:'100%', padding:'15px', borderRadius:'15px', background: accent, color:'#fff', border:'none', fontWeight:700, fontSize:'14.5px', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 8px 20px rgba(20,20,40,0.18)' },
+      emptyBtnStyle: { marginTop:'24px', padding:'13px 22px', borderRadius:'14px', background: accent, color:'#fff', border:'none', fontWeight:700, fontSize:'14px', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', whiteSpace:'nowrap' },
+
+      // add category
+      addCatOpen: st.addCatOpen,
+      newCatName: st.newCatName,
+      onNewCatName: (e) => this.setState({ newCatName: e.target.value }),
+      onOpenAddCat: () => this.setState({ addCatOpen: true, newCatName: '', addCatFrom: 'items' }),
+      onOpenAddCatForm: () => this.setState({ addCatOpen: true, newCatName: '', addCatFrom: 'form' }),
+      onAddCatConfirm: () => this.addCategory(),
+      onAddCatClose: () => this.setState({ addCatOpen: false, newCatName: '' }),
+      addCatChipStyle: { padding:'8px 14px', borderRadius:'999px', fontSize:'13px', fontWeight:700, whiteSpace:'nowrap', cursor:'pointer', border:'1.5px dashed #C4C4CC', background:'transparent', color:'#71717A', flex:'0 0 auto', display:'inline-flex', alignItems:'center', gap:'4px' },
+      addCatPillStyle: { padding:'9px 14px', borderRadius:'11px', fontSize:'13.5px', fontWeight:700, cursor:'pointer', border:'1.5px dashed #C4C4CC', background:'transparent', color:'#71717A', display:'inline-flex', alignItems:'center', gap:'4px' },
+      addCatCancelStyle: { flex:1, padding:'13px', borderRadius:'12px', background:'#F4F4F5', color:'#27272A', border:'none', fontWeight:700, fontSize:'14px', cursor:'pointer' },
+      addCatConfirmStyle: { flex:1, padding:'13px', borderRadius:'12px', background: newCatValid ? accent : '#E4E4E7', color: newCatValid ? '#fff' : '#A1A1AA', border:'none', fontWeight:700, fontSize:'14px', cursor: newCatValid ? 'pointer' : 'default' },
+
+      // manage categories
+      isManageCats: st.screen === 'managecats',
+      onManageCats: () => this.setState({ screen: 'managecats', renamingIdx: -1 }),
+      onManageDone: () => this.setState({ screen: 'overview', renamingIdx: -1 }),
+      manageCatsLinkStyle: { display:'inline-flex', alignItems:'center', gap:'5px', border:'none', background:'transparent', cursor:'pointer', color: accent, fontSize:'13px', fontWeight:700, padding:'4px 6px', margin:'0 -6px 0 0', flex:'0 0 auto' },
+      manageIconBtnStyle: { width:'34px', height:'34px', borderRadius:'10px', border:'none', background:'#F4F4F5', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', flex:'0 0 auto' },
+      manageAddStyle: { width:'100%', marginTop:'14px', padding:'14px', borderRadius:'14px', border:'1.5px dashed #C4C4CC', background:'transparent', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:'8px', color:'#52525B', fontSize:'14px', fontWeight:700 },
+      manageCats: st.cats.map((c, idx) => {
+        const count = st.items.filter((i) => i.cat === c).length;
+        const renaming = st.renamingIdx === idx;
+        return {
+          name: c,
+          countLabel: count + (count === 1 ? ' item' : ' items'),
+          isRenaming: renaming,
+          notRenaming: !renaming,
+          draftName: renaming ? st.catDraftName : c,
+          onStartRename: () => this.setState({ renamingIdx: idx, catDraftName: c }),
+          onRenameInput: (e) => this.setState({ catDraftName: e.target.value }),
+          onCommitRename: () => this.commitRename(idx),
+          onDelete: () => this.deleteCategory(idx),
+          rowStyle: { display:'flex', alignItems:'center', gap:'10px', background:'#fff', borderRadius:'14px', padding:'12px', boxShadow:'0 1px 2px rgba(0,0,0,0.03),0 6px 16px rgba(0,0,0,0.045)' },
+          renameInputStyle: { flex:1, border:'1.5px solid ' + accent, borderRadius:'10px', padding:'9px 11px', fontSize:'14.5px', fontWeight:600, outline:'none', minWidth:0, color:'#18181B' },
+          commitBtnStyle: { width:'34px', height:'34px', borderRadius:'10px', border:'none', background: accent, color:'#fff', cursor:'pointer', flex:'0 0 auto', display:'flex', alignItems:'center', justifyContent:'center' },
+        };
+      }),
+
+      // form
+      editTitle: d.id ? 'Edit item' : 'New item',
+      draftName: d.name || '',
+      draftPrice: d.price || '',
+      draftDesc: d.desc || '',
+      draftHasPhoto: !!d.img,
+      draftNoPhoto: !d.img,
+      draftPhotoStyle: { position:'relative', width:'100%', height:'168px', borderRadius:'16px', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', background: d.img ? ('url("' + d.img + '") center/cover no-repeat, ' + (this.grads[d.cat] || '#F4F4F5')) : '#F7F7F8', border: d.img ? 'none' : '1.5px dashed #D4D4D8', overflow:'hidden' },
+      draftCats,
+      draftStatuses,
+      canDelete: !!d.id,
+      inputStyle,
+      textareaStyle: Object.assign({}, inputStyle, { lineHeight:'1.45', minHeight:'78px', fontFamily:'inherit' }),
+      inputFocusStyle: { border:'1.5px solid ' + accent, boxShadow:'0 0 0 3px ' + this.tintBg(accent) },
+      priceWrapStyle: { display:'flex', alignItems:'center', gap:'6px', border:'1.5px solid #E4E4E7', borderRadius:'13px', padding:'13px 14px', background:'#fff' },
+      saveTextStyle: { border:'none', background:'transparent', cursor:'pointer', color: accent, fontSize:'15px', fontWeight:800, padding:'8px' },
+      deleteRowStyle: { marginTop:'26px', width:'100%', padding:'14px', borderRadius:'13px', background:'#FEF2F2', color:'#DC2626', border:'none', fontWeight:700, fontSize:'14px', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:'8px' },
+      onName: (e) => this.updateDraft('name', e.target.value),
+      onPrice: (e) => this.updateDraft('price', e.target.value.replace(/[^0-9.]/g, '')),
+      onDesc: (e) => this.updateDraft('desc', e.target.value),
+      onSave: () => this.saveDraft(),
+      onCancel: () => this.setState({ screen: 'overview', draft: null }),
+      onCrop: () => this.setState({ screen: 'crop' }),
+      onDeleteFromForm: () => { const id = d.id; this.setState({ screen: 'overview', draft: null }); this.deleteItem(id); },
+
+      // crop
+      cropZoom: st.cropZoom,
+      onZoom: (e) => this.setState({ cropZoom: parseFloat(e.target.value) }),
+      cropPhotoStyle: { position:'absolute', inset:0, background: 'url("' + (d.img || this.sampleImg) + '") center/' + (st.cropZoom * 100) + '% no-repeat, #222' },
+      onCropCancel: () => this.setState({ screen: 'edit' }),
+      onCropDone: () => { this.updateDraft('img', this.state.draft && this.state.draft.img ? this.state.draft.img : this.sampleImg); this.setState({ screen: 'edit' }); },
+      cropDoneStyle: { border:'none', background:'transparent', cursor:'pointer', color:'#fff', fontSize:'15px', fontWeight:800, padding:'8px' },
+      rangeStyle: { flex:1, accentColor: accent, height:'4px', cursor:'pointer' },
+
+      // sheet
+      sheetName: sheetItem ? sheetItem.name : '',
+      sheetMeta: sheetItem ? ('$' + sheetItem.price + '  ·  ' + sheetItem.cat) : '',
+      sheetThumbStyle: sheetItem ? this.tile(sheetItem.img, sheetItem.cat, '44px') : {},
+      soldLabel: sheetItem && sheetItem.status === 'sold' ? 'Mark as available' : 'Mark as sold out',
+      hideLabel: sheetItem && sheetItem.status === 'hidden' ? 'Unhide on menu' : 'Hide from menu',
+      sheetItemStyle: { width:'100%', display:'flex', alignItems:'center', gap:'13px', padding:'14px 12px', border:'none', background:'transparent', cursor:'pointer', fontSize:'15px', fontWeight:600, color:'#27272A', textAlign:'left', borderRadius:'12px' },
+      sheetDeleteStyle: { width:'100%', display:'flex', alignItems:'center', gap:'13px', padding:'14px 12px', border:'none', background:'transparent', cursor:'pointer', fontSize:'15px', fontWeight:700, color:'#DC2626', textAlign:'left', borderRadius:'12px' },
+      onSheetClose: () => this.setState({ sheetId: null }),
+      onSheetEdit: () => { const id = st.sheetId; this.setState({ sheetId: null }); this.startEdit(id); },
+      onToggleSold: () => this.toggleStatus('sold'),
+      onToggleHide: () => this.toggleStatus('hidden'),
+      onDelete: () => { const id = st.sheetId; this.setState({ sheetId: null }); this.deleteItem(id); },
+
+      // preview
+      isPreview: st.screen === 'preview',
+      onPreview: () => this.setState({ screen: 'preview' }),
+      onExitPreview: () => this.setState({ screen: 'overview' }),
+      previewBtnStyle: { display:'flex', alignItems:'center', gap:'6px', padding:'9px 13px', borderRadius:'11px', background: this.tintBg(accent), color: accent, border:'none', fontSize:'13px', fontWeight:700, cursor:'pointer' },
+      previewCats,
+      previewItems,
+      emptyPreview: pFiltered.length === 0,
+      previewPriceStyle: { fontWeight:800, fontSize:'15px', color: accent, flex:'0 0 auto' },
+    };
+  }
+
+  tintBg(hex) {
+    const h = hex.replace('#', '');
+    const r = parseInt(h.substring(0, 2), 16), g = parseInt(h.substring(2, 4), 16), b = parseInt(h.substring(4, 6), 16);
+    return 'rgba(' + r + ',' + g + ',' + b + ',0.08)';
+  }
+
+  startAdd() {
+    const cat = (this.state.activeCat !== 'All') ? this.state.activeCat : 'Mains';
+    this.setState({ draft: { cat, name:'', price:'', desc:'', status:'available', img:'' }, screen:'edit', sheetId:null });
+  }
+  startEdit(id) {
+    const it = this.state.items.find((i) => i.id === id);
+    if (!it) return;
+    this.setState({ draft: Object.assign({}, it), screen:'edit', sheetId:null });
+  }
+  updateDraft(field, value) {
+    this.setState((s) => ({ draft: Object.assign({}, s.draft, { [field]: value }) }));
+  }
+  updateDetails(field, value) {
+    this.setState((s) => ({ details: Object.assign({}, s.details, { [field]: value }) }));
+  }
+  addCategory() {
+    const name = (this.state.newCatName || '').trim();
+    if (!name) return;
+    if (this.state.cats.some((c) => c.toLowerCase() === name.toLowerCase())) { this.flash('Category already exists'); return; }
+    this.grads[name] = this.catGradPalette[this.state.cats.length % this.catGradPalette.length];
+    this.setState((s) => {
+      const cats = s.cats.concat([name]);
+      if (s.addCatFrom === 'form') {
+        return { cats, draft: Object.assign({}, s.draft, { cat: name }), addCatOpen: false, newCatName: '' };
+      }
+      return { cats, activeCat: name, addCatOpen: false, newCatName: '' };
+    });
+    this.flash('Category added');
+  }
+  commitRename(idx) {
+    const newName = (this.state.catDraftName || '').trim();
+    const old = this.state.cats[idx];
+    if (!newName || newName === old) { this.setState({ renamingIdx: -1 }); return; }
+    if (this.state.cats.some((c, i) => i !== idx && c.toLowerCase() === newName.toLowerCase())) { this.flash('Name already used'); return; }
+    if (this.grads[old] && !this.grads[newName]) this.grads[newName] = this.grads[old];
+    this.setState((s) => ({
+      cats: s.cats.map((c, i) => i === idx ? newName : c),
+      items: s.items.map((it) => it.cat === old ? Object.assign({}, it, { cat: newName }) : it),
+      activeCat: s.activeCat === old ? newName : s.activeCat,
+      renamingIdx: -1,
+      catDraftName: '',
+    }));
+    this.flash('Category renamed');
+  }
+  deleteCategory(idx) {
+    if (this.state.cats.length <= 1) { this.flash('Keep at least one category'); return; }
+    const name = this.state.cats[idx];
+    this.setState((s) => {
+      const cats = s.cats.filter((_, i) => i !== idx);
+      const fallback = cats[0];
+      return {
+        cats,
+        items: s.items.map((it) => it.cat === name ? Object.assign({}, it, { cat: fallback }) : it),
+        activeCat: s.activeCat === name ? 'All' : s.activeCat,
+        renamingIdx: -1,
+      };
+    });
+    this.flash('Category deleted');
+  }
+  saveDraft() {
+    const d = this.state.draft;
+    if (!d) return;
+    this.setState((s) => {
+      let items;
+      if (d.id) {
+        items = s.items.map((i) => i.id === d.id ? Object.assign({}, d) : i);
+      } else {
+        const nid = ++this._nid;
+        items = s.items.concat([Object.assign({}, d, { id: nid, name: d.name || 'New item', price: d.price || '0' })]);
+      }
+      return { items, screen:'overview', draft:null, activeCat: d.cat };
+    });
+    this.flash('Saved to your menu');
+  }
+  toggleStatus(kind) {
+    const id = this.state.sheetId;
+    let msg = '';
+    this.setState((s) => ({
+      items: s.items.map((i) => {
+        if (i.id !== id) return i;
+        const next = i.status === kind ? 'available' : kind;
+        msg = next === 'available' ? 'Back on your menu' : (next === 'sold' ? 'Marked sold out' : 'Hidden from menu');
+        return Object.assign({}, i, { status: next });
+      }),
+      sheetId: null,
+    }));
+    if (msg) this.flash(msg);
+  }
+  deleteItem(id) {
+    this.setState((s) => ({ items: s.items.filter((i) => i.id !== id) }));
+    this.flash('Item deleted');
+  }
+}
+</script>
+</body>
+</html>

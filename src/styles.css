@@ -1,0 +1,281 @@
+/* ============================================================
+   NexMenus — global design tokens & base styles
+   Light theme derived from the design mockups (Manrope, navy brand).
+   Mobile-first: everything scales from a single-column phone layout up.
+   ============================================================ */
+
+/* FilePond is mounted only for its drag/drop + validation; the page's own
+   buttons are the visible trigger, so its rendered root stays off-screen. */
+.filepond--root.fp-headless {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+:root {
+  /* Surfaces */
+  --bg:        #e9e9ec;   /* app / auth background */
+  --surface:   #ffffff;   /* cards, sheets, inputs */
+  --panel:     #f7f7f8;   /* subtle section background */
+  --panel-2:   #f4f4f5;
+  --panel-3:   #f1f1f4;
+
+  /* Lines */
+  --line:      #e4e4e7;
+  --line-soft: rgba(0, 0, 0, 0.07);
+
+  /* Text */
+  --text:      #18181b;   /* primary */
+  --text-2:    #3f3f46;   /* labels */
+  --text-3:    #52525b;   /* body copy */
+  --muted:     #71717a;   /* secondary */
+  --muted-2:   #a1a1aa;   /* faint */
+  --faint:     #9a9aa3;   /* logo tail, captions */
+
+  /* Brand */
+  --brand:          #22224b;
+  --brand-deep:     #15152e;
+  --brand-contrast: #ffffff;
+  --brand-soft:     rgba(34, 34, 75, 0.08);
+  --brand-ring:     rgba(34, 34, 75, 0.10);
+
+  /* Semantic */
+  --success:        #15803d;
+  --success-bright: #22c55e;
+  --warn:           #b45309;
+  --danger:         #dc2626;
+  --danger-soft:    rgba(220, 38, 38, 0.08);
+  --star:           #f59e0b;
+
+  /* Radii */
+  --r-input: 13px;
+  --r-card:  22px;
+  --r-pill:  999px;
+
+  /* Shadows */
+  --shadow-brand: 0 10px 24px rgba(34, 34, 75, 0.24);
+  --shadow-card:  0 30px 60px rgba(20, 20, 40, 0.10), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  --shadow-soft:  0 6px 16px rgba(0, 0, 0, 0.06);
+
+  /* Type */
+  --font: 'Manrope', system-ui, -apple-system, sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  min-height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+input::placeholder {
+  color: var(--muted-2);
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Hide scrollbars on opt-in scroll areas (matches mockups) */
+.scrollarea {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollarea::-webkit-scrollbar {
+  display: none;
+}
+
+::selection {
+  background: var(--brand-ring);
+}
+
+/* ---- Shared primitives reused across pages ---- */
+
+/* Brand wordmark */
+.nx-logo {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.nx-logo .nx-logo__head { color: var(--brand); }
+.nx-logo .nx-logo__tail { color: var(--faint); }
+
+/* Primary / secondary buttons */
+.nx-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 15px 18px;
+  border: none;
+  border-radius: var(--r-input);
+  font-size: 15px;
+  font-weight: 700;
+  transition: transform 0.06s ease, opacity 0.15s ease, background 0.15s ease;
+}
+.nx-btn:active { transform: translateY(1px); }
+.nx-btn:disabled { opacity: 0.55; cursor: default; }
+
+.nx-btn--primary {
+  background: var(--brand);
+  color: var(--brand-contrast);
+  box-shadow: var(--shadow-brand);
+}
+.nx-btn--ghost {
+  background: var(--surface);
+  color: var(--text-2);
+  border: 1.5px solid var(--line);
+}
+
+/* Text input */
+.nx-input {
+  width: 100%;
+  padding: 14px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-input);
+  background: var(--surface);
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.nx-input:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px var(--brand-ring);
+}
+
+.nx-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-2);
+}
+
+/* ---- Auth pages (login / register) shared layout ---- */
+.auth {
+  min-height: 100dvh;
+  background: var(--bg);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 32px 18px 48px;
+}
+.auth__card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--surface);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow-card);
+  padding: 28px 26px 30px;
+}
+.auth__brand { display: inline-block; }
+.auth__head { margin-top: 26px; }
+.auth__head h1 {
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.auth__head p {
+  font-size: 14.5px;
+  color: var(--muted);
+  margin-top: 9px;
+  line-height: 1.5;
+}
+.auth__google { margin-top: 22px; font-size: 14.5px; }
+.auth__divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 20px 0;
+}
+.auth__divider::before,
+.auth__divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line-soft);
+}
+.auth__divider span {
+  font-size: 12px;
+  color: var(--muted-2);
+  font-weight: 600;
+}
+.auth__form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.auth__field { display: flex; flex-direction: column; gap: 8px; }
+.auth__field-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.auth__forgot {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--brand);
+}
+.auth__pw { position: relative; }
+.auth__pw .nx-input { padding-right: 48px; }
+.auth__pw-toggle {
+  position: absolute;
+  right: 7px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.auth__error {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--danger);
+  background: var(--danger-soft);
+  border-radius: 10px;
+  padding: 9px 12px;
+}
+.auth__submit { margin-top: 4px; }
+.auth__terms {
+  font-size: 11.5px;
+  color: var(--muted-2);
+  text-align: center;
+  line-height: 1.5;
+  margin-top: 2px;
+}
+.auth__terms a { color: var(--muted); font-weight: 600; }
+.auth__foot {
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 26px;
+}
+.auth__foot a { color: var(--brand); font-weight: 700; }

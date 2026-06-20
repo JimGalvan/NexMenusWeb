@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+a{text-decoration:none;color:inherit;}
+.scrollarea{scrollbar-width:none;-ms-overflow-style:none;}
+.scrollarea::-webkit-scrollbar{display:none;}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#E9E9EC;font-family:'Manrope',system-ui,sans-serif;color:#18181B;display:flex;flex-direction:column;align-items:center;padding:40px 20px 60px;">
+
+  <div style="margin-bottom:20px;text-align:center;">
+    <div style="font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#A1A1AA;">NexMenus · App</div>
+  </div>
+
+  <!-- PHONE -->
+  <div style="width:380px;height:812px;border-radius:42px;background:#fff;overflow:hidden;position:relative;box-shadow:0 30px 60px rgba(20,20,40,0.18),0 0 0 1px rgba(0,0,0,0.05);display:flex;flex-direction:column;">
+    <div style="position:absolute;top:11px;left:50%;transform:translateX(-50%);width:98px;height:27px;border-radius:16px;background:#000;z-index:40;"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 24px 7px;flex:0 0 auto;background:#fff;z-index:20;">
+      <span style="font-size:14px;font-weight:700;">9:41</span>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <svg width="17" height="11" viewBox="0 0 17 11"><rect x="0" y="7" width="3" height="4" rx="0.6" fill="#18181B"/><rect x="4.5" y="4.5" width="3" height="6.5" rx="0.6" fill="#18181B"/><rect x="9" y="2" width="3" height="9" rx="0.6" fill="#18181B"/><rect x="13.5" y="0" width="3" height="11" rx="0.6" fill="#18181B"/></svg>
+        <svg width="24" height="12" viewBox="0 0 24 12"><rect x="0.5" y="0.5" width="20" height="11" rx="3" stroke="#18181B" stroke-opacity="0.4" fill="none"/><rect x="2" y="2" width="17" height="8" rx="1.8" fill="#18181B"/><rect x="22" y="4" width="1.6" height="4" rx="0.8" fill="#18181B" fill-opacity="0.5"/></svg>
+      </div>
+    </div>
+
+    <!-- top bar -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 20px 12px;flex:0 0 auto;">
+      <div style="font-size:19px;font-weight:800;letter-spacing:-0.02em;"><span style="color:#22224b;">Nex</span><span style="color:#9A9AA3;">Menus</span></div>
+      <div style="width:38px;height:38px;border-radius:50%;background:#22224b;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;">AR</div>
+    </div>
+
+    <!-- ============ TAB CONTENT ============ -->
+    <div class="scrollarea" style="flex:1;overflow-y:auto;background:#F4F4F5;">
+
+      <!-- ===== MENUS ===== -->
+      <sc-if value="{{ isMenus }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:16px 18px 30px;">
+          <div style="margin:2px 2px 16px;">
+            <div style="font-size:23px;font-weight:800;letter-spacing:-0.02em;">Your menus</div>
+            <div style="font-size:13.5px;color:#71717A;margin-top:3px;">Manage your live menus, QR codes and links.</div>
+          </div>
+
+          <!-- PRIMARY MENU CARD (Live) -->
+          <div style="background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,0.04),0 10px 26px rgba(0,0,0,0.06);">
+            <div style="display:flex;height:104px;">
+              <div style="flex:1;background:url('https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=400&q=70') center/cover,#d6e7f0;"></div>
+              <div style="flex:1;background:url('https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=400&q=70') center/cover,#eedfcc;border-left:2px solid #fff;border-right:2px solid #fff;"></div>
+              <div style="flex:1;background:url('https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=400&q=70') center/cover,#eedce5;"></div>
+            </div>
+            <div style="padding:15px 16px 16px;">
+              <div style="display:flex;align-items:center;gap:11px;">
+                <div style="width:40px;height:40px;border-radius:12px;background:#22224b;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;flex:0 0 auto;">O&amp;F</div>
+                <div style="flex:1;min-width:0;">
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="font-weight:800;font-size:16px;letter-spacing:-0.01em;white-space:nowrap;">Ocean &amp; Farm</span>
+                    <span style="display:inline-flex;align-items:center;gap:4px;background:#ECFDF3;color:#15803D;font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:999px;"><span style="width:5px;height:5px;border-radius:50%;background:#22C55E;"></span>Live</span>
+                  </div>
+                  <div style="font-size:11.5px;color:#9A9AA3;margin-top:3px;">24 items · updated 2h ago</div>
+                </div>
+                <button style="width:32px;height:32px;border-radius:9px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:0 0 auto;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="#9A9AA3"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+                </button>
+              </div>
+
+              <div style="display:flex;align-items:center;gap:7px;margin-top:13px;background:#F4F4F5;border-radius:11px;padding:10px 12px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" style="flex:0 0 auto;"><circle cx="12" cy="12" r="9" stroke="#9A9AA3" stroke-width="1.7"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z" stroke="#9A9AA3" stroke-width="1.7"/></svg>
+                <span style="font-size:12.5px;color:#52525B;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">nexmenus.com/m/ocean-farm</span>
+                <span style="font-size:12px;font-weight:700;color:#22224b;flex:0 0 auto;">Copy</span>
+              </div>
+
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px;">
+                <a href="Menu Editor.dc.html" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px;border-radius:13px;background:#22224b;color:#fff;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/><path d="m14 6 4 4" stroke="#fff" stroke-width="1.7"/></svg>
+                  <span style="font-size:11px;font-weight:700;">Edit</span>
+                </a>
+                <button onClick="{{ onGoShare }}" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px;border-radius:13px;background:#F4F4F5;border:none;cursor:pointer;color:#27272A;font-family:inherit;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="6" height="6" rx="1" stroke="#27272A" stroke-width="1.7"/><rect x="14" y="4" width="6" height="6" rx="1" stroke="#27272A" stroke-width="1.7"/><rect x="4" y="14" width="6" height="6" rx="1" stroke="#27272A" stroke-width="1.7"/><path d="M14 14h3v3M20 14v6M17 20h3" stroke="#27272A" stroke-width="1.7" stroke-linecap="round"/></svg>
+                  <span style="font-size:11px;font-weight:700;">QR code</span>
+                </button>
+                <a href="Menu Redesign.dc.html" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px;border-radius:13px;background:#F4F4F5;color:#27272A;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="#27272A" stroke-width="1.7"/><circle cx="12" cy="12" r="3" stroke="#27272A" stroke-width="1.7"/></svg>
+                  <span style="font-size:11px;font-weight:700;">Preview</span>
+                </a>
+                <button onClick="{{ onGoShare }}" style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px;border-radius:13px;background:#F4F4F5;border:none;cursor:pointer;color:#27272A;font-family:inherit;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="18" cy="5" r="2.4" stroke="#27272A" stroke-width="1.7"/><circle cx="6" cy="12" r="2.4" stroke="#27272A" stroke-width="1.7"/><circle cx="18" cy="19" r="2.4" stroke="#27272A" stroke-width="1.7"/><path d="M8 11l8-5M8 13l8 5" stroke="#27272A" stroke-width="1.7"/></svg>
+                  <span style="font-size:11px;font-weight:700;">Share</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECOND MENU (Draft) -->
+          <div style="background:#fff;border-radius:18px;box-shadow:0 1px 2px rgba(0,0,0,0.04),0 8px 20px rgba(0,0,0,0.05);padding:15px 16px;margin-top:14px;">
+            <div style="display:flex;align-items:center;gap:11px;">
+              <div style="width:40px;height:40px;border-radius:12px;background:#F1F1F4;color:#9A9AA3;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;flex:0 0 auto;">WB</div>
+              <div style="flex:1;min-width:0;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <span style="font-weight:800;font-size:15px;letter-spacing:-0.01em;white-space:nowrap;">Weekend Brunch</span>
+                  <span style="background:#F1F1F4;color:#71717A;font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:999px;">Draft</span>
+                </div>
+                <div style="font-size:11.5px;color:#9A9AA3;margin-top:3px;">8 items · not published yet</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:9px;margin-top:14px;">
+              <a href="Menu Editor.dc.html" style="flex:1;text-align:center;padding:11px;border-radius:11px;background:#F4F4F5;color:#27272A;font-size:13px;font-weight:700;">Continue editing</a>
+              <button style="flex:1;padding:11px;border-radius:11px;background:#22224b;color:#fff;font-size:13px;font-weight:700;border:none;cursor:pointer;font-family:inherit;">Publish</button>
+            </div>
+          </div>
+
+          <!-- CREATE NEW -->
+          <button onClick="{{ onCreateOpen }}" style="width:100%;margin-top:14px;padding:16px;border-radius:16px;border:1.5px dashed #C4C4CC;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;color:#52525B;font-size:14px;font-weight:700;font-family:inherit;">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#52525B" stroke-width="2" stroke-linecap="round"/></svg>
+            Create new menu
+          </button>
+        </div>
+      </sc-if>
+
+      <!-- ===== QR & SHARE ===== -->
+      <sc-if value="{{ isShare }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:16px 18px 30px;">
+          <div style="margin:2px 2px 16px;">
+            <div style="font-size:23px;font-weight:800;letter-spacing:-0.02em;">QR &amp; Share</div>
+            <div style="font-size:13.5px;color:#71717A;margin-top:3px;">Print your code or share your menu link.</div>
+          </div>
+
+          <!-- menu selector -->
+          <div style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:14px;padding:11px 14px;box-shadow:0 1px 2px rgba(0,0,0,0.04),0 8px 20px rgba(0,0,0,0.05);">
+            <div style="width:32px;height:32px;border-radius:9px;background:#22224b;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:10px;flex:0 0 auto;">O&amp;F</div>
+            <div style="flex:1;font-size:14px;font-weight:700;">Ocean &amp; Farm</div>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m7 10 5 5 5-5" stroke="#9A9AA3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+
+          <!-- QR card -->
+          <div style="background:#fff;border-radius:22px;box-shadow:0 1px 2px rgba(0,0,0,0.04),0 10px 26px rgba(0,0,0,0.06);padding:26px 22px;margin-top:14px;text-align:center;">
+            <div style="display:inline-flex;padding:16px;background:#fff;border:1px solid rgba(0,0,0,0.07);border-radius:18px;box-shadow:0 6px 18px rgba(0,0,0,0.05);">
+              <div style="{{ qrGridStyle }}">
+                <sc-for list="{{ qrCells }}" as="c" hint-placeholder-count="49">
+                  <span style="{{ c.style }}"></span>
+                </sc-for>
+              </div>
+            </div>
+            <div style="font-weight:800;font-size:16px;margin-top:18px;letter-spacing:-0.01em;">Scan to view menu</div>
+            <div style="font-size:12.5px;color:#9A9AA3;margin-top:3px;">nexmenus.com/m/ocean-farm</div>
+            <button style="width:100%;margin-top:18px;padding:14px;border-radius:13px;background:#22224b;color:#fff;border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:9px;box-shadow:0 10px 24px rgba(34,34,75,0.24);">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Download QR (PNG)
+            </button>
+            <button style="width:100%;margin-top:10px;padding:14px;border-radius:13px;background:#F4F4F5;color:#27272A;border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:9px;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 9V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4M6 18H5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1" stroke="#27272A" stroke-width="1.8" stroke-linejoin="round"/><rect x="7" y="15" width="10" height="6" rx="1" stroke="#27272A" stroke-width="1.8"/></svg>
+              Print table tents
+            </button>
+          </div>
+
+          <!-- share link -->
+          <div style="background:#fff;border-radius:18px;box-shadow:0 1px 2px rgba(0,0,0,0.04),0 8px 20px rgba(0,0,0,0.05);padding:16px;margin-top:14px;">
+            <div style="font-size:13px;font-weight:700;color:#3F3F46;">Share link</div>
+            <div style="display:flex;align-items:center;gap:7px;margin-top:10px;background:#F4F4F5;border-radius:11px;padding:11px 13px;">
+              <span style="font-size:12.5px;color:#52525B;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">nexmenus.com/m/ocean-farm</span>
+              <span style="font-size:12px;font-weight:700;color:#22224b;flex:0 0 auto;">Copy</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:13px;">
+              <button style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:13px 4px;border-radius:13px;background:#F4F4F5;border:none;cursor:pointer;color:#27272A;font-family:inherit;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 21a9 9 0 1 0-8.13-5.13L3 21l5.27-1.38A8.96 8.96 0 0 0 12 21Z" stroke="#25D366" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 9.5c.5 2.5 3 5 5.5 5.5l1.2-1.5 1.8.9c.2 1.2-.6 1.9-1.7 1.9C12 16.2 7.8 12 7.7 8.9c0-1.1.7-1.9 1.9-1.7l.9 1.8L9 9.5Z" fill="#25D366"/></svg>
+                <span style="font-size:11px;font-weight:700;">WhatsApp</span>
+              </button>
+              <button style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:13px 4px;border-radius:13px;background:#F4F4F5;border:none;cursor:pointer;color:#27272A;font-family:inherit;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="#E1306C" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="#E1306C" stroke-width="1.8"/><circle cx="17" cy="7" r="1.2" fill="#E1306C"/></svg>
+                <span style="font-size:11px;font-weight:700;">Instagram</span>
+              </button>
+              <button style="display:flex;flex-direction:column;align-items:center;gap:7px;padding:13px 4px;border-radius:13px;background:#F4F4F5;border:none;cursor:pointer;color:#27272A;font-family:inherit;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1" stroke="#27272A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1" stroke="#27272A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span style="font-size:11px;font-weight:700;">Copy link</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ===== ACCOUNT ===== -->
+      <sc-if value="{{ isAccount }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:16px 18px 30px;">
+          <div style="margin:2px 2px 16px;">
+            <div style="font-size:23px;font-weight:800;letter-spacing:-0.02em;">Account</div>
+            <div style="font-size:13.5px;color:#71717A;margin-top:3px;">Your profile, plan and settings.</div>
+          </div>
+
+          <!-- profile -->
+          <div style="background:#fff;border-radius:20px;box-shadow:0 1px 2px rgba(0,0,0,0.04),0 10px 26px rgba(0,0,0,0.06);padding:20px;display:flex;align-items:center;gap:14px;">
+            <div style="width:54px;height:54px;border-radius:50%;background:#22224b;color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;flex:0 0 auto;">AR</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-weight:800;font-size:17px;letter-spacing:-0.01em;">Alex Rivera</div>
+              <div style="font-size:12.5px;color:#9A9AA3;margin-top:2px;">alex@oceanfarm.com</div>
+            </div>
+            <span style="font-size:13px;font-weight:700;color:#22224b;">Edit</span>
+          </div>
+
+          <!-- plan -->
+          <div style="background:linear-gradient(135deg,#22224b,#15152e);border-radius:18px;padding:18px 20px;margin-top:14px;color:#fff;display:flex;align-items:center;justify-content:space-between;">
+            <div>
+              <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.55);">Current plan</div>
+              <div style="font-size:18px;font-weight:800;margin-top:4px;white-space:nowrap;">Pro · $15/mo</div>
+            </div>
+            <button style="background:#fff;color:#22224b;border:none;border-radius:11px;padding:10px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;">Manage</button>
+          </div>
+
+          <!-- settings list -->
+          <div style="background:#fff;border-radius:18px;box-shadow:0 1px 2px rgba(0,0,0,0.04),0 8px 20px rgba(0,0,0,0.05);margin-top:14px;overflow:hidden;">
+            <div style="display:flex;align-items:center;gap:13px;padding:15px 16px;border-bottom:1px solid rgba(0,0,0,0.06);">
+              <div style="width:34px;height:34px;border-radius:10px;background:#F4F4F5;display:flex;align-items:center;justify-content:center;flex:0 0 auto;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="12" rx="2" stroke="#3F3F46" stroke-width="1.7"/><path d="M3 10h18" stroke="#3F3F46" stroke-width="1.7"/></svg>
+              </div>
+              <div style="flex:1;font-size:14.5px;font-weight:600;">Plan &amp; billing</div>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="m9 6 6 6-6 6" stroke="#C4C4CC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div style="display:flex;align-items:center;gap:13px;padding:15px 16px;">
+              <div style="width:34px;height:34px;border-radius:10px;background:#F4F4F5;display:flex;align-items:center;justify-content:center;flex:0 0 auto;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="#3F3F46" stroke-width="1.7"/><path d="M9.5 9.5a2.5 2.5 0 0 1 3.7-1.5c1.3.8 1 2.3-.2 3-.6.4-1 .8-1 1.5" stroke="#3F3F46" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="16" r="1" fill="#3F3F46"/></svg>
+              </div>
+              <div style="flex:1;font-size:14.5px;font-weight:600;">Help &amp; support</div>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="m9 6 6 6-6 6" stroke="#C4C4CC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+
+          <a href="Login.dc.html" style="display:flex;align-items:center;justify-content:center;gap:9px;margin-top:14px;padding:15px;border-radius:14px;background:#fff;color:#DC2626;font-size:14.5px;font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,0.04),0 8px 20px rgba(0,0,0,0.05);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 12H4m0 0 4-4m-4 4 4 4M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4" stroke="#DC2626" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Log out
+          </a>
+          <div style="text-align:center;font-size:11.5px;color:#A1A1AA;margin-top:18px;">NexMenus · v2.4.0</div>
+        </div>
+      </sc-if>
+    </div>
+
+    <!-- ============ BOTTOM TAB BAR ============ -->
+    <div style="flex:0 0 auto;background:#fff;border-top:1px solid rgba(0,0,0,0.08);padding:9px 14px 24px;display:flex;align-items:stretch;">
+      <button onClick="{{ onTabMenus }}" style="{{ tabMenusStyle }}">
+        <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+        <span style="font-size:10.5px;font-weight:700;">Menus</span>
+      </button>
+      <button onClick="{{ onTabShare }}" style="{{ tabShareStyle }}">
+        <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.9"/><rect x="14" y="4" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.9"/><rect x="4" y="14" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.9"/><path d="M14 14h3v3M20 14v6M17 20h3" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+        <span style="font-size:10.5px;font-weight:700;">QR &amp; Share</span>
+      </button>
+      <button onClick="{{ onTabAccount }}" style="{{ tabAccountStyle }}">
+        <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.9"/><path d="M5 20a7 7 0 0 1 14 0" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+        <span style="font-size:10.5px;font-weight:700;">Account</span>
+      </button>
+    </div>
+
+    <!-- ============ CREATE MENU SHEET (quick name → editor) ============ -->
+    <sc-if value="{{ createOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;z-index:60;display:flex;flex-direction:column;justify-content:flex-end;">
+        <div style="position:absolute;inset:0;background:rgba(15,15,25,0.4);" onClick="{{ onCreateClose }}"></div>
+        <div style="position:relative;background:#fff;border-radius:26px 26px 0 0;padding:8px 18px 30px;box-shadow:0 -10px 40px rgba(0,0,0,0.2);">
+          <div style="width:40px;height:5px;border-radius:99px;background:#E4E4E7;margin:6px auto 16px;"></div>
+          <div style="font-weight:800;font-size:18px;letter-spacing:-0.01em;">Create new menu</div>
+          <div style="font-size:13px;color:#71717A;margin-top:4px;line-height:1.45;">Give it a name to start — you can change everything later.</div>
+          <div style="margin-top:16px;">
+            <input value="{{ newMenuName }}" onInput="{{ onNewMenuName }}" placeholder="e.g. Dinner, Weekend Brunch, Drinks" style="{{ createInputStyle }}" style-focus="{{ createInputFocusStyle }}" />
+          </div>
+          <div style="display:flex;gap:10px;margin-top:14px;">
+            <button style="{{ createCancelStyle }}" onClick="{{ onCreateClose }}">Cancel</button>
+            <a href="Menu Editor.dc.html" style="{{ createConfirmStyle }}">Create menu</a>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <div style="position:absolute;bottom:0;left:0;right:0;height:24px;display:flex;justify-content:center;align-items:flex-end;padding-bottom:8px;pointer-events:none;">
+      <div style="width:130px;height:5px;border-radius:99px;background:rgba(0,0,0,0.22);"></div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { tab: 'menus', createOpen: false, newMenuName: '' };
+
+  renderVals() {
+    const navy = '#22224b';
+    const gray = '#9A9AA3';
+    const tab = this.state.tab;
+    const tabStyle = (on) => ({
+      flex: 1, display:'flex', flexDirection:'column', alignItems:'center', gap:'4px',
+      background:'transparent', border:'none', cursor:'pointer', fontFamily:'inherit',
+      color: on ? navy : gray, padding:'2px 0',
+    });
+
+    // deterministic QR-ish pattern, 7x7
+    const pat = [
+      1,1,1,0,1,1,1, 1,0,1,0,0,0,1, 1,0,1,1,1,0,1,
+      0,0,0,1,0,1,0, 1,1,1,0,1,1,1, 1,0,0,1,0,0,1, 1,1,1,0,1,1,0,
+    ];
+    const qrCells = pat.map((v) => ({
+      style: { width:'100%', height:'100%', borderRadius:'2px', background: v ? '#18181B' : 'transparent' },
+    }));
+
+    const nameValid = !!(this.state.newMenuName && this.state.newMenuName.trim());
+
+    return {
+      createOpen: this.state.createOpen,
+      newMenuName: this.state.newMenuName,
+      onCreateOpen: () => this.setState({ createOpen: true, newMenuName: '' }),
+      onCreateClose: () => this.setState({ createOpen: false }),
+      onNewMenuName: (e) => this.setState({ newMenuName: e.target.value }),
+      createInputStyle: { width:'100%', border:'1.5px solid #E4E4E7', borderRadius:'13px', padding:'13px 14px', fontSize:'15px', fontWeight:500, color:'#18181B', outline:'none', background:'#fff', fontFamily:'inherit' },
+      createInputFocusStyle: { width:'100%', border:'1.5px solid '+navy, borderRadius:'13px', padding:'13px 14px', fontSize:'15px', fontWeight:500, color:'#18181B', outline:'none', background:'#fff', fontFamily:'inherit' },
+      createCancelStyle: { flex:'0 0 auto', padding:'13px 18px', borderRadius:'13px', border:'none', background:'#F4F4F5', color:'#3F3F46', fontSize:'14px', fontWeight:700, cursor:'pointer', fontFamily:'inherit' },
+      createConfirmStyle: { flex:1, textAlign:'center', padding:'13px', borderRadius:'13px', background:navy, color:'#fff', fontSize:'14px', fontWeight:700, textDecoration:'none', opacity: nameValid ? 1 : 0.45, pointerEvents: nameValid ? 'auto' : 'none' },
+      isMenus: tab === 'menus',
+      isShare: tab === 'share',
+      isAccount: tab === 'account',
+      onTabMenus: () => this.setState({ tab: 'menus' }),
+      onTabShare: () => this.setState({ tab: 'share' }),
+      onTabAccount: () => this.setState({ tab: 'account' }),
+      onGoShare: () => this.setState({ tab: 'share' }),
+      tabMenusStyle: tabStyle(tab === 'menus'),
+      tabShareStyle: tabStyle(tab === 'share'),
+      tabAccountStyle: tabStyle(tab === 'account'),
+      qrGridStyle: { display:'grid', gridTemplateColumns:'repeat(7,14px)', gridTemplateRows:'repeat(7,14px)', gap:'3px' },
+      qrCells,
+    };
+  }
+}
+</script>
+</body>
+</html>
