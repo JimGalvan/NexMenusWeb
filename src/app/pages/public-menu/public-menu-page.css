@@ -128,6 +128,14 @@
 }
 .pm-card__photo { position: relative; height: 152px; background-color: #e7e7ec; }
 .pm-card__photo.is-sold { filter: grayscale(0.6); }
+.pm-card__placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(24, 24, 27, 0.28);
+}
 .pm-card__tag {
   position: absolute;
   top: 10px;
