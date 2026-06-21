@@ -1,11 +1,5 @@
 .qr {
-  display: grid;
-  gap: 0;
+  display: block;
   background: #fff;
-}
-.qr span {
-  background: transparent;
-}
-.qr span.qr__on {
-  background: #18181b;
+  border-radius: 4px;
 }
