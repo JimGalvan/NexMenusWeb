@@ -32,6 +32,41 @@
 }
 .selector__logo--img { object-fit: cover; background: var(--panel-3); }
 .selector__name { flex: 1; font-size: 14px; font-weight: 700; text-align: left; }
+.selector:not(.selector--static) { cursor: pointer; }
+.selector--static { cursor: default; }
+
+/* ---- menu picker sheet ---- */
+.picker h2 { font-weight: 800; font-size: 18px; letter-spacing: -0.01em; }
+.picker p { font-size: 13px; color: var(--muted); margin-top: 4px; line-height: 1.45; }
+.picker__list { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+.picker__row {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  padding: 11px 13px;
+  border-radius: 13px;
+  border: 1.5px solid var(--line, #e4e4ea);
+  background: var(--panel-2);
+  text-align: left;
+  cursor: pointer;
+}
+.picker__row.is-active { border-color: var(--brand); background: var(--surface); color: var(--brand); }
+.picker__logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--brand);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 11px;
+  flex: 0 0 auto;
+}
+.picker__logo--img { object-fit: cover; background: var(--panel-3); }
+.picker__name { flex: 1; font-size: 14px; font-weight: 700; color: var(--text); }
 
 .qr-card {
   background: var(--surface);

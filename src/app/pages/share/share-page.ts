@@ -1,22 +1,31 @@
 import { Component, computed, inject, signal, viewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
 import { MenuSummary, menuInitials } from '../../models/menu.model';
 import { QrCodeComponent } from '../../components/ui/qr-code/qr-code';
+import { BottomSheetComponent } from '../../components/ui/bottom-sheet/bottom-sheet';
 
 @Component({
   selector: 'app-share-page',
-  imports: [QrCodeComponent],
+  imports: [QrCodeComponent, BottomSheetComponent],
   templateUrl: './share-page.html',
   styleUrl: './share-page.css',
 })
 export class SharePageComponent {
   private menuService = inject(MenuService);
+  private route = inject(ActivatedRoute);
 
   private qr = viewChild(QrCodeComponent);
 
-  // The most recently updated menu stands in for the (not yet built) selector.
+  /** All of the owner's menus; the selector picks one to share. */
+  readonly menus = signal<MenuSummary[]>([]);
+  /** The menu currently being shared. */
   readonly menu = signal<MenuSummary | null>(null);
+  /** Whether the menu picker sheet is open. */
+  readonly pickerOpen = signal(false);
+
   readonly initials = computed(() => (this.menu() ? menuInitials(this.menu()!.name) : 'NX'));
+  menuInitials = menuInitials;
 
   /** Human-friendly link shown to the owner and shared on social. */
   readonly publicUrl = computed(() => (this.menu() ? `nexmenus.com/m/${this.menu()!.slug}` : ''));
@@ -33,7 +42,21 @@ export class SharePageComponent {
   toast = signal('');
 
   constructor() {
-    this.menuService.listMenus().subscribe(menus => this.menu.set(menus[0] ?? null));
+    this.menuService.listMenus().subscribe(menus => {
+      this.menus.set(menus);
+      // Honor a ?menu=<id> deep-link (e.g. from the menus page); fall back to the first.
+      const wanted = this.route.snapshot.queryParamMap.get('menu');
+      this.menu.set(menus.find(m => m.id === wanted) ?? menus[0] ?? null);
+    });
+  }
+
+  openPicker() {
+    if (this.menus().length > 1) this.pickerOpen.set(true);
+  }
+
+  selectMenu(menu: MenuSummary) {
+    this.menu.set(menu);
+    this.pickerOpen.set(false);
   }
 
   copyLink() {
