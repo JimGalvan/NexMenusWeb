@@ -30,16 +30,8 @@ export class SharePageComponent {
   /** Human-friendly link shown to the owner and shared on social. */
   readonly publicUrl = computed(() => (this.menu() ? `nexmenus.com/m/${this.menu()!.slug}` : ''));
 
-  /**
-   * Value encoded in the QR: the permanent `/r/<uuid>/` redirect, NOT the slug
-   * URL. The backend 302s it to the current menu, so printed codes survive slug
-   * changes — the whole reason QR codes encode the immutable id.
-   */
-  readonly qrUrl = computed(() =>
-    // TODO: temporary — encode the production origin so scanned codes don't point
-    // at localhost during dev. Revert to `window.location.origin` before shipping.
-    this.menu() ? `https://nexmenus.com/r/${this.menu()!.id}/` : '',
-  );
+  /** Value encoded in the QR. The frontend server keeps /r scans on nexmenus.com. */
+  readonly qrUrl = computed(() => (this.menu() ? `https://nexmenus.com/r/${this.menu()!.id}/` : ''));
 
   toast = signal('');
 
@@ -118,3 +110,4 @@ function slugifyName(name: string): string {
       .replace(/^-+|-+$/g, '') || 'menu'
   );
 }
+

@@ -9,7 +9,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:prod": "serve -s dist/NexMenus/browser -l ${PORT:-3000}"
+    "serve:prod": "node server.js"
   },
   "private": true,
   "packageManager": "npm@10.9.0",
@@ -46,3 +46,4 @@
     "vitest": "^4.0.8"
   }
 }
+
