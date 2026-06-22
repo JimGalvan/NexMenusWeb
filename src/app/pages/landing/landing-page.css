@@ -142,6 +142,8 @@
 }
 .lp-phone {
   --phone-scale: 0.78;
+  --phone-frame-offset-y: 30px;
+  --phone-frame-height: 752px;
   position: relative;
   width: calc(390px * var(--phone-scale) + 26px);
   height: calc(790px * var(--phone-scale) + 26px);
@@ -179,7 +181,8 @@
 }
 .lp-phone__frame {
   width: 390px;
-  height: 790px;
+  height: var(--phone-frame-height);
+  margin-top: var(--phone-frame-offset-y);
   border: 0;
   border-radius: calc(31px / var(--phone-scale));
   background: #fafafb;
@@ -355,6 +358,8 @@
   .lp-hero__art { padding-top: 0; }
   .lp-phone {
     --phone-scale: 0.7;
+    --phone-frame-offset-y: 28px;
+    --phone-frame-height: 750px;
     width: calc(390px * var(--phone-scale) + 22px);
     height: calc(790px * var(--phone-scale) + 22px);
     border-radius: 38px;
