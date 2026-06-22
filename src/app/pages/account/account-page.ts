@@ -1,4 +1,5 @@
 import { Component, computed, inject } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -15,6 +16,8 @@ export class AccountPageComponent {
   // The accounts API has no display name, so derive one from the email local part.
   readonly name = computed(() => this.email().split('@')[0] || 'Your account');
   readonly initials = computed(() => this.email().slice(0, 2).toUpperCase() || 'NX');
+  readonly supportEmail = environment.supportEmail.trim();
+  readonly supportHref = `mailto:${this.supportEmail}?subject=${encodeURIComponent('NexMenus support request')}`;
 
   logout() {
     this.authService.logout();

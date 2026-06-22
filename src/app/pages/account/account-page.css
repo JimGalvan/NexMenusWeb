@@ -77,6 +77,8 @@
   background: transparent;
   border: none;
   text-align: left;
+  color: inherit;
+  text-decoration: none;
 }
 .settings__row:not(:last-child) { border-bottom: 1px solid var(--line-soft); }
 .settings__icon {

@@ -25,38 +25,25 @@
     <!--        <button class="plan__manage">Manage</button>-->
     <!--    </section>-->
 
-    <!-- settings list -->
-    <!--    TODO: implement Settings-->
-    <!--    <section class="settings">-->
-    <!--        <button class="settings__row">-->
-    <!--      <span class="settings__icon">-->
-    <!--        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">-->
-    <!--          <rect x="3" y="6" width="18" height="12" rx="2" stroke="#3F3F46" stroke-width="1.7"/>-->
-    <!--          <path d="M3 10h18" stroke="#3F3F46" stroke-width="1.7"/>-->
-    <!--        </svg>-->
-    <!--      </span>-->
-    <!--            <span class="settings__label">Plan &amp; billing</span>-->
-    <!--            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">-->
-    <!--                <path d="m9 6 6 6-6 6" stroke="#C4C4CC" stroke-width="2" stroke-linecap="round"-->
-    <!--                      stroke-linejoin="round"/>-->
-    <!--            </svg>-->
-    <!--        </button>-->
-    <!--        <button class="settings__row">-->
-    <!--      <span class="settings__icon">-->
-    <!--        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">-->
-    <!--          <circle cx="12" cy="12" r="8.5" stroke="#3F3F46" stroke-width="1.7"/>-->
-    <!--          <path d="M9.5 9.5a2.5 2.5 0 0 1 3.7-1.5c1.3.8 1 2.3-.2 3-.6.4-1 .8-1 1.5" stroke="#3F3F46" stroke-width="1.7"-->
-    <!--                stroke-linecap="round"/>-->
-    <!--          <circle cx="12" cy="16" r="1" fill="#3F3F46"/>-->
-    <!--        </svg>-->
-    <!--      </span>-->
-    <!--            <span class="settings__label">Help &amp; support</span>-->
-    <!--            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">-->
-    <!--                <path d="m9 6 6 6-6 6" stroke="#C4C4CC" stroke-width="2" stroke-linecap="round"-->
-    <!--                      stroke-linejoin="round"/>-->
-    <!--            </svg>-->
-    <!--        </button>-->
-    <!--    </section>-->
+    @if (supportEmail) {
+        <section class="settings">
+            <a class="settings__row" [href]="supportHref" [attr.aria-label]="'Contact support at ' + supportEmail">
+              <span class="settings__icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle cx="12" cy="12" r="8.5" stroke="#3F3F46" stroke-width="1.7"/>
+                  <path d="M9.5 9.5a2.5 2.5 0 0 1 3.7-1.5c1.3.8 1 2.3-.2 3-.6.4-1 .8-1 1.5" stroke="#3F3F46" stroke-width="1.7"
+                        stroke-linecap="round"/>
+                  <circle cx="12" cy="16" r="1" fill="#3F3F46"/>
+                </svg>
+              </span>
+                <span class="settings__label">Help &amp; support</span>
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="m9 6 6 6-6 6" stroke="#C4C4CC" stroke-width="2" stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </section>
+    }
 
     <button class="logout" (click)="logout()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">

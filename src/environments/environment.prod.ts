@@ -1,7 +1,8 @@
-export const apiVersion1 = 'v1';
+export const apiVersion1 = "v1";
 
 export const environment = {
   production: true,
-  apiBaseUrl: '',
+  apiBaseUrl: "",
   apiVersion: apiVersion1,
+  supportEmail: "",
 };
