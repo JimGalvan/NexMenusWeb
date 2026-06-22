@@ -44,6 +44,7 @@ export class PublicMenuPageComponent {
 
   activeCatId = signal<string>('');
   infoOpen = signal(false);
+  selectedPhoto = signal<PublicMenuItem | null>(null);
 
   readonly initials = computed(() => (this.menu() ? menuInitials(this.menu()!.name) : ''));
 
@@ -104,5 +105,13 @@ export class PublicMenuPageComponent {
     return item.imageUrl
       ? `url("${item.imageUrl}") center/cover no-repeat, ${this.gradientFor(this.currentCatName())}`
       : this.gradientFor(this.currentCatName());
+  }
+
+  openPhoto(item: PublicMenuItem) {
+    if (item.imageUrl) this.selectedPhoto.set(item);
+  }
+
+  closePhoto() {
+    this.selectedPhoto.set(null);
   }
 }

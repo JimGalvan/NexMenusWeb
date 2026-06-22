@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+a{text-decoration:none;color:inherit;}
+.scrollarea{scrollbar-width:thin;}
+.scrollarea::-webkit-scrollbar{height:6px;}
+.scrollarea::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.12);border-radius:99px;}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#FAFAFB;font-family:'Manrope',system-ui,sans-serif;color:#18181B;">
+
+  <!-- ============ HEADER ============ -->
+  <div style="background:#fff;border-bottom:1px solid rgba(0,0,0,0.07);">
+    <div style="max-width:960px;margin:0 auto;padding:30px 28px;display:flex;align-items:center;gap:20px;">
+      <div style="{{ logoStyle }}">O&amp;F</div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-weight:800;font-size:28px;letter-spacing:-0.02em;">Ocean &amp; Farm</div>
+        <div style="font-size:14px;color:#71717A;margin-top:3px;">Fresh California-inspired cuisine</div>
+        <div style="display:flex;gap:8px;margin-top:13px;">
+          <span style="display:inline-flex;align-items:center;gap:4px;background:#F4F4F5;color:#3F3F46;font-size:12px;font-weight:600;padding:6px 11px;border-radius:9px;"><span style="color:#F59E0B;">★</span> 4.8</span>
+          <span style="display:inline-flex;align-items:center;background:#F4F4F5;color:#3F3F46;font-size:12px;font-weight:600;padding:6px 11px;border-radius:9px;">$$ · California</span>
+          <span style="display:inline-flex;align-items:center;gap:5px;background:#ECFDF3;color:#15803D;font-size:12px;font-weight:700;padding:6px 11px;border-radius:9px;"><span style="width:6px;height:6px;border-radius:50%;background:#22C55E;"></span>Open · until 10:00pm</span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;flex:0 0 auto;">
+        <button style="{{ infoBtnStyle }}" onClick="{{ onInfoOpen }}">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#52525B" stroke-width="1.8"/><path d="M12 11.5v4.5" stroke="#52525B" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="8" r="1.1" fill="#52525B"/></svg>
+        </button>
+        <a href="tel:7779996666" style="{{ ctaStyle }}">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 5 5L19 18l-2 3a14 14 0 0 1-12-12L5 4Z" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/></svg>
+          Call to Order
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ STICKY CATEGORY NAV ============ -->
+  <div style="position:sticky;top:0;z-index:10;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,0,0,0.06);">
+    <div class="scrollarea" style="max-width:960px;margin:0 auto;display:flex;gap:8px;overflow-x:auto;padding:13px 28px;">
+      <sc-for list="{{ pills }}" as="p" hint-placeholder-count="5">
+        <button style="{{ p.style }}" onClick="{{ p.onSelect }}">{{ p.name }}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- ============ ITEM GRID ============ -->
+  <div style="max-width:960px;margin:0 auto;padding:28px 28px 48px;">
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#A1A1AA;margin:0 2px 18px;">{{ activeCat }}</div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:20px;">
+      <sc-for list="{{ list }}" as="it" hint-placeholder-count="4">
+        <div style="background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,0.04),0 8px 20px rgba(0,0,0,0.05);">
+          <div style="{{ it.photoStyle }}">
+            <sc-if value="{{ it.tag }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;top:12px;left:12px;display:flex;align-items:center;gap:4px;background:rgba(255,255,255,0.95);color:#B45309;font-size:11.5px;font-weight:700;padding:5px 10px;border-radius:999px;box-shadow:0 2px 6px rgba(0,0,0,0.12);"><span style="color:#F59E0B;">★</span>Popular</div>
+            </sc-if>
+            <button style="{{ addBtnStyle }}">+</button>
+          </div>
+          <div style="padding:15px 17px 17px;">
+            <div style="display:flex;justify-content:space-between;gap:12px;align-items:baseline;">
+              <div style="font-weight:700;font-size:16.5px;letter-spacing:-0.01em;">{{ it.name }}</div>
+              <div style="{{ priceStyle }}">{{ it.priceLabel }}</div>
+            </div>
+            <div style="margin-top:5px;font-size:13.5px;line-height:1.5;color:#71717A;text-wrap:pretty;">{{ it.desc }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <!-- footer -->
+    <div style="border-top:1px solid rgba(0,0,0,0.07);margin-top:36px;padding:26px 4px 2px;text-align:center;">
+      <div style="font-weight:700;font-size:15px;">Ocean &amp; Farm</div>
+      <div style="font-size:13px;color:#71717A;margin-top:8px;line-height:1.6;">123 Main Street · Demo City, CA 91234<br>Mon–Sat 9am–10pm · Sun closed</div>
+      <a href="tel:7779996666" style="{{ footerLinkStyle }}">777-999-6666</a>
+    </div>
+    <div style="text-align:center;font-size:12px;color:#C4C4CC;padding:16px 0 4px;">Powered by NexMenus</div>
+  </div>
+
+  <!-- ============ INFO MODAL ============ -->
+  <sc-if value="{{ infoOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:24px;">
+      <div style="position:absolute;inset:0;background:rgba(15,15,25,0.42);" onClick="{{ onInfoClose }}"></div>
+      <div style="position:relative;width:100%;max-width:420px;background:#fff;border-radius:22px;padding:24px;box-shadow:0 30px 80px rgba(0,0,0,0.3);">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+          <div>
+            <div style="font-weight:800;font-size:19px;letter-spacing:-0.01em;">Ocean &amp; Farm</div>
+            <div style="display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:700;color:#15803D;margin-top:5px;"><span style="width:6px;height:6px;border-radius:50%;background:#22C55E;"></span>Open · until 10:00pm</div>
+          </div>
+          <button onClick="{{ onInfoClose }}" style="width:32px;height:32px;border-radius:50%;border:none;background:#F4F4F5;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:0 0 auto;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 5l14 14M19 5L5 19" stroke="#71717A" stroke-width="2.2" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div style="margin-top:18px;display:flex;gap:12px;align-items:flex-start;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex:0 0 auto;margin-top:1px;"><circle cx="12" cy="12" r="9" stroke="#A1A1AA" stroke-width="1.7"/><path d="M12 7.5V12l3 2" stroke="#A1A1AA" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div style="flex:1;">
+            <div style="font-size:13px;font-weight:700;">Hours</div>
+            <div style="display:flex;justify-content:space-between;font-size:12.5px;color:#52525B;margin-top:6px;"><span>Mon – Sat</span><span style="font-weight:600;">9:00am – 10:00pm</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12.5px;color:#52525B;margin-top:4px;"><span>Sunday</span><span style="font-weight:600;color:#9A9AA3;">Closed</span></div>
+          </div>
+        </div>
+        <div style="height:1px;background:rgba(0,0,0,0.06);margin:16px 0;"></div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="flex:0 0 auto;margin-top:1px;"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z" stroke="#A1A1AA" stroke-width="1.7"/><circle cx="12" cy="10" r="2.5" stroke="#A1A1AA" stroke-width="1.7"/></svg>
+          <div style="flex:1;">
+            <div style="font-size:13px;font-weight:700;">Location</div>
+            <div style="font-size:12.5px;color:#52525B;margin-top:6px;line-height:1.5;">123 Main Street<br>Demo City, CA 91234</div>
+          </div>
+        </div>
+        <a href="tel:7779996666" style="{{ sheetCallStyle }}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 5 5L19 18l-2 3a14 14 0 0 1-12-12L5 4Z" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/></svg>
+          Call 777-999-6666
+        </a>
+        <div style="display:flex;gap:10px;margin-top:10px;">
+          <button style="{{ sheetGhostStyle }}">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z" stroke="#3F3F46" stroke-width="1.7"/><circle cx="12" cy="10" r="2.3" stroke="#3F3F46" stroke-width="1.7"/></svg>
+            Directions
+          </button>
+          <button style="{{ sheetGhostStyle }}">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="18" cy="5" r="2.4" stroke="#3F3F46" stroke-width="1.7"/><circle cx="6" cy="12" r="2.4" stroke="#3F3F46" stroke-width="1.7"/><circle cx="18" cy="19" r="2.4" stroke="#3F3F46" stroke-width="1.7"/><path d="M8 11l8-5M8 13l8 5" stroke="#3F3F46" stroke-width="1.7"/></svg>
+            Share
+          </button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:960,&quot;height&quot;:900},&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#22224b&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = { cat: 'From the Sea', infoOpen: false };
+
+  menu() {
+    const u = (id) => 'https://images.unsplash.com/photo-' + id + '?auto=format&fit=crop&w=600&q=70';
+    return {
+      categories: ['Starters', 'From the Sea', 'Mains', 'Pasta', 'Desserts'],
+      grads: {
+        'Starters': 'linear-gradient(135deg,#e2ecd9,#c7d9ba)',
+        'From the Sea': 'linear-gradient(135deg,#d6e7f0,#b6d2e2)',
+        'Mains': 'linear-gradient(135deg,#eedfcc,#dbc1a5)',
+        'Pasta': 'linear-gradient(135deg,#f1e5ca,#e4cfa2)',
+        'Desserts': 'linear-gradient(135deg,#eedce5,#ddc2d0)',
+      },
+      items: [
+        { c:'Starters', n:'Heirloom Tomato Salad', p:14, d:'Burrata, basil oil, aged balsamic, sea salt', t:'', img:u('1512621776951-a57141f2eefd') },
+        { c:'Starters', n:'Crispy Brussels Sprouts', p:12, d:'Maple glaze, chili, toasted almonds', t:'', img:u('1540420773420-3366772f4999') },
+        { c:'Starters', n:'Little Gem Caesar', p:13, d:'Shaved parmesan, sourdough crumb, lemon', t:'', img:u('1550304943-4f24f54ddde9') },
+        { c:'From the Sea', n:'Grilled Pacific Salmon', p:26, d:'Lemon herb butter, seasonal vegetables', t:'Popular', img:u('1467003909585-2f8a72700288') },
+        { c:'From the Sea', n:'Wild Shrimp Skewers', p:19, d:'Garlic, smoked paprika, charred lime', t:'', img:u('1565680018434-b513d5e5fd47') },
+        { c:'From the Sea', n:'Fresh Oysters · ½ doz', p:18, d:'Mignonette, fresh lemon, cracked pepper', t:'', img:u('1606731070321-705075a9e6f5') },
+        { c:'Mains', n:'Prime Ribeye Steak', p:25, d:'Grilled to perfection, rich and tender', t:'Popular', img:u('1546833999-b9f581a1996d') },
+        { c:'Mains', n:'Farmhouse Sandwich', p:13, d:'Roast chicken, avocado, herb aioli, sourdough', t:'', img:u('1528735602780-2552fd46c7af') },
+        { c:'Mains', n:'Free-Range Roast Chicken', p:22, d:'Yukon potatoes, pan jus, rosemary', t:'', img:u('1598103442097-8b74394b95c6') },
+        { c:'Pasta', n:'Pasta Carbonara', p:23, d:'Creamy egg sauce, crispy bacon, parmesan', t:'Popular', img:u('1612874742237-6526221588e3') },
+        { c:'Pasta', n:'Wild Mushroom Tagliatelle', p:21, d:'Truffle cream, thyme, grana padano', t:'', img:u('1473093295043-cdd812d0e601') },
+        { c:'Pasta', n:'Lemon Ricotta Ravioli', p:20, d:'Brown butter, sage, toasted pine nuts', t:'', img:u('1551183053-bf91a1d81141') },
+        { c:'Desserts', n:'Meyer Lemon Tart', p:10, d:'Torched meringue, almond crust', t:'', img:u('1551024601-bec78aea704b') },
+        { c:'Desserts', n:'Dark Chocolate Mousse', p:11, d:'Sea salt, olive oil, cocoa nib', t:'', img:u('1551024506-0bccd828d307') },
+        { c:'Desserts', n:'Seasonal Fruit Crumble', p:9, d:'Vanilla bean ice cream', t:'', img:u('1488477181946-6428a0291777') },
+      ],
+    };
+  }
+
+  renderVals() {
+    const accent = this.props.accentColor || '#22224b';
+    const m = this.menu();
+    const active = this.state.cat;
+
+    const pills = m.categories.map((c) => {
+      const sel = c === active;
+      return {
+        name: c,
+        onSelect: () => this.setState({ cat: c }),
+        style: { padding:'9px 16px', borderRadius:'999px', fontSize:'13.5px', fontWeight:600, whiteSpace:'nowrap', cursor:'pointer', border:'none', flex:'0 0 auto', background: sel ? accent : '#F1F1F4', color: sel ? '#fff' : '#52525B', transition:'background .15s,color .15s', fontFamily:'inherit' },
+      };
+    });
+
+    const list = m.items.filter((i) => i.c === active).map((i) => ({
+      name: i.n,
+      desc: i.d,
+      tag: i.t,
+      priceLabel: '$' + i.p,
+      photoStyle: { position:'relative', height:'190px', background: 'url("' + i.img + '") center/cover no-repeat, ' + m.grads[i.c], overflow:'hidden' },
+    }));
+
+    return {
+      accent,
+      activeCat: active,
+      pills,
+      list,
+      logoStyle: { width:'60px', height:'60px', borderRadius:'17px', background: accent, color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', fontWeight:800, fontSize:'17px', flex:'0 0 auto', letterSpacing:'0.02em' },
+      addBtnStyle: { position:'absolute', right:'14px', bottom:'14px', width:'36px', height:'36px', borderRadius:'50%', background: accent, color:'#fff', border:'2px solid #fff', fontSize:'21px', fontWeight:400, lineHeight:1, cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 3px 8px rgba(0,0,0,0.22)', paddingBottom:'2px' },
+      ctaStyle: { display:'inline-flex', alignItems:'center', gap:'8px', padding:'13px 20px', borderRadius:'13px', background: accent, color:'#fff', border:'none', fontWeight:700, fontSize:'14px', cursor:'pointer', textDecoration:'none', whiteSpace:'nowrap', boxShadow:'0 8px 20px rgba(20,20,40,0.18)' },
+      infoBtnStyle: { width:'42px', height:'42px', borderRadius:'12px', background:'#F4F4F5', border:'none', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', flex:'0 0 auto' },
+      priceStyle: { fontWeight:800, fontSize:'16px', color: accent, flex:'0 0 auto', fontVariantNumeric:'tabular-nums' },
+      footerLinkStyle: { display:'inline-block', marginTop:'10px', color: accent, fontWeight:700, fontSize:'13.5px', textDecoration:'none' },
+      sheetCallStyle: { display:'flex', alignItems:'center', justifyContent:'center', gap:'8px', width:'100%', padding:'14px', borderRadius:'14px', background: accent, color:'#fff', border:'none', fontWeight:700, fontSize:'14px', cursor:'pointer', textDecoration:'none', marginTop:'20px' },
+      sheetGhostStyle: { flex:1, display:'flex', alignItems:'center', justifyContent:'center', gap:'7px', padding:'12px', borderRadius:'12px', background:'#F4F4F5', color:'#3F3F46', border:'none', fontWeight:600, fontSize:'13px', cursor:'pointer', fontFamily:'inherit' },
+      infoOpen: this.state.infoOpen,
+      onInfoOpen: () => this.setState({ infoOpen: true }),
+      onInfoClose: () => this.setState({ infoOpen: false }),
+    };
+  }
+}
+</script>
+</body>
+</html>
