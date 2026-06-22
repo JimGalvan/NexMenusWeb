@@ -126,7 +126,7 @@
   overflow: hidden;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 20px rgba(0, 0, 0, 0.05);
 }
-.pm-card__photo { position: relative; height: 152px; background-color: #e7e7ec; }
+.pm-card__photo { position: relative; height: 176px; background-color: #e7e7ec; }
 .pm-card__photo.is-sold { filter: grayscale(0.6); }
 .pm-card__placeholder {
   position: absolute;
@@ -170,11 +170,11 @@
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.22);
   padding-bottom: 2px;
 }
-.pm-card__body { padding: 12px 14px 14px; }
+.pm-card__body { padding: 14px 16px 16px; }
 .pm-card__row { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
-.pm-card__name { font-weight: 700; font-size: 15.5px; letter-spacing: -0.01em; }
-.pm-card__price { font-weight: 800; font-size: 15px; flex: 0 0 auto; font-variant-numeric: tabular-nums; }
-.pm-card__desc { margin-top: 4px; font-size: 12.5px; line-height: 1.45; color: var(--muted); }
+.pm-card__name { font-weight: 700; font-size: 16.5px; letter-spacing: -0.01em; }
+.pm-card__price { font-weight: 800; font-size: 16px; flex: 0 0 auto; font-variant-numeric: tabular-nums; }
+.pm-card__desc { margin-top: 4px; font-size: 13px; line-height: 1.45; color: var(--muted); }
 
 /* footer */
 .pm-footer { border-top: 1px solid var(--line-soft); margin-top: 6px; padding: 18px 4px 2px; text-align: center; }
