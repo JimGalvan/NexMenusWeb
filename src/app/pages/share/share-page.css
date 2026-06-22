@@ -86,8 +86,9 @@
 }
 .qr-card__title { font-weight: 800; font-size: 16px; margin-top: 18px; letter-spacing: -0.01em; }
 .qr-card__url { font-size: 12.5px; color: var(--faint); margin-top: 3px; }
-.qr-card__dl { margin-top: 18px; }
-.qr-card__print { margin-top: 10px; }
+.qr-card__actions { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
+.qr-card__dl,
+.qr-card__print { margin-top: 0; }
 
 .link-card {
   background: var(--surface);
@@ -157,4 +158,34 @@
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+@media (min-width: 900px) {
+  .share {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 40px 24px 64px;
+  }
+
+  .share__head { margin-bottom: 18px; }
+  .share__head h1 { font-size: 27px; }
+  .share__head p { font-size: 14px; margin-top: 4px; }
+
+  .selector { padding: 12px 15px; }
+  .selector__logo { width: 34px; height: 34px; }
+  .selector__name { font-size: 14.5px; }
+  .qr-card { margin-top: 16px; padding: 30px 24px; }
+  .qr-card__title { font-size: 17px; margin-top: 20px; }
+  .qr-card__url { font-size: 13px; }
+  .qr-card__actions {
+    max-width: 420px;
+    margin: 20px auto 0;
+    flex-direction: row;
+  }
+
+  .qr-card__dl,
+  .qr-card__print { flex: 1; }
+  .link-card { margin-top: 16px; padding: 18px; }
+  .link-card__grid { gap: 10px; margin-top: 14px; }
+  .social { padding: 14px 4px; font-size: 11.5px; }
 }

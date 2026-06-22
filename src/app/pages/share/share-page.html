@@ -27,21 +27,23 @@
     </div>
     <div class="qr-card__title">Scan to view menu</div>
     <div class="qr-card__url">{{ publicUrl() }}</div>
-    <button class="nx-btn nx-btn--primary qr-card__dl" (click)="downloadQr()">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M12 3v12m0 0 4-4m-4 4-4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2"
-              stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      Download QR (PNG)
-    </button>
-    <button class="nx-btn nx-btn--ghost qr-card__print" (click)="printQr()">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M6 9V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4M6 18H5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1"
-              stroke="#27272A" stroke-width="1.8" stroke-linejoin="round"/>
-        <rect x="7" y="15" width="10" height="6" rx="1" stroke="#27272A" stroke-width="1.8"/>
-      </svg>
-      Print table tents
-    </button>
+    <div class="qr-card__actions">
+      <button class="nx-btn nx-btn--primary qr-card__dl" (click)="downloadQr()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 3v12m0 0 4-4m-4 4-4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2"
+                stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Download QR (PNG)
+      </button>
+      <button class="nx-btn nx-btn--ghost qr-card__print" (click)="printQr()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 9V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4M6 18H5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1"
+                stroke="#27272A" stroke-width="1.8" stroke-linejoin="round"/>
+          <rect x="7" y="15" width="10" height="6" rx="1" stroke="#27272A" stroke-width="1.8"/>
+        </svg>
+        Print table tents
+      </button>
+    </div>
   </section>
 
   <!-- share link -->

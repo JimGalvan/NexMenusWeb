@@ -4,6 +4,22 @@
     <a routerLink="/app/menus" class="nx-btn nx-btn--primary">Back to menus</a>
   </div>
 } @else {
+<div class="ed-desktop">
+  <aside class="ed-desktop__side">
+    <div class="ed-desktop__brand"><span>Nex</span><span>Menus</span></div>
+    <button class="ed-desktop__back" (click)="exit()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 6 8 12l6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back to menus
+    </button>
+    <div class="ed-desktop__rule"></div>
+    <div class="ed-desktop__label">What's clickable</div>
+    <div class="ed-desktop__tips">
+      <p><span></span>Click any item to open the edit form</p>
+      <p><span></span>Use the more button to hide, sell out or delete</p>
+      <p><span></span>Add item, fill the form, then crop the photo</p>
+      <p><span></span>Switch tabs to edit menu details</p>
+    </div>
+  </aside>
 <div class="ed" [style.--accent]="accent()" [style.--accent-tint]="tint()">
 
   @switch (screen()) {
@@ -437,5 +453,6 @@
       {{ toast() }}
     </div>
   }
+</div>
 </div>
 }

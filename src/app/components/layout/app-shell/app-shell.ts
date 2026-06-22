@@ -12,6 +12,8 @@ import { BrandLogoComponent } from '../../ui/brand-logo/brand-logo';
 export class AppShellComponent {
   private authService = inject(AuthService);
 
+  readonly accountEmail = computed(() => this.authService.account()?.email ?? 'Account');
+
   readonly initials = computed(() => {
     const email = this.authService.account()?.email ?? '';
     return email.slice(0, 2).toUpperCase() || 'NX';

@@ -558,3 +558,114 @@
 .is-sortable-ghost { opacity: 0.35; }
 .is-sortable-chosen { box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12); }
 .is-sortable-drag { opacity: 0.96; }
+
+.ed-desktop { display: contents; }
+.ed-desktop__side { display: none; }
+
+@media (min-width: 900px) {
+  :host {
+    display: block;
+    min-height: 100dvh;
+    background: var(--bg);
+  }
+
+  .ed-desktop {
+    min-height: 100dvh;
+    display: flex;
+    background: var(--bg);
+  }
+
+  .ed-desktop__side {
+    width: 248px;
+    height: 100dvh;
+    position: sticky;
+    top: 0;
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 22px 16px;
+    background: var(--surface);
+    border-right: 1px solid var(--line-soft);
+  }
+
+  .ed-desktop__brand {
+    padding: 6px 8px 18px;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .ed-desktop__brand span:first-child { color: var(--brand); }
+  .ed-desktop__brand span:last-child { color: var(--faint); }
+
+  .ed-desktop__back {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 10px;
+    border-radius: 11px;
+    border: none;
+    background: #f4f4f6;
+    color: var(--text-3);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .ed-desktop__rule {
+    height: 1px;
+    background: var(--line-soft);
+    margin: 18px 8px;
+  }
+
+  .ed-desktop__label {
+    margin: 0 8px 14px;
+    color: var(--muted-2);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .ed-desktop__tips {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    padding: 0 8px;
+  }
+
+  .ed-desktop__tips p {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    color: var(--text-3);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .ed-desktop__tips span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--brand);
+    flex: 0 0 auto;
+    margin-top: 6px;
+  }
+
+  .ed {
+    width: 600px;
+    max-width: calc(100vw - 296px);
+    height: calc(100dvh - 64px);
+    max-height: 900px;
+    min-height: 0;
+    margin: 32px auto;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(20, 20, 40, 0.14), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  }
+
+  .ed-screen { min-height: 0; height: 100%; }
+  .ed-head__bar,
+  .ed-formhead,
+  .ed-subhead { padding-top: 6px; }
+  .ed-toast { bottom: 42px; }
+}

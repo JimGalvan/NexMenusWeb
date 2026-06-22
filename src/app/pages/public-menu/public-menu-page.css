@@ -294,3 +294,105 @@
   align-items: center;
   justify-content: center;
 }
+
+.pm-header__actions { display: flex; align-items: center; gap: 10px; flex: 0 0 auto; }
+.pm-call { display: none; }
+
+@media (min-width: 900px) {
+  .pm {
+    max-width: none;
+    margin: 0;
+    box-shadow: none;
+  }
+
+  .pm-scroll { min-height: 100dvh; }
+
+  .pm-editor-link {
+    left: 24px;
+    transform: none;
+  }
+
+  .pm-header {
+    padding: 30px 28px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .pm.has-editor-link .pm-header { padding-top: 72px; }
+
+  .pm-header__row {
+    max-width: 960px;
+    margin: 0 auto;
+    gap: 20px;
+  }
+
+  .pm-logo {
+    width: 60px;
+    height: 60px;
+    border-radius: 17px;
+    font-size: 17px;
+  }
+
+  .pm-header__name {
+    font-size: 28px;
+    letter-spacing: -0.02em;
+  }
+
+  .pm-header__tagline {
+    font-size: 14px;
+    margin-top: 3px;
+  }
+
+  .pm-meta {
+    max-width: 960px;
+    margin: 13px auto 0;
+    padding-left: 80px;
+  }
+
+  .pm-meta__chip {
+    font-size: 12px;
+    padding: 6px 11px;
+  }
+
+  .pm-info-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+  }
+
+  .pm-call {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 20px;
+    border-radius: 13px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+    box-shadow: 0 8px 20px rgba(20, 20, 40, 0.18);
+  }
+
+  .pm-pills { max-width: 960px; margin: 0 auto; padding: 13px 28px; }
+  .pm-list {
+    max-width: 960px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 28px 28px 48px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .pm-card { border-radius: 18px; }
+  .pm-card__photo { height: 190px; }
+  .pm-card__body { padding: 15px 17px 17px; }
+  .pm-card__desc { font-size: 13.5px; line-height: 1.5; }
+
+  .pm-footer,
+  .pm-powered { grid-column: 1 / -1; }
+  .pm-footer { margin-top: 16px; padding-top: 26px; }
+  .pm-footer__name { font-size: 15px; }
+  .pm-footer__lines { font-size: 13px; margin-top: 8px; }
+  .pm-footer__phone { font-size: 13.5px; }
+  .pm-powered { padding-top: 0; font-size: 12px; }
+}

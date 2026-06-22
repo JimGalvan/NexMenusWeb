@@ -185,3 +185,29 @@
   align-items: center;
   gap: 8px;
 }
+
+@media (min-width: 900px) {
+  .menus {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 40px 24px 64px;
+  }
+
+  .menus__head { margin-bottom: 18px; }
+  .menus__head h1 { font-size: 27px; }
+  .menus__head p { font-size: 14px; margin-top: 4px; }
+
+  .menu-card { border-radius: 22px; }
+  .menu-card + .menu-card { margin-top: 16px; }
+  .menu-card__cover { height: 140px; }
+  .menu-card__body { padding: 17px 18px 18px; }
+  .menu-card__logo { width: 42px; height: 42px; }
+  .menu-card__name { font-size: 17px; }
+  .menu-card__meta { font-size: 12px; }
+  .link-row { margin-top: 14px; padding: 11px 13px; }
+  .link-row__url { font-size: 13px; }
+  .link-row__copy { font-size: 12.5px; }
+  .menu-card__actions { gap: 9px; margin-top: 15px; }
+  .action { padding: 13px 4px; font-size: 11.5px; }
+  .create-btn { margin-top: 16px; padding: 17px; font-size: 14.5px; }
+}

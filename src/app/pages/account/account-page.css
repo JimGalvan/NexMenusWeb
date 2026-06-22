@@ -114,3 +114,27 @@
   color: var(--muted-2);
   margin-top: 18px;
 }
+
+@media (min-width: 900px) {
+  .account {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 40px 24px 64px;
+  }
+
+  .account__head { margin-bottom: 18px; }
+  .account__head h1 { font-size: 27px; }
+  .account__head p { font-size: 14px; margin-top: 4px; }
+
+  .profile { padding: 22px; }
+  .profile__avatar { width: 56px; height: 56px; font-size: 19px; }
+  .profile__name { font-size: 18px; }
+  .profile__email { font-size: 13px; }
+  .plan { margin-top: 16px; padding: 20px 22px; }
+  .plan__name { font-size: 19px; }
+  .settings { margin-top: 16px; }
+  .settings__row { padding: 16px 18px; }
+  .settings__icon { width: 36px; height: 36px; }
+  .settings__label { font-size: 15px; }
+  .logout { margin-top: 16px; }
+}
