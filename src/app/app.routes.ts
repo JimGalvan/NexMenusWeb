@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LandingPageComponent } from './pages/landing/landing-page';
 import { LoginPageComponent } from './pages/login/login-page';
 import { RegisterPageComponent } from './pages/register/register-page';
+import { TermsPageComponent } from './pages/terms/terms-page';
 import { AppShellComponent } from './components/layout/app-shell/app-shell';
 import { MenusPageComponent } from './pages/menus/menus-page';
 import { SharePageComponent } from './pages/share/share-page';
@@ -12,6 +13,7 @@ export const routes: Routes = [
   { path: '',         component: LandingPageComponent },
   { path: 'login',    component: LoginPageComponent },
   { path: 'register', component: RegisterPageComponent },
+  { path: 'terms',    component: TermsPageComponent },
 
   // Authenticated app — tabbed shell (Menus / QR & Share / Account).
   {
@@ -43,3 +45,4 @@ export const routes: Routes = [
 
   { path: '**', redirectTo: '' },
 ];
+

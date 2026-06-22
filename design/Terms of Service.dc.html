@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+a{text-decoration:none;color:inherit;}
+</style>
+</helmet>
+
+<div style="background:#fff;font-family:'Manrope',system-ui,sans-serif;color:#18181B;">
+
+  <!-- NAV -->
+  <div style="position:sticky;top:0;z-index:30;background:rgba(255,255,255,0.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,0,0,0.07);">
+    <div style="max-width:880px;margin:0 auto;padding:0 32px;height:70px;display:flex;align-items:center;justify-content:space-between;">
+      <a href="Landing Page.dc.html" style="font-size:21px;font-weight:800;letter-spacing:-0.02em;"><span style="color:#22224b;">Nex</span><span style="color:#9A9AA3;">Menus</span></a>
+      <a href="Landing Page.dc.html" style="display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:#3F3F46;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M11 6l-6 6 6 6" stroke="#3F3F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Back to home
+      </a>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <div style="max-width:880px;margin:0 auto;padding:64px 32px 0;">
+    <div style="font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#22224b;">Legal</div>
+    <h1 style="font-size:46px;line-height:1.05;font-weight:800;letter-spacing:-0.03em;margin:14px 0 0;">Terms of Service</h1>
+    <p style="font-size:15px;color:#71717A;margin:16px 0 0;">Last updated June 22, 2026</p>
+    <p style="font-size:17px;line-height:1.6;color:#52525B;margin:24px 0 0;text-wrap:pretty;">These terms govern your use of NexMenus. By creating an account or using the service, you agree to them. Questions? Email <a href="/cdn-cgi/l/email-protection#2e424b494f426e404b56434b405b5d004d4143" style="color:#22224b;font-weight:600;"><span class="__cf_email__" data-cfemail="274b4240464b6749425f4a424952540944484a">[email&#160;protected]</span></a>.</p>
+    <div style="height:1px;background:rgba(0,0,0,0.08);margin:40px 0 0;"></div>
+  </div>
+
+  <!-- BODY -->
+  <div style="max-width:880px;margin:0 auto;padding:40px 32px 0;">
+    <sc-for list="{{ sections }}" as="s" hint-placeholder-count="8">
+      <div style="margin-bottom:40px;">
+        <h2 style="font-size:22px;font-weight:800;letter-spacing:-0.015em;margin:0;">{{ s.h }}</h2>
+        <p style="font-size:16px;line-height:1.68;color:#3F3F46;margin:12px 0 0;text-wrap:pretty;">{{ s.p }}</p>
+      </div>
+    </sc-for>
+
+    <div style="background:#F7F7F8;border:1px solid rgba(0,0,0,0.06);border-radius:18px;padding:28px 30px;margin-top:8px;">
+      <div style="font-weight:800;font-size:18px;">Need to talk to us?</div>
+      <p style="font-size:15px;line-height:1.6;color:#52525B;margin:8px 0 0;">For billing, account, or legal questions, our team is here to help.</p>
+      <a href="/cdn-cgi/l/email-protection#c2aea7a5a3ae82aca7baafa7acb7b1eca1adaf" style="display:inline-flex;align-items:center;gap:8px;margin-top:16px;background:#22224b;color:#fff;font-size:14px;font-weight:700;padding:12px 20px;border-radius:11px;">Email <span class="__cf_email__" data-cfemail="91fdf4f6f0fdd1fff4e9fcf4ffe4e2bff2fefc">[email&#160;protected]</span></a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="border-top:1px solid rgba(0,0,0,0.08);margin-top:72px;">
+    <div style="max-width:880px;margin:0 auto;padding:24px 32px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#71717A;">
+      <span>© 2026 NexMenus. All rights reserved.</span>
+      <span style="display:flex;gap:22px;"><a href="Privacy Policy.dc.html">Privacy</a><a href="Terms of Service.dc.html" style="font-weight:600;color:#22224b;">Terms</a></span>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      sections: [
+        { h: '1. Your account', p: 'You must provide accurate information when you sign up and keep your login details secure. You are responsible for all activity under your account. You must be at least 18 years old, or the age of majority where you live, to use NexMenus.' },
+        { h: '2. Using the service', p: 'You may use NexMenus to build and publish menus for restaurants, cafés, bars, and similar food businesses you operate or are authorized to represent. You agree not to misuse the service, attempt to break or overload it, or use it for anything unlawful.' },
+        { h: '3. Your content', p: 'You keep ownership of the menu content, photos, and branding you upload. By using NexMenus you grant us a limited license to host, display, and serve that content so your menu works as intended. You are responsible for having the rights to everything you upload.' },
+        { h: '4. Acceptable use', p: 'Do not upload content that is illegal, misleading, infringing, or harmful. We may remove content or suspend accounts that violate these terms or put the service or other users at risk.' },
+        { h: '5. Plans & billing', p: 'Free plans are free to use within their limits. Paid plans are billed in advance on a monthly or annual cycle and renew automatically until cancelled. You can cancel any time; access continues until the end of the paid period. Fees already paid are non-refundable except where required by law.' },
+        { h: '6. Availability', p: 'We work hard to keep NexMenus running, but the service is provided "as is" without guarantees of uninterrupted availability. We may update, change, or discontinue features, giving reasonable notice of material changes where we can.' },
+        { h: '7. Liability', p: 'To the maximum extent permitted by law, NexMenus is not liable for indirect or consequential damages, or for lost profits or data. Our total liability for any claim is limited to the amount you paid us in the 12 months before the claim arose.' },
+        { h: '8. Changes & contact', p: 'We may update these terms from time to time and will notify you of material changes before they take effect. If you have any questions, contact us at legal@nexmenus.com.' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>
