@@ -6,7 +6,7 @@
         <a routerLink="/" class="nx-btn nx-btn--primary">Go to NexMenus</a>
     </div>
 } @else {
-    <div class="pm" [class.has-editor-link]="ownerMenuId()" [style.--accent]="accent()">
+    <div class="pm" [class.has-editor-link]="ownerMenuId()" [class.pm--landing-preview]="landingPreview" [style.--accent]="accent()">
         @if (ownerMenuId(); as editorMenuId) {
             <a class="pm-editor-link" [routerLink]="['/editor', editorMenuId]">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none">

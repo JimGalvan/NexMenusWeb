@@ -25,6 +25,19 @@
   flex-direction: column;
 }
 
+.pm--landing-preview {
+  max-width: none;
+  box-shadow: none;
+}
+
+.pm--landing-preview .pm-scroll {
+  scrollbar-width: none;
+}
+
+.pm--landing-preview .pm-scroll::-webkit-scrollbar {
+  display: none;
+}
+
 .pm-editor-link {
   position: fixed;
   top: max(12px, env(safe-area-inset-top));
@@ -48,6 +61,7 @@
 .pm.has-editor-link .pm-header { padding-top: max(62px, calc(env(safe-area-inset-top) + 62px)); }
 /* header */
 .pm-header { padding: 16px 18px; background: var(--surface); padding-top: max(16px, env(safe-area-inset-top)); }
+.pm--landing-preview .pm-header { padding-inline: 14px; }
 .pm-header__row { display: flex; gap: 13px; align-items: center; }
 .pm-logo {
   width: 46px;
@@ -104,6 +118,7 @@
   border-bottom: 1px solid var(--line-soft);
 }
 .pm-pills { display: flex; gap: 8px; overflow-x: auto; padding: 11px 16px; }
+.pm--landing-preview .pm-pills { padding-inline: 14px; }
 .pm-pill {
   padding: 9px 15px;
   border-radius: var(--r-pill);
@@ -120,6 +135,7 @@
 
 /* list */
 .pm-list { padding: 14px 16px 8px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+.pm--landing-preview .pm-list { padding-inline: 14px; }
 .pm-card {
   background: var(--surface);
   border-radius: 18px;

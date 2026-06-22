@@ -38,6 +38,7 @@ export class PublicMenuPageComponent {
   readonly accent = this.menuService.accent;
 
   private slug = this.route.snapshot.paramMap.get('slug')!;
+  readonly landingPreview = this.route.snapshot.queryParamMap.get('embed') === 'landing';
   readonly menu = signal<PublicMenu | null>(null);
   readonly loading = signal(true);
   readonly ownerMenuId = signal<string | null>(null);

@@ -142,14 +142,15 @@
 }
 .lp-phone {
   --phone-scale: 0.78;
+  --phone-bezel: 9px;
   --phone-frame-offset-y: 30px;
   --phone-frame-height: 752px;
   position: relative;
-  width: calc(390px * var(--phone-scale) + 26px);
-  height: calc(790px * var(--phone-scale) + 26px);
-  border-radius: 42px;
+  width: calc(390px * var(--phone-scale) + (var(--phone-bezel) * 2));
+  height: calc(790px * var(--phone-scale) + (var(--phone-bezel) * 2));
+  border-radius: 38px;
   background: #111114;
-  padding: 13px;
+  padding: var(--phone-bezel);
   box-shadow: 0 30px 60px rgba(20, 20, 40, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.08);
   overflow: hidden;
 }
@@ -168,7 +169,7 @@
 .lp-phone__chrome {
   position: absolute;
   top: 18px;
-  left: 22px;
+  left: 19px;
   z-index: 4;
   display: flex;
   gap: 5px;
@@ -358,12 +359,10 @@
   .lp-hero__art { padding-top: 0; }
   .lp-phone {
     --phone-scale: 0.7;
+    --phone-bezel: 8px;
     --phone-frame-offset-y: 28px;
     --phone-frame-height: 750px;
-    width: calc(390px * var(--phone-scale) + 22px);
-    height: calc(790px * var(--phone-scale) + 22px);
-    border-radius: 38px;
-    padding: 11px;
+    border-radius: 34px;
   }
   .lp-phone::before {
     width: 78px;
