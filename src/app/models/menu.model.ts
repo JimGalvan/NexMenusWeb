@@ -40,6 +40,8 @@ export interface Menu {
   phone: string | null;
   address: string | null;
   operatingHours: string | null;
+  /** When true, the owner's account email is exposed on the public menu. */
+  showEmail: boolean;
   logoUrl: string | null;
   categories: Category[];
   items: MenuItem[];
@@ -90,6 +92,8 @@ export interface PublicMenu {
   phone: string | null;
   address: string | null;
   operatingHours: string | null;
+  /** Owner's account email; present only when the owner opted to show it. */
+  email: string | null;
   logoUrl: string | null;
   categories: PublicCategory[];
   items: PublicMenuItem[];
@@ -105,6 +109,7 @@ export interface CreateMenuRequest {
   phone?: string | null;
   address?: string | null;
   operatingHours?: string | null;
+  showEmail?: boolean;
 }
 
 export interface UpdateMenuRequest {
@@ -113,6 +118,7 @@ export interface UpdateMenuRequest {
   phone?: string | null;
   address?: string | null;
   operatingHours?: string | null;
+  showEmail?: boolean;
 }
 
 export interface AddCategoryRequest {

@@ -72,6 +72,7 @@ export class MenuService {
         phone: req.phone ?? null,
         address: req.address ?? null,
         operatingHours: req.operatingHours ?? null,
+        showEmail: req.showEmail ?? false,
       })
       .pipe(map(toMenu));
   }
@@ -84,6 +85,7 @@ export class MenuService {
         phone: req.phone ?? null,
         address: req.address ?? null,
         operatingHours: req.operatingHours ?? null,
+        showEmail: req.showEmail ?? false,
       })
       .pipe(map(toMenu));
   }

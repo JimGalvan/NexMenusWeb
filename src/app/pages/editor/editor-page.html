@@ -189,6 +189,23 @@
           <label class="ed-field-label">Address</label>
           <textarea class="ed-input ed-textarea" rows="2" [ngModel]="address()" (ngModelChange)="address.set($event)" placeholder="Street, city, state"></textarea>
 
+          <label class="ed-toggle">
+            <span class="ed-toggle__text">
+              <span class="ed-toggle__title">Let diners email me</span>
+              <span class="ed-toggle__sub">
+                @if (ownerEmail()) {
+                  Adds a “Contact me” link to {{ ownerEmail() }}
+                } @else {
+                  Adds a “Contact me” link to your account email
+                }
+              </span>
+            </span>
+            <span class="ed-switch" [class.is-on]="showEmail()" [style.background]="showEmail() ? accent() : null">
+              <input type="checkbox" [checked]="showEmail()" (change)="showEmail.set($any($event.target).checked)" />
+              <span class="ed-switch__knob"></span>
+            </span>
+          </label>
+
           <div class="ed-section-head">
             <label class="ed-field-label ed-field-label--inline">Hours</label>
             <button type="button" class="ed-link-btn" (click)="hoursSheetOpen.set(true)">Edit</button>

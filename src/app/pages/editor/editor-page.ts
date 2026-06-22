@@ -22,6 +22,7 @@ import * as FilePond from 'filepond';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 import { MenuService } from '../../services/menu.service';
+import { AuthService } from '../../services/auth.service';
 import { Menu } from '../../models/menu.model';
 import { BottomSheetComponent } from '../../components/ui/bottom-sheet/bottom-sheet';
 import { ImageCropperComponent } from '../../components/ui/image-cropper/image-cropper';
@@ -247,6 +248,10 @@ export class EditorPageComponent {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private menuService = inject(MenuService);
+  private auth = inject(AuthService);
+
+  /** The owner's account email — what diners see when "show email" is on. */
+  readonly ownerEmail = computed(() => this.auth.account()?.email ?? '');
 
   readonly accents = ACCENTS;
 
@@ -261,6 +266,7 @@ export class EditorPageComponent {
   description = signal('');
   phone = signal('');
   address = signal('');
+  showEmail = signal(false);
   accent = signal(this.menuService.accent());
   logoUrl = signal('');
   logoUploading = signal(false);
@@ -329,6 +335,7 @@ export class EditorPageComponent {
     this.description.set(menu.description ?? '');
     this.phone.set(menu.phone ?? '');
     this.address.set(menu.address ?? '');
+    this.showEmail.set(menu.showEmail ?? false);
     this.logoUrl.set(menu.logoUrl ?? '');
     const parsedHours = menu.operatingHours ? parseOperatingHours(menu.operatingHours) : null;
     if (parsedHours) this.hoursRows.set(parsedHours);
@@ -646,6 +653,7 @@ export class EditorPageComponent {
         description: this.description().trim() || null,
         phone: this.phone().trim() || null,
         address: this.address().trim() || null,
+        showEmail: this.showEmail(),
         operatingHours: this.hoursTouched() || !menu.operatingHours ? this.operatingHoursText() : menu.operatingHours,
       })
       .subscribe({

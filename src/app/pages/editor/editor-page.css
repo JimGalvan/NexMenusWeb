@@ -425,6 +425,40 @@
 .ed-hours__input:disabled { cursor: not-allowed; background: var(--panel-2); }
 .ed-hours__dash { color: var(--muted-2); font-size: 11px; font-weight: 700; }
 
+.ed-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 16px;
+  cursor: pointer;
+}
+.ed-toggle__text { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.ed-toggle__title { font-size: 14.5px; font-weight: 750; color: var(--text-2); }
+.ed-toggle__sub { font-size: 12.5px; font-weight: 600; color: var(--muted); overflow-wrap: anywhere; }
+.ed-switch {
+  position: relative;
+  flex: 0 0 auto;
+  width: 46px;
+  height: 27px;
+  border-radius: 999px;
+  background: var(--line);
+  transition: background 0.18s ease;
+}
+.ed-switch input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+.ed-switch__knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: transform 0.18s ease;
+}
+.ed-switch.is-on .ed-switch__knob { transform: translateX(19px); }
+
 .ed-section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-top: 18px; }
 .ed-field-label--inline { margin: 0 0 9px; }
 .ed-link-btn { border: none; background: transparent; color: var(--accent); font: inherit; font-size: 14px; font-weight: 800; padding: 0 0 9px; }
