@@ -189,7 +189,21 @@
 .pm-footer__name { font-weight: 700; font-size: 13.5px; }
 .pm-footer__lines { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.55; }
 .pm-footer__phone { display: inline-block; margin-top: 9px; font-weight: 700; font-size: 13px; }
-.pm-powered { text-align: center; font-size: 11px; color: #c4c4cc; padding: 10px 0 6px; }
+.pm-powered {
+  justify-self: center;
+  text-align: center;
+  font-size: 11px;
+  color: #c4c4cc;
+  padding: 10px 0 6px;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.pm-powered:hover { color: #71717a; }
+.pm-powered:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
 
 /* sticky order bar */
 .pm-orderbar {
