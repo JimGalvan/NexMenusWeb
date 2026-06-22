@@ -36,7 +36,9 @@ export class SharePageComponent {
    * changes — the whole reason QR codes encode the immutable id.
    */
   readonly qrUrl = computed(() =>
-    this.menu() ? `${window.location.origin}/r/${this.menu()!.id}/` : '',
+    // TODO: temporary — encode the production origin so scanned codes don't point
+    // at localhost during dev. Revert to `window.location.origin` before shipping.
+    this.menu() ? `https://nexmenus.com/r/${this.menu()!.id}/` : '',
   );
 
   toast = signal('');

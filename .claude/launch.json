@@ -4,8 +4,9 @@
     {
       "name": "nexmenus",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["start"],
-      "port": 4200
+      "runtimeArgs": ["start", "--", "--port", "4399"],
+      "port": 4399,
+      "autoPort": false
     }
   ]
 }
