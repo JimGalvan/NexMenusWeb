@@ -43,6 +43,15 @@ export const routes: Routes = [
       import('./pages/public-menu/public-menu-page').then(m => m.PublicMenuPageComponent),
   },
 
+  // Permanent QR links are backend-owned redirects. In production the SPA
+  // fallback sees /r/:id first, so hand the browser back to the API explicitly.
+  {
+    path: 'r/:id',
+    loadComponent: () =>
+      import('./pages/qr-redirect/qr-redirect-page').then(m => m.QrRedirectPageComponent),
+  },
+
   { path: '**', redirectTo: '' },
 ];
+
 
