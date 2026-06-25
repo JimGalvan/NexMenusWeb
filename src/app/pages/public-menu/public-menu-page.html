@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <div class="pm-meta">
-                    <span class="pm-meta__chip">{{ menu()!.market }} · {{ menu()!.currency }}</span>
+                    <span class="pm-meta__chip">{{ menu()!.market }}</span>
                     @if (menu()!.address) {
                         <span class="pm-meta__chip">{{ menu()!.address }}</span>
                     }
@@ -160,7 +160,7 @@
                     <div>
                         <div class="pm-sheet__name">{{ menu()!.name }}</div>
                         @if (menu()!.market) {
-                            <div class="pm-sheet__open">{{ menu()!.market }} · {{ menu()!.currency }}</div>
+                            <div class="pm-sheet__open">{{ menu()!.market }}</div>
                         }
                     </div>
                     <button class="pm-sheet__close" (click)="infoOpen.set(false)" aria-label="Close">
