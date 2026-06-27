@@ -20,6 +20,21 @@ const MIME_TYPES = {
   '.txt': 'text/plain; charset=utf-8',
 };
 
+// Paths that automated scanners constantly probe for. None of these are ever
+// legitimate static assets in an Angular build, so we answer them with a plain
+// 404 instead of leaking anything or falling through to the SPA index.html.
+// Matching is done against a fully (recursively) percent-decoded, lower-cased,
+// forward-slash-normalized pathname so encoded variants can't slip past.
+const BLOCKED_PATTERNS = [
+  /\/\.env\b/, //            .env, .env.save.1, .env.local, .env.production, ...
+  /\/\.git(\/|$)/, //        .git/config and anything under .git/
+  /\/\.(?!well-known\/)[^/]/, // any other dotfile/dotdir (.htaccess, .ssh, ...)
+  /\bwp-admin\b/, //         WordPress admin probes
+  /\bwp-login\b/, //         WordPress login probes
+  /\.(?:ini|conf|config|cfg|bak|backup|old|sql|sqlite|db|pem|key|crt|p12|htaccess|htpasswd)$/, // config/secret/backup files
+  /\.\./, //                 path-traversal attempts
+];
+
 function frontendOrigin(req) {
   const proto = String(req.headers['x-forwarded-proto'] || 'https').split(',')[0].trim();
   const host = req.headers['x-forwarded-host'] || req.headers.host;
@@ -77,6 +92,49 @@ function serveFile(res, filePath) {
   fs.createReadStream(filePath).pipe(res);
 }
 
+// Safely turn an incoming request target into a URL object.
+//
+// We do NOT use `new URL(req.url, 'http://localhost')` (relative resolution):
+// a request target beginning with "//" (e.g. "//.env.save.1" or
+// "//%2f%2egit%2fconfig") is interpreted by the relative-URL parser as a
+// *protocol-relative authority* — i.e. everything after "//" becomes the host.
+// Encoded hosts like "%2f%2egit%2fconfig" then fail host validation and throw
+// `TypeError: Invalid URL` (ERR_INVALID_URL), which previously crashed the
+// process. By concatenating the raw target onto a fixed absolute origin we
+// force it to be parsed as the URL *path*, and we still wrap the whole thing in
+// try/catch so any other malformed target yields null instead of throwing.
+function parseRequestUrl(req) {
+  const raw = req.url || '/';
+  try {
+    const prefix = raw.startsWith('/') ? '' : '/';
+    return new URL(`http://localhost${prefix}${raw}`);
+  } catch {
+    return null;
+  }
+}
+
+// Returns true if the (decoded) pathname targets a sensitive/scanner path.
+function isBlockedPath(pathname) {
+  let decoded = pathname;
+  try {
+    // Recursively decode to defeat single- and double-encoded probes such as
+    // "%2egit" or "%252e%252e". decodeURIComponent throws on malformed escapes
+    // ("%", "%zz", ...), which are never valid asset paths -> treat as blocked.
+    let previous;
+    do {
+      previous = decoded;
+      decoded = decodeURIComponent(decoded);
+    } while (decoded !== previous);
+  } catch {
+    return true;
+  }
+
+  // Normalize backslashes to forward slashes and lower-case so the patterns
+  // only have to reason about one canonical form.
+  const normalized = decoded.replace(/\\/g, '/').toLowerCase();
+  return BLOCKED_PATTERNS.some((pattern) => pattern.test(normalized));
+}
+
 function staticPathFor(pathname) {
   let decoded;
   try {
@@ -85,6 +143,8 @@ function staticPathFor(pathname) {
     return null;
   }
 
+  // Strip every leading slash/backslash so "//foo" or "////foo" resolve like
+  // "/foo" instead of escaping the dist directory, then re-check containment.
   const normalized = path.normalize(decoded).replace(/^([/\\])+/, '');
   const filePath = path.join(DIST_DIR, normalized);
   const relative = path.relative(DIST_DIR, filePath);
@@ -93,33 +153,72 @@ function staticPathFor(pathname) {
 }
 
 function requestHandler(req, res) {
-  const requestUrl = new URL(req.url || '/', 'http://localhost');
-  const qrMatch = requestUrl.pathname.match(/^\/r\/([^/]+)\/?$/);
+  // Final safety net: nothing in here is allowed to throw out of the request
+  // handler, because an uncaught throw in the 'request' event crashes Node.
+  try {
+    const requestUrl = parseRequestUrl(req);
+    if (!requestUrl) {
+      // Malformed request target (bad encoding, illegal characters, etc.).
+      sendText(res, 400, 'Bad request.');
+      return;
+    }
 
-  if ((req.method === 'GET' || req.method === 'HEAD') && qrMatch) {
-    void handleQrRedirect(req, res, qrMatch[1]);
-    return;
+    const qrMatch = requestUrl.pathname.match(/^\/r\/([^/]+)\/?$/);
+    if ((req.method === 'GET' || req.method === 'HEAD') && qrMatch) {
+      void handleQrRedirect(req, res, qrMatch[1]);
+      return;
+    }
+
+    if (req.method !== 'GET' && req.method !== 'HEAD') {
+      sendText(res, 405, 'Method not allowed.');
+      return;
+    }
+
+    // Block sensitive/scanner paths before any filesystem or SPA handling.
+    if (isBlockedPath(requestUrl.pathname)) {
+      sendText(res, 404, 'Not found.');
+      return;
+    }
+
+    const filePath = staticPathFor(requestUrl.pathname);
+    if (filePath && fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+      serveFile(res, filePath);
+      return;
+    }
+
+    // SPA fallback: let Angular's client-side router handle unknown routes.
+    serveFile(res, INDEX_FILE);
+  } catch (error) {
+    console.error('[request]', error);
+    if (!res.headersSent) {
+      sendText(res, 500, 'Internal server error.');
+    } else {
+      res.end();
+    }
   }
-
-  if (req.method !== 'GET' && req.method !== 'HEAD') {
-    sendText(res, 405, 'Method not allowed.');
-    return;
-  }
-
-  const filePath = staticPathFor(requestUrl.pathname);
-  if (filePath && fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
-    serveFile(res, filePath);
-    return;
-  }
-
-  serveFile(res, INDEX_FILE);
 }
 
 if (require.main === module) {
-  http.createServer(requestHandler).listen(PORT, () => {
+  const server = http.createServer(requestHandler);
+
+  // Malformed HTTP at the protocol level (bad request line/headers) fires
+  // 'clientError' rather than reaching requestHandler. Respond with 400 and
+  // close instead of letting the default behavior surface as noise/crashes.
+  server.on('clientError', (err, socket) => {
+    if (socket.writable) {
+      socket.end('HTTP/1.1 400 Bad Request\r\nConnection: close\r\n\r\n');
+    }
+  });
+
+  server.listen(PORT, () => {
     console.log(`[server] listening on ${PORT}`);
   });
 }
 
-module.exports = { frontendOrigin, rewriteRedirectLocation, requestHandler };
-
+module.exports = {
+  frontendOrigin,
+  rewriteRedirectLocation,
+  requestHandler,
+  parseRequestUrl,
+  isBlockedPath,
+};
