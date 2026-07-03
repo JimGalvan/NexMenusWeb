@@ -43,6 +43,13 @@ export const routes: Routes = [
       import('./pages/public-menu/public-menu-page').then(m => m.PublicMenuPageComponent),
   },
 
+  // Printable / PDF version of the public menu (no auth).
+  {
+    path: 'm/:slug/print',
+    loadComponent: () =>
+      import('./pages/print-menu/print-menu-page').then(m => m.PrintMenuPageComponent),
+  },
+
 
   { path: '**', redirectTo: '' },
 ];

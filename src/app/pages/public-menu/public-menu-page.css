@@ -93,6 +93,7 @@
   flex: 0 0 auto;
 }
 .pm-info-btn__label { font-size: 13.5px; font-weight: 700; color: var(--text-3); }
+.pm-print-link { padding: 0 11px; }
 .pm-meta { display: flex; gap: 7px; margin-top: 14px; flex-wrap: wrap; }
 .pm-meta__chip {
   display: inline-flex;

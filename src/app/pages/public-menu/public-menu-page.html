@@ -33,6 +33,15 @@
                         }
                     </div>
                     <div class="pm-header__actions">
+                        @if (!landingPreview) {
+                            <a class="pm-info-btn pm-print-link" [routerLink]="['/m', menu()!.slug, 'print']"
+                               title="Printable menu" aria-label="Printable menu">
+                                <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
+                                    <path d="M7 8V4h10v4M7 17H5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M7 14h10v6H7v-6Z"
+                                          stroke="#52525B" stroke-width="1.8" stroke-linejoin="round"/>
+                                </svg>
+                            </a>
+                        }
                         <button class="pm-info-btn" (click)="infoOpen.set(true)" aria-label="Restaurant info">
                             <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
                                 <circle cx="12" cy="12" r="9" stroke="#52525B" stroke-width="1.8"/>

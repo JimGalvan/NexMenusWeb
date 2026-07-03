@@ -410,6 +410,12 @@ export class EditorPageComponent {
     if (!slug) return;
     this.persistDetails(() => this.router.navigate(['/m', slug]));
   }
+  /** Printable version of the same diner page; persist details first too. */
+  openPrintable() {
+    const slug = this.menuModel()?.slug;
+    if (!slug) return;
+    this.persistDetails(() => this.router.navigate(['/m', slug, 'print']));
+  }
 
   // ---- items ----
   itemExists(id: string) { return this.items().some(i => i.id === id); }

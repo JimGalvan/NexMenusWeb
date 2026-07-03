@@ -1,0 +1,94 @@
+@if (loading()) {
+  <div class="pr-missing"><p>Loading menu…</p></div>
+} @else if (!menu()) {
+  <div class="pr-missing">
+    <p>This menu isn't available.</p>
+    <a routerLink="/" class="nx-btn nx-btn--primary">Go to NexMenus</a>
+  </div>
+} @else {
+  <div class="pr" [style.--accent]="accent()">
+
+    <!-- top bar (screen only) -->
+    <div class="pr-topbar no-print">
+      <a class="pr-back" [routerLink]="['/m', slug]">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M19 12H5M11 6l-6 6 6 6" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Back to menu
+      </a>
+      <button class="pr-print-btn" (click)="print()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M7 8V4h10v4M7 17H5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M7 14h10v6H7v-6Z"
+                stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/>
+        </svg>
+        Print / Save as PDF
+      </button>
+    </div>
+
+    <!-- sheet -->
+    <div class="pr-sheet">
+      <header class="pr-header">
+        @if (menu()!.logoUrl) {
+          <img class="pr-logo pr-logo--img" [src]="menu()!.logoUrl" [alt]="menu()!.name + ' logo'"/>
+        } @else {
+          <div class="pr-logo">{{ initials() }}</div>
+        }
+        <div class="pr-header__name">{{ menu()!.name }}</div>
+        @if (menu()!.description) {
+          <div class="pr-header__tagline">{{ menu()!.description }}</div>
+        }
+        <div class="pr-header__rule">
+          <span class="pr-rule"></span>
+          <span class="pr-rule__label">Menu</span>
+          <span class="pr-rule"></span>
+        </div>
+      </header>
+
+      @for (sec of sections(); track sec.name) {
+        <section class="pr-section">
+          <div class="pr-section__head">
+            <div class="pr-section__title">{{ sec.name }}</div>
+            <div class="pr-section__line"></div>
+          </div>
+          <div class="pr-section__items">
+            @for (it of sec.items; track it.id) {
+              <div class="pr-item">
+                <div class="pr-item__row">
+                  <span class="pr-item__name">{{ it.name }}</span>
+                  <span class="pr-item__dots"></span>
+                  <span class="pr-item__price">${{ it.priceAmount }}</span>
+                </div>
+                @if (it.description) {
+                  <div class="pr-item__desc">{{ it.description }}</div>
+                }
+              </div>
+            }
+          </div>
+        </section>
+      }
+
+      <footer class="pr-footer">
+        @if (menu()!.address || menu()!.operatingHours || menu()!.phone || menu()!.email) {
+          <div class="pr-footer__lines">
+            @if (menu()!.address) {
+              {{ menu()!.address }}
+              <br>
+            }
+            @if (menu()!.operatingHours) {
+              {{ menu()!.operatingHours }}
+              @if (menu()!.phone) { · }
+            }
+            @if (menu()!.phone) {
+              <span class="pr-footer__phone">{{ menu()!.phone }}</span>
+            }
+            @if (menu()!.email) {
+              <br>{{ menu()!.email }}
+            }
+          </div>
+        }
+        <div class="pr-footer__powered">Prices subject to change · Powered by NexMenus</div>
+      </footer>
+    </div>
+  </div>
+}

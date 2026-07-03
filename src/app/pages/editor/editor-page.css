@@ -53,6 +53,22 @@
   font-weight: 600;
   padding: 8px;
 }
+.ed-head__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ed-print-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-3);
+  border: none;
+}
 .ed-preview-btn {
   display: flex;
   align-items: center;

@@ -33,10 +33,15 @@
               <svg width="9" height="16" viewBox="0 0 9 16" fill="none"><path d="M8 1 1 8l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               Menus
             </button>
-            <button class="ed-preview-btn" (click)="openPreview()">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.9"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.9"/></svg>
-              Preview
-            </button>
+            <div class="ed-head__actions">
+              <button class="ed-print-btn" (click)="openPrintable()" title="Printable menu" aria-label="Printable menu">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M7 8V4h10v4M7 17H5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M7 14h10v6H7v-6Z" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg>
+              </button>
+              <button class="ed-preview-btn" (click)="openPreview()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.9"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.9"/></svg>
+                Preview
+              </button>
+            </div>
           </div>
           <div class="ed-title">{{ menuName() }}</div>
           <div class="ed-seg">
@@ -130,10 +135,15 @@
               <svg width="9" height="16" viewBox="0 0 9 16" fill="none"><path d="M8 1 1 8l7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               Menus
             </button>
-            <button class="ed-preview-btn" (click)="openPreview()">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.9"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.9"/></svg>
-              Preview
-            </button>
+            <div class="ed-head__actions">
+              <button class="ed-print-btn" (click)="openPrintable()" title="Printable menu" aria-label="Printable menu">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M7 8V4h10v4M7 17H5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M7 14h10v6H7v-6Z" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg>
+              </button>
+              <button class="ed-preview-btn" (click)="openPreview()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.9"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.9"/></svg>
+                Preview
+              </button>
+            </div>
           </div>
           <div class="ed-title">{{ menuName() }}</div>
           <div class="ed-seg">

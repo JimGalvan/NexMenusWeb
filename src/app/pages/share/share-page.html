@@ -1,7 +1,7 @@
 <div class="share">
   <header class="share__head">
-    <h1>QR &amp; Share</h1>
-    <p>Print your code or share your menu link.</p>
+    <h1>Share &amp; Print</h1>
+    <p>Share your menu link or print it out.</p>
   </header>
 
   <!-- menu selector -->
@@ -28,10 +28,19 @@
     <div class="qr-card__title">Scan to view menu</div>
     <div class="qr-card__url">{{ publicUrl() }}</div>
     <div class="qr-card__actions">
-      <button class="nx-btn nx-btn--primary qr-card__dl" (click)="downloadQr()">
+      @if (menu(); as m) {
+        <a class="nx-btn nx-btn--primary qr-card__pdf" [routerLink]="['/m', m.slug, 'print']">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7 3h7l4 4v14H7V3Z" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/>
+            <path d="M14 3v4h4M10 12h6M10 16h6" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+          Printable menu (PDF)
+        </a>
+      }
+      <button class="nx-btn nx-btn--ghost qr-card__dl" (click)="downloadQr()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M12 3v12m0 0 4-4m-4 4-4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2"
-                stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                stroke="#27272A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         Download QR (PNG)
       </button>

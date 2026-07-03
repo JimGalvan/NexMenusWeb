@@ -1,5 +1,5 @@
 import { Component, computed, inject, signal, viewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
 import { MenuSummary, menuInitials } from '../../models/menu.model';
 import { QrCodeComponent } from '../../components/ui/qr-code/qr-code';
@@ -7,7 +7,7 @@ import { BottomSheetComponent } from '../../components/ui/bottom-sheet/bottom-sh
 
 @Component({
   selector: 'app-share-page',
-  imports: [QrCodeComponent, BottomSheetComponent],
+  imports: [QrCodeComponent, BottomSheetComponent, RouterLink],
   templateUrl: './share-page.html',
   styleUrl: './share-page.css',
 })
