@@ -215,6 +215,9 @@
     max-width: none !important;
     border-radius: 0 !important;
     padding: 64px 72px !important;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
   .pr-section { break-inside: avoid; }
 }
+
