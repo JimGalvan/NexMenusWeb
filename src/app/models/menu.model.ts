@@ -203,6 +203,11 @@ export function formatPrice(amount: string | number): string {
   return Number.isFinite(n) && n >= 0 ? n.toFixed(2) : '0.00';
 }
 
+/** Diner-facing price label: "26.00" → "$26", "12.50" → "$12.50". */
+export function priceLabel(amount: string): string {
+  return '$' + amount.replace(/\.00$/, '');
+}
+
 /** Compact "2h ago" label derived from an ISO `updatedAt`. */
 export function relativeTime(iso: string): string {
   const minutes = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);

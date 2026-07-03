@@ -1,7 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
-import { PublicMenu, PublicMenuItem, menuInitials } from '../../models/menu.model';
+import { PublicMenu, PublicMenuItem, menuInitials, priceLabel } from '../../models/menu.model';
 
 interface PrintSection {
   name: string;
@@ -50,6 +50,8 @@ export class PrintMenuPageComponent {
       error: () => this.loading.set(false),
     });
   }
+
+  priceLabel = priceLabel;
 
   print() {
     window.print();

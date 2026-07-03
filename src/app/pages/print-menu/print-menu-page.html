@@ -57,7 +57,7 @@
                 <div class="pr-item__row">
                   <span class="pr-item__name">{{ it.name }}</span>
                   <span class="pr-item__dots"></span>
-                  <span class="pr-item__price">${{ it.priceAmount }}</span>
+                  <span class="pr-item__price">{{ priceLabel(it.priceAmount) }}</span>
                 </div>
                 @if (it.description) {
                   <div class="pr-item__desc">{{ it.description }}</div>
