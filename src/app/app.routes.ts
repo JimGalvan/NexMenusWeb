@@ -7,7 +7,6 @@ import { AppShellComponent } from './components/layout/app-shell/app-shell';
 import { MenusPageComponent } from './pages/menus/menus-page';
 import { SharePageComponent } from './pages/share/share-page';
 import { AccountPageComponent } from './pages/account/account-page';
-import { RestaurantCaliforniaPageComponent } from './pages/blog/restaurant-california-page';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
@@ -15,7 +14,27 @@ export const routes: Routes = [
   { path: 'login',    component: LoginPageComponent },
   { path: 'register', component: RegisterPageComponent },
   { path: 'terms',    component: TermsPageComponent },
-  { path: 'blog/how-to-start-restaurant-california', component: RestaurantCaliforniaPageComponent },
+  {
+    path: 'blog',
+    pathMatch: 'full',
+    loadComponent: () =>
+      import('./pages/blog/blog-index-page').then(m => m.BlogIndexPageComponent),
+  },
+  {
+    path: 'blog/how-to-start-restaurant-california',
+    loadComponent: () =>
+      import('./pages/blog/restaurant-california-page').then(m => m.RestaurantCaliforniaPageComponent),
+  },
+  {
+    path: 'blog/how-to-print-menus-for-restaurants',
+    loadComponent: () =>
+      import('./pages/blog/print-menus-page').then(m => m.PrintMenusPageComponent),
+  },
+  {
+    path: 'blog/how-to-create-printable-restaurant-menus',
+    redirectTo: 'blog/how-to-print-menus-for-restaurants',
+    pathMatch: 'full',
+  },
   {
     path: 'blog/how-to-open-restaurant-california',
     redirectTo: 'blog/how-to-start-restaurant-california',

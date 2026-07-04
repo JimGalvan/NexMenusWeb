@@ -1,0 +1,44 @@
+<article class="blog">
+  <header class="blog-nav">
+    <div class="blog-nav__inner">
+      <a routerLink="/" aria-label="NexMenus home">
+        <app-brand-logo [size]="21" />
+      </a>
+      <nav class="blog-nav__links" aria-label="Blog navigation">
+        <a routerLink="/m/ocean-farm/print">Printable menu demo</a>
+        <a routerLink="/register" class="nx-btn nx-btn--primary blog-nav__cta">Start free</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="blog-hero blog-hero--index">
+    <div class="blog-hero__copy">
+      <p class="blog-kicker">NexMenus blog</p>
+      <h1>Blog</h1>
+      <p class="blog-hero__lede">
+        Practical notes for restaurants building menus, printing menus, and getting ready to launch.
+      </p>
+    </div>
+  </section>
+
+  <div class="blog-index">
+    <a routerLink="/blog/how-to-print-menus-for-restaurants" class="blog-index__post">
+      <span>Printable menus</span>
+      <strong>How to print menus for restaurants</strong>
+      <em>Create a print-ready restaurant menu that still matches your QR and online menu.</em>
+    </a>
+    <a routerLink="/blog/how-to-start-restaurant-california" class="blog-index__post">
+      <span>Startup guide</span>
+      <strong>How to start a restaurant in California</strong>
+      <em>A practical checklist for permits, launch prep, opening menus, and soft openings.</em>
+    </a>
+  </div>
+
+  <footer class="blog-footer">
+    <div class="blog-footer__inner">
+      <app-brand-logo [size]="19" />
+      <p>© {{ year }} NexMenus. All rights reserved.</p>
+      <a routerLink="/terms">Terms</a>
+    </div>
+  </footer>
+</article>
