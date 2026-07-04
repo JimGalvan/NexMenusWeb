@@ -66,6 +66,12 @@
     <div class="auth__foot">
       Already have an account? <a routerLink="/login">Log in</a>
     </div>
+
+    @if (supportEmail) {
+      <div class="auth__support">
+        Having issue? <a [href]="supportHref">{{ supportEmail }}</a>
+      </div>
+    }
   </div>
 </div>
 

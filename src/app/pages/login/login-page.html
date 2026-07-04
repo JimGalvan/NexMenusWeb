@@ -64,5 +64,11 @@
     <div class="auth__foot">
       New to NexMenus? <a routerLink="/register">Create an account</a>
     </div>
+
+    @if (supportEmail) {
+      <div class="auth__support">
+        Having issue? <a [href]="supportHref">{{ supportEmail }}</a>
+      </div>
+    }
   </div>
 </div>

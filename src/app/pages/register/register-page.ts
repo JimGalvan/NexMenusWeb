@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { BrandLogoComponent } from '../../components/ui/brand-logo/brand-logo';
 
@@ -19,6 +20,8 @@ export class RegisterPageComponent {
   showPassword = signal(false);
   loading = signal(false);
   error = signal('');
+  readonly supportEmail = environment.supportEmail.trim();
+  readonly supportHref = `mailto:${this.supportEmail}?subject=${encodeURIComponent('NexMenus support request')}`;
 
   togglePassword() {
     this.showPassword.update(v => !v);

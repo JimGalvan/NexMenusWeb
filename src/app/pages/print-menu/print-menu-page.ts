@@ -1,6 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
+import { SeoService } from '../../services/seo.service';
 import { PublicMenu, PublicMenuItem, menuInitials, priceLabel } from '../../models/menu.model';
 
 interface PrintSection {
@@ -20,6 +21,7 @@ interface PrintSection {
 export class PrintMenuPageComponent {
   private route = inject(ActivatedRoute);
   private menuService = inject(MenuService);
+  private seo = inject(SeoService);
 
   readonly accent = this.menuService.accent;
 
@@ -45,6 +47,12 @@ export class PrintMenuPageComponent {
     this.menuService.getPublicMenu(this.slug).subscribe({
       next: menu => {
         this.menu.set(menu);
+        this.seo.setPage({
+          title: `${menu.name} Printable Menu | NexMenus`,
+          description: `Print the ${menu.name} menu or save it as a clean PDF. This printable restaurant menu stays in sync with the live digital menu.`,
+          canonicalPath: `/m/${this.slug}/print`,
+          type: 'article',
+        });
         this.loading.set(false);
       },
       error: () => this.loading.set(false),

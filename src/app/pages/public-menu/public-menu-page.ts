@@ -2,6 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
 import { AuthService } from '../../services/auth.service';
+import { SeoService } from '../../services/seo.service';
 import { PublicMenu, PublicMenuItem, menuInitials } from '../../models/menu.model';
 import { BottomSheetComponent } from '../../components/ui/bottom-sheet/bottom-sheet';
 
@@ -34,6 +35,7 @@ export class PublicMenuPageComponent {
   private route = inject(ActivatedRoute);
   private menuService = inject(MenuService);
   private authService = inject(AuthService);
+  private seo = inject(SeoService);
 
   readonly accent = this.menuService.accent;
 
@@ -53,6 +55,13 @@ export class PublicMenuPageComponent {
     this.menuService.getPublicMenu(this.slug).subscribe({
       next: menu => {
         this.menu.set(menu);
+        this.seo.setPage({
+          title: `${menu.name} Menu | NexMenus`,
+          description: menu.description
+            ? `${menu.description} View the live ${menu.name} menu online.`
+            : `View the live ${menu.name} menu online, including categories, item details, and current prices.`,
+          canonicalPath: `/m/${this.slug}`,
+        });
         this.loading.set(false);
       },
       error: () => this.loading.set(false),
