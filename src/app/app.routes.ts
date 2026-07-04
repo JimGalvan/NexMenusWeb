@@ -7,6 +7,7 @@ import { AppShellComponent } from './components/layout/app-shell/app-shell';
 import { MenusPageComponent } from './pages/menus/menus-page';
 import { SharePageComponent } from './pages/share/share-page';
 import { AccountPageComponent } from './pages/account/account-page';
+import { RestaurantCaliforniaPageComponent } from './pages/blog/restaurant-california-page';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
@@ -14,6 +15,12 @@ export const routes: Routes = [
   { path: 'login',    component: LoginPageComponent },
   { path: 'register', component: RegisterPageComponent },
   { path: 'terms',    component: TermsPageComponent },
+  { path: 'blog/how-to-start-restaurant-california', component: RestaurantCaliforniaPageComponent },
+  {
+    path: 'blog/how-to-open-restaurant-california',
+    redirectTo: 'blog/how-to-start-restaurant-california',
+    pathMatch: 'full',
+  },
 
   // Authenticated app — tabbed shell (Menus / QR & Share / Account).
   {
