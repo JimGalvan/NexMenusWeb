@@ -21,6 +21,36 @@ export const routes: Routes = [
       import('./pages/blog/blog-index-page').then(m => m.BlogIndexPageComponent),
   },
   {
+    path: 'blog/how-to-make-free-digital-menu-for-your-restaurant',
+    loadComponent: () =>
+      import('./pages/blog/digital-menu-page').then(m => m.DigitalMenuPageComponent),
+  },
+  {
+    path: 'blog/how-to-make-a-free-digital-menu-for-your-restaurant',
+    redirectTo: 'blog/how-to-make-free-digital-menu-for-your-restaurant',
+    pathMatch: 'full',
+  },
+  {
+    path: 'blog/how-to-make-free-qr-code-menu-for-your-restaurant',
+    loadComponent: () =>
+      import('./pages/blog/qr-menu-page').then(m => m.QrMenuPageComponent),
+  },
+  {
+    path: 'blog/how-to-make-qr-code-for-your-menu',
+    redirectTo: 'blog/how-to-make-free-qr-code-menu-for-your-restaurant',
+    pathMatch: 'full',
+  },
+  {
+    path: 'blog/how-to-make-a-qr-code-for-your-menu',
+    redirectTo: 'blog/how-to-make-free-qr-code-menu-for-your-restaurant',
+    pathMatch: 'full',
+  },
+  {
+    path: 'blog/how-to-make-qr-code-for-you-menu',
+    redirectTo: 'blog/how-to-make-free-qr-code-menu-for-your-restaurant',
+    pathMatch: 'full',
+  },
+  {
     path: 'blog/how-to-start-restaurant-california',
     loadComponent: () =>
       import('./pages/blog/restaurant-california-page').then(m => m.RestaurantCaliforniaPageComponent),

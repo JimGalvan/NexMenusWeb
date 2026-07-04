@@ -21,6 +21,16 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://nexmenus.com/blog/how-to-make-free-qr-code-menu-for-your-restaurant/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nexmenus.com/blog/how-to-make-free-digital-menu-for-your-restaurant/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://nexmenus.com/blog/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>

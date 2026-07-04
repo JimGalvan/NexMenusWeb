@@ -376,6 +376,10 @@
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
   }
+
+  .blog-index {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 560px) {
