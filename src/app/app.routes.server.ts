@@ -11,6 +11,7 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'login', renderMode: RenderMode.Server },
   { path: 'register', renderMode: RenderMode.Server },
   { path: 'terms', renderMode: RenderMode.Server },
+  { path: 'privacy', renderMode: RenderMode.Server },
   { path: 'blog', renderMode: RenderMode.Server },
   { path: 'blog/**', renderMode: RenderMode.Server },
   { path: 'm/:slug', renderMode: RenderMode.Server },

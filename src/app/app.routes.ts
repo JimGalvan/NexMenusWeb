@@ -3,6 +3,7 @@ import { LandingPageComponent } from './pages/landing/landing-page';
 import { LoginPageComponent } from './pages/login/login-page';
 import { RegisterPageComponent } from './pages/register/register-page';
 import { TermsPageComponent } from './pages/terms/terms-page';
+import { PrivacyPageComponent } from './pages/privacy/privacy-page';
 import { AppShellComponent } from './components/layout/app-shell/app-shell';
 import { MenusPageComponent } from './pages/menus/menus-page';
 import { SharePageComponent } from './pages/share/share-page';
@@ -14,6 +15,7 @@ export const routes: Routes = [
   { path: 'login',    component: LoginPageComponent },
   { path: 'register', component: RegisterPageComponent },
   { path: 'terms',    component: TermsPageComponent },
+  { path: 'privacy',  component: PrivacyPageComponent },
   {
     path: 'blog',
     pathMatch: 'full',

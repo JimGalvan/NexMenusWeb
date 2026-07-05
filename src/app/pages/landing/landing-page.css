@@ -453,6 +453,139 @@
   .lp-sync { top: 22px; right: 66px; }
 }
 
+/* ---------------- HOW / WHO / FAQ sections ---------------- */
+.lp-how,
+.lp-who,
+.lp-faq {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 64px 20px 0;
+}
+.lp-section__title {
+  font-size: clamp(30px, 7vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  margin: 14px 0 0;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+.lp-section__sub {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text-3);
+  margin: 18px 0 0;
+  max-width: 520px;
+  text-wrap: pretty;
+}
+
+.lp-steps {
+  list-style: none;
+  margin: 36px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 20px;
+}
+.lp-step {
+  background: var(--panel-2);
+  border: 1px solid var(--line-soft);
+  border-radius: 18px;
+  padding: 22px;
+}
+.lp-step__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--brand);
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 800;
+}
+.lp-step h3 {
+  font-size: 16.5px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 13px 0 0;
+}
+.lp-step p {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text-3);
+  margin: 8px 0 0;
+}
+
+.lp-who__grid {
+  margin-top: 36px;
+  display: grid;
+  gap: 20px;
+}
+.lp-who__card {
+  border: 1px solid var(--line-soft);
+  border-radius: 18px;
+  padding: 22px;
+  background: var(--surface);
+  box-shadow: 0 6px 18px rgba(20, 20, 40, 0.05);
+}
+.lp-who__card h3 {
+  font-size: 16.5px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+.lp-who__card p {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text-3);
+  margin: 8px 0 0;
+}
+
+.lp-faq__list {
+  margin: 36px 0 0;
+  display: grid;
+  gap: 14px;
+  max-width: 760px;
+}
+.lp-faq__item {
+  background: var(--panel-2);
+  border: 1px solid var(--line-soft);
+  border-radius: 16px;
+  padding: 20px 22px;
+}
+.lp-faq__item dt {
+  font-size: 15.5px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.lp-faq__item dd {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--text-3);
+  margin: 9px 0 0;
+}
+
+@media (min-width: 860px) {
+  .lp-how,
+  .lp-who,
+  .lp-faq {
+    padding-top: 88px;
+  }
+  .lp-steps {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .lp-who__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 640px) and (max-width: 859.98px) {
+  .lp-steps,
+  .lp-who__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 /* ---------------- CTA ---------------- */
 .lp-cta {
   max-width: 1120px;
