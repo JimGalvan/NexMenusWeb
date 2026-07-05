@@ -78,7 +78,8 @@
 }
 .pm-logo--img { object-fit: cover; background: var(--panel-3); }
 .pm-header__id { flex: 1; min-width: 0; }
-.pm-header__name { font-weight: 800; font-size: 20px; letter-spacing: -0.01em; }
+/* h1 for SEO semantics; margin reset keeps it pixel-identical to the old div. */
+.pm-header__name { font-weight: 800; font-size: 20px; letter-spacing: -0.01em; margin: 0; }
 .pm-header__tagline { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
 .pm-info-btn {
   height: 38px;

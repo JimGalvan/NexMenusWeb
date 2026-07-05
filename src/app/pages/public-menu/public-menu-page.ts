@@ -55,11 +55,10 @@ export class PublicMenuPageComponent {
     this.menuService.getPublicMenu(this.slug).subscribe({
       next: menu => {
         this.menu.set(menu);
+        const city = extractCity(menu.address);
         this.seo.setPage({
-          title: `${menu.name} Menu | NexMenus`,
-          description: menu.description
-            ? `${menu.description} View the live ${menu.name} menu online.`
-            : `View the live ${menu.name} menu online, including categories, item details, and current prices.`,
+          title: city ? `${menu.name} — Menu & Prices in ${city} | NexMenus` : `${menu.name} Menu | NexMenus`,
+          description: buildDescription(menu, city),
           noindex: this.landingPreview,
           canonicalPath: `/m/${this.slug}`,
           image: menu.logoUrl ?? undefined,
@@ -130,11 +129,66 @@ export class PublicMenuPageComponent {
 }
 
 /**
+ * Best-effort city extraction from the free-text address. Addresses are
+ * typically "street, city[, region ...]", so the second comma segment is the
+ * usual city slot; segments that are mostly digits (postal codes, street
+ * numbers) are skipped. Returns null rather than guessing badly — callers
+ * fall back to location-less copy.
+ */
+function extractCity(address: string | null): string | null {
+  if (!address) return null;
+  const segments = address
+    .split(',')
+    .map(s => s.trim())
+    .filter(Boolean);
+  if (segments.length < 2) return null;
+  const candidate = segments[1].replace(/\b\d{4,}\b/g, '').trim();
+  const letters = candidate.replace(/[^\p{L}]/gu, '');
+  if (!candidate || candidate.length > 40 || letters.length < candidate.length / 2) return null;
+  return candidate;
+}
+
+/** Meta description: owner copy (or fallback) + location + a taste of the menu. */
+function buildDescription(menu: PublicMenu, city: string | null): string {
+  const where = city ? ` in ${city}` : '';
+  const base = menu.description
+    ? `${menu.description} View the live ${menu.name} menu${where} with current prices.`
+    : `View the live ${menu.name} menu${where}, including categories, item details, and current prices.`;
+  const dishes = [...menu.items, ...menu.uncategorizedItems]
+    .slice(0, 3)
+    .map(i => i.name)
+    .join(', ');
+  const withDishes = dishes ? `${base} Featuring ${dishes}.` : base;
+  return withDishes.length <= 300 ? withDishes : base;
+}
+
+/**
  * schema.org Restaurant + Menu structured data. This is what Google reads to
  * show rich restaurant/menu results; prices are exposed as Offers with the
- * menu's currency.
+ * menu's currency. The address goes out as a structured PostalAddress when a
+ * city can be extracted — that's what qualifies the page for local results
+ * and helps Google tie it to the restaurant's Business Profile.
  */
 function buildMenuJsonLd(menu: PublicMenu, slug: string): Record<string, unknown> {
+  const city = extractCity(menu.address);
+  const address = !menu.address
+    ? null
+    : city
+      ? {
+          '@type': 'PostalAddress',
+          streetAddress: menu.address.split(',')[0].trim(),
+          addressLocality: city,
+          addressCountry: menu.market,
+        }
+      : menu.address;
+
+  const prices = [...menu.items, ...menu.uncategorizedItems]
+    .map(i => Number(i.priceAmount))
+    .filter(p => Number.isFinite(p) && p > 0);
+  const priceRange = prices.length
+    ? `${Math.min(...prices)}-${Math.max(...prices)} ${menu.currency}`
+    : null;
+
   const menuItem = (item: PublicMenuItem) => ({
     '@type': 'MenuItem',
     name: item.name,
@@ -172,7 +226,8 @@ function buildMenuJsonLd(menu: PublicMenu, slug: string): Record<string, unknown
     ...(menu.description ? { description: menu.description } : {}),
     ...(menu.logoUrl ? { image: menu.logoUrl } : {}),
     ...(menu.phone ? { telephone: menu.phone } : {}),
-    ...(menu.address ? { address: menu.address } : {}),
+    ...(address ? { address } : {}),
+    ...(priceRange ? { priceRange } : {}),
     ...(menu.email ? { email: menu.email } : {}),
     hasMenu: {
       '@type': 'Menu',
