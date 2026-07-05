@@ -9,6 +9,13 @@
       "autoPort": false
     },
     {
+      "name": "nexmenus-alt2",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["start", "--", "--port", "4397"],
+      "port": 4397,
+      "autoPort": false
+    },
+    {
       "name": "nexmenus-alt",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["start", "--", "--port", "4398"],

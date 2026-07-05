@@ -14,15 +14,15 @@
   <section class="blog-hero">
     <div class="blog-hero__copy">
       <p class="blog-kicker">Printable restaurant menus</p>
-      <h1>How to print menus for restaurants</h1>
+      <h1>How to print a restaurant menu (step-by-step)</h1>
       <p class="blog-hero__lede">
-        A good printed menu is easy to scan, easy to reprint, and consistent with your
-        online menu. Here is a practical way to create restaurant menus you can print
-        without rebuilding the design every time a price changes.
+        This tutorial walks through the whole process with real screenshots: build the menu
+        once, open the print-ready view, save it as a clean PDF, and print it — without
+        redoing the design every time a price changes. It takes about ten minutes.
       </p>
       <div class="blog-hero__meta">
         <span>Updated July 2026</span>
-        <span>7 minute read</span>
+        <span>8 minute read</span>
       </div>
     </div>
 
@@ -45,78 +45,144 @@
 
   <div class="blog-layout">
     <aside class="blog-toc" aria-label="Article sections">
-      <a href="/blog/how-to-print-menus-for-restaurants/#format">Format</a>
-      <a href="/blog/how-to-print-menus-for-restaurants/#layout">Layout</a>
-      <a href="/blog/how-to-print-menus-for-restaurants/#printing">Printing</a>
+      <a href="/blog/how-to-print-menus-for-restaurants/#step-1">1. Build the menu</a>
+      <a href="/blog/how-to-print-menus-for-restaurants/#step-2">2. Open print view</a>
+      <a href="/blog/how-to-print-menus-for-restaurants/#step-3">3. Save as PDF</a>
+      <a href="/blog/how-to-print-menus-for-restaurants/#step-4">4. Print it</a>
       <a href="/blog/how-to-print-menus-for-restaurants/#updates">Updates</a>
+      <a href="/blog/how-to-print-menus-for-restaurants/#faq">FAQ</a>
     </aside>
 
     <div class="blog-content">
-      <section id="format">
-        <h2>Choose the right printed menu format</h2>
+      <section>
+        <h2>What you'll need</h2>
+        <ul>
+          <li>Your menu items, descriptions, and prices (a rough list is fine — you can edit later).</li>
+          <li>A free <a routerLink="/register">NexMenus account</a>, or just follow along with the
+            <a routerLink="/m/ocean-farm">Ocean &amp; Farm demo menu</a> used in the screenshots below.</li>
+          <li>Any computer with a browser. No design software required — the print layout is generated for you.</li>
+        </ul>
         <p>
-          The best restaurant menu format depends on how guests order. A full-service
-          dining room may need a folded or two-page menu. A counter-service shop may only
-          need a single-page handout. A bar may need a separate drinks menu. A takeout
-          restaurant may care more about durability and fast reprints.
+          The idea behind this workflow: your printed menu is generated from the same menu your
+          guests see online. Update an item once, and the QR menu, web menu, and printable PDF
+          all stay in sync. No InDesign files, no hunting for "menu_final_v7.docx".
+        </p>
+      </section>
+
+      <section id="step-1">
+        <span class="blog-step-kicker">Step 1</span>
+        <h2>Build your menu online first</h2>
+        <p>
+          Create a free account, add your categories (Appetizers, Mains, Drinks, Desserts…), then
+          add each item with a name, price, and a short description. Keep descriptions to one
+          sentence — on paper, long descriptions crowd the prices and slow guests down.
+        </p>
+        <p>
+          If you already have a NexMenus menu, skip straight to step 2. Everything you've entered
+          is already print-ready.
+        </p>
+      </section>
+
+      <section id="step-2">
+        <span class="blog-step-kicker">Step 2</span>
+        <h2>Open the print view of your menu</h2>
+        <p>
+          Open your live menu page and click the printer icon in the top-right corner, next to the
+          Info button. (In the menu editor, the same printer icon lives in the header toolbar.)
+        </p>
+        <figure class="blog-figure">
+          <img
+            src="/blog/print-tutorial-live-menu.webp"
+            alt="A live NexMenus restaurant menu page with the printer icon highlighted in the top-right corner"
+            width="1280"
+            height="900"
+            loading="lazy"
+          />
+          <figcaption>The printer icon (circled) on the live menu opens the print-ready version.</figcaption>
+        </figure>
+        <p>
+          This switches from the guest view — photos, category pills, tap-to-call — to an
+          ink-friendly paper layout: black text on white, aligned prices with dotted leaders, and
+          no buttons or navigation. It is the same menu data, just formatted for paper.
+        </p>
+      </section>
+
+      <section id="step-3">
+        <span class="blog-step-kicker">Step 3</span>
+        <h2>Review the layout, then click "Print / Save as PDF"</h2>
+        <p>
+          Before printing a batch, give the page a quick scan: are the categories in the order you
+          want, do the longest item names fit on one line, and are all prices current? If something
+          is off, fix it in the editor — the print view updates instantly.
+        </p>
+        <figure class="blog-figure">
+          <img
+            src="/blog/print-tutorial-print-view.webp"
+            alt="The NexMenus print-ready menu view with the Print / Save as PDF button highlighted"
+            width="1280"
+            height="900"
+            loading="lazy"
+          />
+          <figcaption>The print view strips photos and buttons and lays the menu out for paper.</figcaption>
+        </figure>
+        <p>
+          When it looks right, click <strong>Print / Save as PDF</strong>. Your browser's print
+          dialog opens (you can also press <strong>Ctrl+P</strong> on Windows or
+          <strong>⌘P</strong> on Mac). A few settings worth checking:
         </p>
         <ul>
-          <li>Use one page for short menus, lunch specials, pop-ups, and counter service.</li>
-          <li>Use two pages or a fold for larger dinner menus with appetizers, entrees, and drinks.</li>
-          <li>Use inserts for seasonal items so the main menu can stay stable.</li>
-          <li>Use QR codes when guests may want photos, allergens, translations, or live availability.</li>
+          <li><strong>Destination:</strong> choose "Save as PDF" for a file, or pick your printer to print directly.</li>
+          <li><strong>Paper size:</strong> Letter in the US, A4 almost everywhere else.</li>
+          <li><strong>Margins:</strong> leave on Default — the layout already includes comfortable margins.</li>
+          <li><strong>Headers and footers:</strong> turn off, so the date and URL don't print on your menu.</li>
         </ul>
       </section>
 
-      <section id="layout">
-        <h2>Design for scanning before decoration</h2>
+      <section id="step-4">
+        <span class="blog-step-kicker">Step 4</span>
+        <h2>Check the PDF and print a small test batch</h2>
+        <p>Here is what the saved PDF looks like — this is an actual export of the demo menu, untouched:</p>
+        <figure class="blog-figure">
+          <img
+            src="/blog/print-tutorial-pdf-result.webp"
+            alt="Page one of the finished restaurant menu PDF with aligned prices and clean typography"
+            width="1224"
+            height="1584"
+            loading="lazy"
+          />
+          <figcaption>Page 1 of the exported PDF — ready for an office printer or a print shop.</figcaption>
+        </figure>
         <p>
-          Guests read menus quickly. Put the most important choices in clear groups, keep
-          item names and prices aligned, and avoid making descriptions fight the prices.
-          A printed menu should still be readable under dim light, on a patio, and by a guest
-          who is holding it at arm's length.
+          Print one or two copies in-house first and put them in guests' hands (or your staff's).
+          Check readability in the dining room's actual light, at arm's length. Then decide how to
+          produce the batch:
         </p>
-        <p>
-          Keep categories short, use consistent price formatting, and give profitable or
-          signature items a little more breathing room. If every dish is highlighted, nothing is.
-        </p>
-      </section>
-
-      <section>
-        <h2>Make the menu print-friendly</h2>
-        <p>
-          Before printing, check margins, page breaks, contrast, and whether the longest item
-          names still fit. Photos can be beautiful online, but printed menus often work better
-          with fewer images, stronger typography, and enough white space to keep the page calm.
-        </p>
+        <ul>
+          <li><strong>In-house printer:</strong> perfect for daily specials, lunch inserts, and menus that change weekly. Use 32 lb / 120 gsm paper so pages don't feel flimsy.</li>
+          <li><strong>Local print shop:</strong> hand them the PDF for heavier card stock, trimming, or lamination. Laminated menus survive spills and wipe clean between seatings.</li>
+          <li><strong>Menu covers or holders:</strong> plain paper in a quality holder looks premium and makes reprints nearly free.</li>
+          <li><strong>Takeout menus:</strong> pick a size that fits your bags without folding into a crumpled mess — half-letter usually works.</li>
+        </ul>
         <div class="blog-callout">
-          <h3>Printable menu checklist</h3>
+          <h3>Pre-print checklist</h3>
           <ul>
-            <li>Export to PDF so spacing and fonts stay predictable.</li>
-            <li>Use high contrast text and avoid tiny descriptions.</li>
-            <li>Leave enough margin for trimming, laminating, or menu holders.</li>
-            <li>Check every price, modifier, and allergen note before printing a batch.</li>
-            <li>Add a QR code when guests need the live menu, photos, or online ordering.</li>
+            <li>Every price matches the POS.</li>
+            <li>Sold-out or seasonal items removed or marked.</li>
+            <li>Allergen notes present where you need them.</li>
+            <li>Headers/footers off in the print dialog.</li>
+            <li>One test print reviewed on paper — screens hide spacing problems.</li>
           </ul>
         </div>
       </section>
 
-      <section id="printing">
-        <h2>Decide how you will print restaurant menus</h2>
-        <p>
-          For quick tests, print a small batch in-house and see how the menu feels in service.
-          For daily table menus, use a heavier paper or menu holder. For takeout menus, choose
-          a size that fits bags and does not get crushed. For premium dining, a local print shop
-          can help with paper stock, trimming, lamination, and finish.
-        </p>
-      </section>
-
       <section id="updates">
-        <h2>Plan for changes before they happen</h2>
+        <h2>When prices change, don't redesign — reprint</h2>
         <p>
-          Restaurant menus change constantly. Items sell out, suppliers shift, food costs move,
-          and seasonal dishes rotate. The easiest mistake is designing a beautiful printed menu
-          that is painful to update.
+          Menus change constantly: items sell out, food costs move, seasonal dishes rotate. The
+          most expensive mistake is a beautiful printed menu that lives in a design file only one
+          person can edit. With this workflow, updating the printed menu is: edit the item in
+          NexMenus, open the print view, save the new PDF, reprint. Two minutes, and your QR menu
+          and web menu updated themselves at the same time.
         </p>
         <div class="blog-menu-promo">
           <div>
@@ -134,13 +200,51 @@
         </div>
       </section>
 
+      <section id="faq">
+        <h2>Frequently asked questions</h2>
+
+        <h3>What paper size should a restaurant menu be?</h3>
+        <p>
+          Letter (8.5×11") or A4 for standard dinner menus, half-letter for drinks lists and
+          lunch inserts, and 11×17" folded for large multi-section menus. If you're printing
+          in-house, stick to Letter/A4 — it's what your printer holds.
+        </p>
+
+        <h3>How do I save my menu as a PDF for free?</h3>
+        <p>
+          Every modern browser can do it: open the print view, press Ctrl+P (or ⌘P), and choose
+          "Save as PDF" as the destination. No paid software needed.
+        </p>
+
+        <h3>Should my printed menu have photos?</h3>
+        <p>
+          Usually not. Photos print inconsistently, use a lot of ink, and crowd the page. Keep
+          photos on your digital menu — where they look great on a phone — and let the printed
+          menu rely on clear typography. A QR code on the paper menu bridges the two.
+        </p>
+
+        <h3>How many menus should I print?</h3>
+        <p>
+          A common rule of thumb is about 75% of your seat count for dinner menus (not every seat
+          orders at once), plus 10–15% spares for wear and spills. Print fewer, more often — it
+          keeps menus clean and prices current.
+        </p>
+
+        <h3>Can I print a menu straight from my phone?</h3>
+        <p>
+          Yes — the print view works on mobile too. Open your menu, tap the printer icon, and use
+          your phone's share/print option to send it to an AirPrint or Wi-Fi printer, or save the
+          PDF and email it to your print shop.
+        </p>
+      </section>
+
       <section>
         <h2>Bottom line</h2>
         <p>
-          To print menus for a restaurant, start with the service style, design for readability,
-          export a clean PDF, test a small batch, and keep the printed version connected to the
-          menu guests see online. The less manual redesign work you create, the easier it is to
-          keep every menu current.
+          To print a restaurant menu: build the menu online, open the print-ready view, save it as
+          a PDF with headers and footers turned off, test one copy on paper, then print the batch
+          in-house or at a print shop. Keep the printed version generated from the live menu, and
+          updates become a two-minute reprint instead of a redesign.
         </p>
       </section>
     </div>

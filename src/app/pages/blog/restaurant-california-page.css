@@ -271,6 +271,37 @@
   text-underline-offset: 3px;
 }
 
+.blog-figure {
+  margin: 26px 0 0;
+}
+
+.blog-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid rgba(34, 34, 75, 0.14);
+  border-radius: 10px;
+  box-shadow: 0 10px 28px rgba(20, 20, 60, 0.08);
+}
+
+.blog-figure figcaption {
+  margin-top: 10px;
+  color: var(--text-3);
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.blog-step-kicker {
+  display: inline-block;
+  margin-bottom: 6px;
+  color: var(--brand);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
 .blog-callout,
 .blog-menu-promo {
   margin-top: 24px;
