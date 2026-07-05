@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /app
+Disallow: /editor
 
 Sitemap: https://nexmenus.com/sitemap.xml

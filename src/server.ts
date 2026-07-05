@@ -105,6 +105,77 @@ app.get(/^\/r\/([^/]+)\/?$/, (req, res) => {
   void handleQrRedirect(req, res, req.params[0]);
 });
 
+// ---- sitemap ----
+
+const SITE_URL = 'https://nexmenus.com';
+
+// Static, always-present pages. Menu URLs are appended from the API.
+const STATIC_SITEMAP_ENTRIES: { path: string; changefreq: string; priority: string }[] = [
+  { path: '/', changefreq: 'weekly', priority: '1.0' },
+  { path: '/blog', changefreq: 'monthly', priority: '0.5' },
+  { path: '/blog/how-to-make-free-digital-menu-for-your-restaurant', changefreq: 'monthly', priority: '0.7' },
+  { path: '/blog/how-to-make-free-qr-code-menu-for-your-restaurant', changefreq: 'monthly', priority: '0.7' },
+  { path: '/blog/how-to-start-restaurant-california', changefreq: 'monthly', priority: '0.7' },
+  { path: '/blog/how-to-print-menus-for-restaurants', changefreq: 'monthly', priority: '0.7' },
+  { path: '/terms', changefreq: 'yearly', priority: '0.2' },
+];
+
+const SITEMAP_TTL_MS = 60 * 60 * 1000;
+let sitemapCache: { xml: string; expires: number } | null = null;
+
+function xmlEscape(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+async function buildSitemap(): Promise<string> {
+  const urls = STATIC_SITEMAP_ENTRIES.map(
+    (e) =>
+      `  <url>\n    <loc>${SITE_URL}${e.path}</loc>\n` +
+      `    <changefreq>${e.changefreq}</changefreq>\n    <priority>${e.priority}</priority>\n  </url>`,
+  );
+
+  // Menu pages come from the API; if it's unreachable the sitemap simply
+  // degrades to the static pages rather than failing the request.
+  const apiBaseUrl = (process.env['API_BASE_URL'] || '').replace(/\/$/, '');
+  if (apiBaseUrl) {
+    try {
+      const res = await fetch(`${apiBaseUrl}/api/v1/public/menus/slugs`, {
+        signal: AbortSignal.timeout(10_000),
+      });
+      if (res.ok) {
+        const menus = (await res.json()) as { slug: string; updatedAt?: string }[];
+        for (const menu of menus) {
+          if (!menu.slug) continue;
+          const lastmod = menu.updatedAt ? `    <lastmod>${menu.updatedAt.slice(0, 10)}</lastmod>\n` : '';
+          urls.push(
+            `  <url>\n    <loc>${SITE_URL}/m/${xmlEscape(encodeURIComponent(menu.slug))}</loc>\n` +
+              `${lastmod}    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>`,
+          );
+        }
+      } else {
+        console.error('[sitemap] slug feed returned', res.status);
+      }
+    } catch (error) {
+      console.error('[sitemap]', error);
+    }
+  }
+
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`;
+}
+
+app.get('/sitemap.xml', (req, res) => {
+  void (async () => {
+    if (!sitemapCache || sitemapCache.expires < Date.now()) {
+      sitemapCache = { xml: await buildSitemap(), expires: Date.now() + SITEMAP_TTL_MS };
+    }
+    res.type('application/xml').setHeader('Cache-Control', 'public, max-age=3600').send(sitemapCache.xml);
+  })();
+});
+
 app.use((req, res, next) => {
   if (isBlockedPath(req.path)) {
     res.status(404).type('text/plain').send('Not found.');
