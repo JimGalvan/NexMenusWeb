@@ -8,6 +8,8 @@ interface SeoMetadata {
   canonicalPath?: string;
   image?: string;
   type?: string;
+  /** Keep crawlers away from duplicate/embedded variants of a page. */
+  noindex?: boolean;
 }
 
 const SITE_URL = 'https://nexmenus.com';
@@ -25,7 +27,7 @@ export class SeoService {
 
     this.title.setTitle(metadata.title);
     this.upsert('name', 'description', metadata.description);
-    this.upsert('name', 'robots', 'index, follow');
+    this.upsert('name', 'robots', metadata.noindex ? 'noindex, nofollow' : 'index, follow');
     this.upsert('property', 'og:site_name', 'NexMenus');
     this.upsert('property', 'og:type', metadata.type ?? 'website');
     this.upsert('property', 'og:title', metadata.title);

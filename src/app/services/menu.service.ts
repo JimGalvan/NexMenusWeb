@@ -2,6 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { safeStorage } from '../core/safe-storage';
 import {
   AddCategoryRequest,
   AddItemRequest,
@@ -39,11 +40,11 @@ export class MenuService {
   private readonly publicApi = `${environment.apiBaseUrl}/api/${environment.apiVersion}/public/menus`;
 
   /** Brand accent is a client-only theming concern, not part of the contract. */
-  readonly accent = signal<string>(localStorage.getItem(ACCENT_KEY) ?? '#22224b');
+  readonly accent = signal<string>(safeStorage.getItem(ACCENT_KEY) ?? '#22224b');
 
   setAccent(color: string): void {
     this.accent.set(color);
-    localStorage.setItem(ACCENT_KEY, color);
+    safeStorage.setItem(ACCENT_KEY, color);
   }
 
   // ---- menus ----

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, finalize, map, shareReplay, switchMap, tap, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { safeStorage } from '../core/safe-storage';
 import {
   Account,
   AuthTokens,
@@ -29,7 +30,7 @@ export class AuthService {
   private readonly api = `${environment.apiBaseUrl}/api/${environment.apiVersion}`;
 
   private accessToken = signal<string | null>(null);
-  private refreshToken = signal<string | null>(localStorage.getItem(REFRESH_KEY));
+  private refreshToken = signal<string | null>(safeStorage.getItem(REFRESH_KEY));
   readonly account = signal<Account | null>(readStoredAccount());
 
   // A session exists when we still hold a refresh token; the access token is
@@ -103,24 +104,24 @@ export class AuthService {
     this.accessToken.set(null);
     this.refreshToken.set(null);
     this.account.set(null);
-    localStorage.removeItem(REFRESH_KEY);
-    localStorage.removeItem(ACCOUNT_KEY);
+    safeStorage.removeItem(REFRESH_KEY);
+    safeStorage.removeItem(ACCOUNT_KEY);
   }
 
   private storeTokens(tokens: AuthTokens): void {
     this.accessToken.set(tokens.token);
     this.refreshToken.set(tokens.refreshToken);
-    localStorage.setItem(REFRESH_KEY, tokens.refreshToken);
+    safeStorage.setItem(REFRESH_KEY, tokens.refreshToken);
   }
 
   private storeAccount(account: Account): void {
     this.account.set(account);
-    localStorage.setItem(ACCOUNT_KEY, JSON.stringify(account));
+    safeStorage.setItem(ACCOUNT_KEY, JSON.stringify(account));
   }
 }
 
 function readStoredAccount(): Account | null {
-  const raw = localStorage.getItem(ACCOUNT_KEY);
+  const raw = safeStorage.getItem(ACCOUNT_KEY);
   if (!raw) return null;
   try {
     return JSON.parse(raw) as Account;

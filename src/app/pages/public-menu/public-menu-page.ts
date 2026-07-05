@@ -60,8 +60,11 @@ export class PublicMenuPageComponent {
           description: menu.description
             ? `${menu.description} View the live ${menu.name} menu online.`
             : `View the live ${menu.name} menu online, including categories, item details, and current prices.`,
+          noindex: this.landingPreview,
           canonicalPath: `/m/${this.slug}`,
+          image: menu.logoUrl ?? undefined,
         });
+        this.seo.addJsonLd(`menu-jsonld-${menu.id}`, buildMenuJsonLd(menu, this.slug));
         this.loading.set(false);
       },
       error: () => this.loading.set(false),
@@ -124,4 +127,57 @@ export class PublicMenuPageComponent {
   closePhoto() {
     this.selectedPhoto.set(null);
   }
+}
+
+/**
+ * schema.org Restaurant + Menu structured data. This is what Google reads to
+ * show rich restaurant/menu results; prices are exposed as Offers with the
+ * menu's currency.
+ */
+function buildMenuJsonLd(menu: PublicMenu, slug: string): Record<string, unknown> {
+  const menuItem = (item: PublicMenuItem) => ({
+    '@type': 'MenuItem',
+    name: item.name,
+    ...(item.description ? { description: item.description } : {}),
+    ...(item.imageUrl ? { image: item.imageUrl } : {}),
+    offers: {
+      '@type': 'Offer',
+      price: item.priceAmount,
+      priceCurrency: menu.currency,
+      availability: item.soldOut ? 'https://schema.org/SoldOut' : 'https://schema.org/InStock',
+    },
+  });
+
+  const sections = menu.categories
+    .map(category => ({
+      '@type': 'MenuSection',
+      name: category.name,
+      hasMenuItem: menu.items.filter(i => i.categoryId === category.id).map(menuItem),
+    }))
+    .filter(section => section.hasMenuItem.length > 0);
+
+  if (menu.uncategorizedItems.length) {
+    sections.push({
+      '@type': 'MenuSection',
+      name: 'More',
+      hasMenuItem: menu.uncategorizedItems.map(menuItem),
+    });
+  }
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Restaurant',
+    name: menu.name,
+    url: `https://nexmenus.com/m/${slug}`,
+    ...(menu.description ? { description: menu.description } : {}),
+    ...(menu.logoUrl ? { image: menu.logoUrl } : {}),
+    ...(menu.phone ? { telephone: menu.phone } : {}),
+    ...(menu.address ? { address: menu.address } : {}),
+    ...(menu.email ? { email: menu.email } : {}),
+    hasMenu: {
+      '@type': 'Menu',
+      name: `${menu.name} Menu`,
+      hasMenuSection: sections,
+    },
+  };
 }
