@@ -28,6 +28,17 @@ const angularApp = new AngularNodeAppEngine({
   trustProxyHeaders: true,
 });
 
+// Canonical host: 301 www.nexmenus.com -> nexmenus.com so Google doesn't
+// index the site under two hostnames.
+app.use((req, res, next) => {
+  const host = String(req.headers['x-forwarded-host'] || req.headers.host || '');
+  if (host.toLowerCase() === 'www.nexmenus.com') {
+    res.redirect(301, `https://nexmenus.com${req.originalUrl}`);
+    return;
+  }
+  next();
+});
+
 // Paths that automated scanners constantly probe for. None of these are ever
 // legitimate routes or assets, so answer with a plain 404 instead of leaking
 // anything or spending an SSR render on them. Matching is done against a fully
