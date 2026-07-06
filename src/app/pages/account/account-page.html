@@ -25,6 +25,41 @@
     <!--        <button class="plan__manage">Manage</button>-->
     <!--    </section>-->
 
+    <!-- tutorials -->
+    <section class="settings" aria-label="Guides and tutorials">
+        <a class="settings__row" href="/blog/how-to-create-a-restaurant-menu" target="_blank" rel="noopener">
+          <span class="settings__icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 19V6a2 2 0 0 1 2-2h13v13H6a2 2 0 0 0-2 2Zm0 0a2 2 0 0 0 2 2h13" stroke="#3F3F46" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M9 8h6M9 11.5h4" stroke="#3F3F46" stroke-width="1.7" stroke-linecap="round"/>
+            </svg>
+          </span>
+            <span class="settings__label">
+                How to create your menu
+                <span class="settings__tag">Tutorial</span>
+            </span>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="m9 6 6 6-6 6" stroke="#C4C4CC" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+            </svg>
+        </a>
+        <a class="settings__row" href="/blog/how-to-print-menus-for-restaurants" target="_blank" rel="noopener">
+          <span class="settings__icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M7 8V4h10v4M7 17H5a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M7 14h10v6H7v-6Z" stroke="#3F3F46" stroke-width="1.7" stroke-linejoin="round"/>
+            </svg>
+          </span>
+            <span class="settings__label">
+                How to print your menu
+                <span class="settings__tag">Tutorial</span>
+            </span>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="m9 6 6 6-6 6" stroke="#C4C4CC" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+            </svg>
+        </a>
+    </section>
+
     @if (supportEmail) {
         <section class="settings">
             <a class="settings__row" [href]="supportHref" [attr.aria-label]="'Contact support at ' + supportEmail">

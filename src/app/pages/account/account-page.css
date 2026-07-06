@@ -92,6 +92,19 @@
   flex: 0 0 auto;
 }
 .settings__label { flex: 1; font-size: 14.5px; font-weight: 600; }
+.settings__tag {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--panel-2);
+  color: var(--muted);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  vertical-align: 1px;
+}
 
 .logout {
   width: 100%;
