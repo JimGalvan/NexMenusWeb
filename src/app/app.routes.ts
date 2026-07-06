@@ -58,6 +58,16 @@ export const routes: Routes = [
       import('./pages/blog/restaurant-california-page').then(m => m.RestaurantCaliforniaPageComponent),
   },
   {
+    path: 'blog/how-to-create-a-restaurant-menu',
+    loadComponent: () =>
+      import('./pages/blog/create-menu-page').then(m => m.CreateMenuPageComponent),
+  },
+  {
+    path: 'blog/how-to-create-restaurant-menu',
+    redirectTo: 'blog/how-to-create-a-restaurant-menu',
+    pathMatch: 'full',
+  },
+  {
     path: 'blog/how-to-print-menus-for-restaurants',
     loadComponent: () =>
       import('./pages/blog/print-menus-page').then(m => m.PrintMenusPageComponent),

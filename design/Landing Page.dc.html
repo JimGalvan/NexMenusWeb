@@ -296,6 +296,17 @@ button {
   margin-top: 26px;
 }
 .auth__foot a { color: var(--brand); font-weight: 700; }
+.auth__support {
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--muted-2);
+  margin-top: 10px;
+}
+.auth__support a {
+  color: var(--brand);
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
 
 
 :host { display: block; }
@@ -522,6 +533,25 @@ button {
   animation: lp-floaty 5s ease-in-out infinite;
 }
 .lp-float--qr { left: -4px; bottom: 56px; }
+.lp-float--print { right: -10px; bottom: 140px; padding: 12px 14px; animation-delay: 2.4s; }
+.lp-paper {
+  width: 38px;
+  height: 48px;
+  border-radius: 6px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  padding: 6px 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5px;
+}
+.lp-paper span { height: 2.5px; border-radius: 99px; background: var(--line, #e4e4e7); }
+.lp-paper span:first-child { height: 3px; width: 60%; background: var(--brand); }
+.lp-paper span:nth-child(2) { width: 90%; }
+.lp-paper span:nth-child(3) { width: 75%; }
+.lp-paper span:nth-child(4) { width: 85%; }
+.lp-paper span:nth-child(5) { width: 65%; }
 .lp-float__title { font-size: 12px; font-weight: 800; }
 .lp-float__sub { font-size: 10.5px; color: var(--muted); margin-top: 1px; }
 .lp-qr {
@@ -540,6 +570,331 @@ button {
 @keyframes lp-floaty {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
+}
+
+/* ---------------- DIGITAL + PRINT ---------------- */
+.lp-print {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 64px 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+}
+.lp-kicker {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand);
+}
+.lp-print__title {
+  font-size: clamp(30px, 7vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  margin: 14px 0 0;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+.lp-print__sub {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text-3);
+  margin: 18px 0 0;
+  max-width: 460px;
+  text-wrap: pretty;
+}
+.lp-checks {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  margin-top: 26px;
+}
+.lp-check {
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+  font-size: 15px;
+  color: var(--text-2);
+}
+.lp-check svg { flex: 0 0 auto; margin-top: 2px; }
+.lp-print__link { margin-top: 30px; }
+
+/* paper + phone visual */
+.lp-print__art {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+.lp-sheet {
+  width: 280px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06), 0 30px 60px rgba(20, 20, 40, 0.16),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+  padding: 30px 28px;
+  transform: rotate(-3deg);
+}
+.lp-sheet__head { text-align: center; }
+.lp-sheet__logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--brand);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 10px;
+}
+.lp-sheet__name { font-weight: 800; font-size: 16px; margin-top: 8px; letter-spacing: -0.01em; }
+.lp-sheet__rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-top: 8px;
+}
+.lp-sheet__rule span { width: 30px; height: 1px; background: rgba(0, 0, 0, 0.15); }
+.lp-sheet__rule em {
+  font-style: normal;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.lp-sheet__cat { font-size: 11px; font-weight: 800; color: var(--brand); margin-top: 16px; }
+.lp-sheet__row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 8px;
+}
+.lp-sheet__row b { font-size: 10.5px; font-weight: 700; white-space: nowrap; }
+.lp-sheet__row i { flex: 1; border-bottom: 1.5px dotted rgba(0, 0, 0, 0.18); }
+.lp-sheet__row strong { font-size: 10.5px; font-weight: 800; color: var(--brand); }
+
+.lp-mini-phone {
+  position: absolute;
+  right: 8px;
+  bottom: -6px;
+  width: 150px;
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 24px 50px rgba(20, 20, 40, 0.22), 0 0 0 1px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  transform: rotate(4deg);
+}
+.lp-mini-phone__head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 12px 12px 0;
+}
+.lp-mini-phone__logo {
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
+  background: var(--brand);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 6.5px;
+}
+.lp-mini-phone__name { font-weight: 800; font-size: 9.5px; }
+.lp-mini-phone__pills { display: flex; gap: 4px; padding: 8px 12px; }
+.lp-mini-phone__pills span {
+  background: var(--panel-2);
+  color: var(--text-3);
+  font-size: 7px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: var(--r-pill);
+}
+.lp-mini-phone__pills span.is-active { background: var(--brand); color: #fff; }
+.lp-mini-phone__card {
+  margin: 0 10px 12px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+}
+.lp-mini-phone__photo { height: 56px; background: linear-gradient(135deg, #d6e7f0, #b6d2e2); }
+.lp-mini-phone__line {
+  padding: 7px 8px;
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.lp-mini-phone__line b { font-weight: 700; font-size: 8px; }
+.lp-mini-phone__line strong { font-weight: 800; font-size: 8px; color: var(--brand); }
+
+.lp-sync {
+  position: absolute;
+  top: 12px;
+  right: 34px;
+  background: #ecfdf3;
+  color: #15803d;
+  border-radius: var(--r-pill);
+  padding: 7px 13px;
+  font-size: 11.5px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 8px 20px rgba(21, 128, 61, 0.18);
+}
+
+@media (min-width: 860px) {
+  .lp-print {
+    flex-direction: row;
+    align-items: center;
+    padding-top: 88px;
+    gap: 56px;
+  }
+  .lp-print__copy { flex: 1; }
+  .lp-print__art { flex: 1; min-height: 420px; }
+  .lp-mini-phone { right: 36px; }
+  .lp-sync { top: 22px; right: 66px; }
+}
+
+/* ---------------- HOW / WHO / FAQ sections ---------------- */
+.lp-how,
+.lp-who,
+.lp-faq {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 64px 20px 0;
+}
+.lp-section__title {
+  font-size: clamp(30px, 7vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  margin: 14px 0 0;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+.lp-section__sub {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text-3);
+  margin: 18px 0 0;
+  max-width: 520px;
+  text-wrap: pretty;
+}
+
+.lp-steps {
+  list-style: none;
+  margin: 36px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 20px;
+}
+.lp-step {
+  background: var(--panel-2);
+  border: 1px solid var(--line-soft);
+  border-radius: 18px;
+  padding: 22px;
+}
+.lp-step__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--brand);
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 800;
+}
+.lp-step h3 {
+  font-size: 16.5px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 13px 0 0;
+}
+.lp-step p {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text-3);
+  margin: 8px 0 0;
+}
+
+.lp-who__grid {
+  margin-top: 36px;
+  display: grid;
+  gap: 20px;
+}
+.lp-who__card {
+  border: 1px solid var(--line-soft);
+  border-radius: 18px;
+  padding: 22px;
+  background: var(--surface);
+  box-shadow: 0 6px 18px rgba(20, 20, 40, 0.05);
+}
+.lp-who__card h3 {
+  font-size: 16.5px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+.lp-who__card p {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text-3);
+  margin: 8px 0 0;
+}
+
+.lp-faq__list {
+  margin: 36px 0 0;
+  display: grid;
+  gap: 14px;
+  max-width: 760px;
+}
+.lp-faq__item {
+  background: var(--panel-2);
+  border: 1px solid var(--line-soft);
+  border-radius: 16px;
+  padding: 20px 22px;
+}
+.lp-faq__item dt {
+  font-size: 15.5px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.lp-faq__item dd {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--text-3);
+  margin: 9px 0 0;
+}
+
+@media (min-width: 860px) {
+  .lp-how,
+  .lp-who,
+  .lp-faq {
+    padding-top: 88px;
+  }
+  .lp-steps {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .lp-who__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 640px) and (max-width: 859.98px) {
+  .lp-steps,
+  .lp-who__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 /* ---------------- CTA ---------------- */
@@ -632,7 +987,9 @@ button {
 .lp-footer__copy { font-size: 12.5px; color: rgba(255, 255, 255, 0.5); }
 .lp-footer__links {
   display: flex;
-  gap: 22px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 22px;
   font-size: 13px;
   color: rgba(255, 255, 255, 0.75);
 }
@@ -695,12 +1052,13 @@ button {
   <section class="lp-hero">
     <div class="lp-hero__copy">
       <span class="lp-badge">
-        <span class="lp-badge__dot"></span>QR menus for restaurants
+        <span class="lp-badge__dot"></span>Digital + print menus for restaurants
       </span>
-      <h1 class="lp-hero__title">Your menu, live in minutes.</h1>
+      <h1 class="lp-hero__title">Printable &amp; digital restaurant menus, live in minutes.</h1>
       <p class="lp-hero__sub">
-        Build a beautiful, photo-forward digital menu, print your QR code, and update
-        prices or sold-out items right from your phone. No app, no code.
+        Build a beautiful, photo-forward digital menu — plus a print-ready PDF that
+        always matches it. Update prices or sold-out items right from your phone.
+        No app, no code.
       </p>
       <div class="lp-hero__actions">
         <a href="/register" class="nx-btn nx-btn--primary">Start free — it's free to launch</a>
@@ -739,11 +1097,194 @@ button {
       <div class="lp-float lp-float--qr">
         <div class="lp-qr" aria-hidden="true"></div>
         <div>
-          <div class="lp-float__title">Scan to view</div>
+          <div class="lp-float__title">One tap or scan</div>
           <div class="lp-float__sub">Table 7 · Ocean &amp; Farm</div>
         </div>
       </div>
+      <div class="lp-float lp-float--print">
+        <div class="lp-paper" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div>
+          <div class="lp-float__title">Print-ready PDF</div>
+          <div class="lp-float__sub">Always in sync</div>
+        </div>
+      </div>
     </div>
+  </section>
+
+  <!-- DIGITAL + PRINT -->
+  <section class="lp-print">
+    <div class="lp-print__copy">
+      <div class="lp-kicker">Digital + Print</div>
+      <h2 class="lp-print__title">One menu, every format</h2>
+      <p class="lp-print__sub">
+        Edit once, and both stay in sync. Your digital menu for phones — and a clean,
+        ink-friendly PDF for tables, takeout counters, and guests who prefer paper.
+      </p>
+      <div class="lp-checks">
+        <div class="lp-check">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="m5 12 5 5L20 6" stroke="#15803D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Price change? The PDF updates itself — no re-designing in Word
+        </div>
+        <div class="lp-check">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="m5 12 5 5L20 6" stroke="#15803D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Ink-friendly layout, ready for laminating or framing
+        </div>
+        <div class="lp-check">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="m5 12 5 5L20 6" stroke="#15803D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          A backup for no-phone guests — or when the Wi-Fi isn't cooperating
+        </div>
+      </div>
+      <a href="/m/ocean-farm/print" class="lp-link lp-print__link">
+        See a printable menu
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </a>
+    </div>
+
+    <!-- visual: paper + phone from the same menu -->
+    <div class="lp-print__art" aria-hidden="true">
+      <div class="lp-sheet">
+        <div class="lp-sheet__head">
+          <div class="lp-sheet__logo">O&amp;F</div>
+          <div class="lp-sheet__name">Ocean &amp; Farm</div>
+          <div class="lp-sheet__rule">
+            <span></span><em>Menu</em><span></span>
+          </div>
+        </div>
+        <div class="lp-sheet__cat">From the Sea</div>
+        <div class="lp-sheet__row"><b>Grilled Salmon</b><i></i><strong>$26</strong></div>
+        <div class="lp-sheet__row"><b>Shrimp Skewers</b><i></i><strong>$19</strong></div>
+        <div class="lp-sheet__cat">Mains</div>
+        <div class="lp-sheet__row"><b>Ribeye Steak</b><i></i><strong>$25</strong></div>
+        <div class="lp-sheet__row"><b>Pasta Carbonara</b><i></i><strong>$23</strong></div>
+      </div>
+      <div class="lp-mini-phone">
+        <div class="lp-mini-phone__head">
+          <div class="lp-mini-phone__logo">O&amp;F</div>
+          <div class="lp-mini-phone__name">Ocean &amp; Farm</div>
+        </div>
+        <div class="lp-mini-phone__pills">
+          <span class="is-active">From the Sea</span>
+          <span>Mains</span>
+        </div>
+        <div class="lp-mini-phone__card">
+          <div class="lp-mini-phone__photo"></div>
+          <div class="lp-mini-phone__line"><b>Grilled Salmon</b><strong>$26</strong></div>
+        </div>
+      </div>
+      <div class="lp-sync">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 12a8 8 0 0 1 13.6-5.6M20 12a8 8 0 0 1-13.6 5.6" stroke="#15803D" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M17 3v4h-4M7 21v-4h4" stroke="#15803D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Always in sync
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="lp-how">
+    <div class="lp-kicker">How it works</div>
+    <h2 class="lp-section__title">How NexMenus works</h2>
+    <p class="lp-section__sub">
+      From blank page to a printed menu on the table — without a designer,
+      a PDF editor, or another late night in Canva.
+    </p>
+    <ol class="lp-steps">
+      <li class="lp-step">
+        <span class="lp-step__num">1</span>
+        <h3>Create your menu</h3>
+        <p>Add categories, items, prices, descriptions, and photos in a simple editor. No design skills needed.</p>
+      </li>
+      <li class="lp-step">
+        <span class="lp-step__num">2</span>
+        <h3>Print a clean PDF</h3>
+        <p>Every menu comes with a matching print-ready PDF — ink-friendly and formatted for tables, counters, takeout bags, and laminating.</p>
+      </li>
+      <li class="lp-step">
+        <span class="lp-step__num">3</span>
+        <h3>Share a link or QR code</h3>
+        <p>Guests open your digital menu from a QR code, your website, or social media. No app to download.</p>
+      </li>
+      <li class="lp-step">
+        <span class="lp-step__num">4</span>
+        <h3>Update once, everywhere</h3>
+        <p>Change a price or mark an item sold out, and your printable PDF and digital menu stay in sync automatically.</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- WHO IT'S FOR -->
+  <section class="lp-who">
+    <div class="lp-kicker">Who it's for</div>
+    <h2 class="lp-section__title">Built for restaurants and food businesses</h2>
+    <p class="lp-section__sub">
+      If your menu changes more often than you'd like to reprint it, NexMenus is for you.
+    </p>
+    <div class="lp-who__grid">
+      <div class="lp-who__card">
+        <h3>Restaurants</h3>
+        <p>Keep dine-in paper menus and your online menu identical — even when prices change weekly.</p>
+      </div>
+      <div class="lp-who__card">
+        <h3>Cafes &amp; bakeries</h3>
+        <p>Print counter menus and seasonal specials, and update the case display without a redesign.</p>
+      </div>
+      <div class="lp-who__card">
+        <h3>Food trucks &amp; pop-ups</h3>
+        <p>A QR menu for the line and a printable one-pager for the window — updated from your phone.</p>
+      </div>
+      <div class="lp-who__card">
+        <h3>Bars, caterers &amp; takeout</h3>
+        <p>Printable menus for events and takeout bags, plus a live menu link for orders and bookings.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="lp-faq">
+    <div class="lp-kicker">FAQ</div>
+    <h2 class="lp-section__title">Frequently asked questions</h2>
+    <dl class="lp-faq__list">
+      <div class="lp-faq__item">
+        <dt>Can I print my menu?</dt>
+        <dd>Yes. NexMenus generates a print-ready PDF of your menu — a clean, ink-friendly layout for tables, takeout counters, events, laminating, or guests who prefer paper. It always matches your digital menu.</dd>
+      </div>
+      <div class="lp-faq__item">
+        <dt>Is NexMenus free to use?</dt>
+        <dd>Yes. NexMenus is free to launch — you can create your menu, print it, and share it without a credit card.</dd>
+      </div>
+      <div class="lp-faq__item">
+        <dt>Can I make a QR code menu with NexMenus?</dt>
+        <dd>Yes. Every menu gets a public link and QR code that guests can scan from table tents, printed signs, your website, or social media.</dd>
+      </div>
+      <div class="lp-faq__item">
+        <dt>Do guests need to download an app?</dt>
+        <dd>No. Guests open your menu from a normal web link or QR code in their phone's browser — nothing to install.</dd>
+      </div>
+      <div class="lp-faq__item">
+        <dt>Can I update prices and sold-out items?</dt>
+        <dd>Yes. Update prices, descriptions, photos, and sold-out items from one place — even from your phone — and your printable and digital menus stay aligned.</dd>
+      </div>
+      <div class="lp-faq__item">
+        <dt>Can I add photos to my menu?</dt>
+        <dd>Yes. NexMenus is designed for photo-forward menus, so you can show dishes visually and help guests decide what to order.</dd>
+      </div>
+      <div class="lp-faq__item">
+        <dt>Who is NexMenus for?</dt>
+        <dd>Restaurants, cafes, bakeries, food trucks, bars, caterers, pop-ups, and any food business that needs a simple menu it can keep current — in print and online.</dd>
+      </div>
+    </dl>
   </section>
 
   <!-- FINAL CTA -->
@@ -765,12 +1306,14 @@ button {
       <span class="nx-logo" style="font-size:19px"><span class="nx-logo__head">Nex</span><span class="nx-logo__tail">Menus</span></span>
       <p class="lp-footer__copy">© 2026 NexMenus. All rights reserved.</p>
       <div class="lp-footer__links">
-        <a href="#">Privacy</a>
+        <a href="/privacy">Privacy</a>
         <a href="/terms">Terms</a>
+        <a href="/blog">Blog</a>
       </div>
     </div>
   </footer>
 </div>
+
 
 
 </x-dc>

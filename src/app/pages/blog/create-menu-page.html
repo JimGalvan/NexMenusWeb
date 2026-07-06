@@ -1,0 +1,273 @@
+<article class="blog">
+  <header class="blog-nav">
+    <div class="blog-nav__inner">
+      <a routerLink="/" aria-label="NexMenus home">
+        <app-brand-logo [size]="21" />
+      </a>
+      <nav class="blog-nav__links" aria-label="Blog navigation">
+        <a routerLink="/blog/how-to-print-menus-for-restaurants">Print menu tutorial</a>
+        <a routerLink="/register" class="nx-btn nx-btn--primary blog-nav__cta">Start free</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="blog-hero">
+    <div class="blog-hero__copy">
+      <p class="blog-kicker">Restaurant menu builder</p>
+      <h1>How to create a restaurant menu online (step-by-step)</h1>
+      <p class="blog-hero__lede">
+        This tutorial builds a complete restaurant menu from scratch — categories, items,
+        prices, and photos — using real screenshots of every screen. By the end you'll have
+        a live menu you can share as a QR code, a link, or a printable PDF. Plan on about
+        twenty minutes.
+      </p>
+      <div class="blog-hero__meta">
+        <span>Updated July 2026</span>
+        <span>9 minute read</span>
+      </div>
+    </div>
+
+    <aside class="blog-print-card" aria-label="Menu builder promotion">
+      <div class="blog-print-card__sheet" aria-hidden="true">
+        <div class="blog-print-card__title">YOUR MENU</div>
+        <div class="blog-print-card__row"><b>Bruschetta</b><i></i><strong>$14</strong></div>
+        <div class="blog-print-card__row"><b>Carbonara</b><i></i><strong>$23</strong></div>
+        <div class="blog-print-card__row"><b>Old Fashioned</b><i></i><strong>$14</strong></div>
+      </div>
+      <p class="blog-print-card__eyebrow">Build once, use everywhere</p>
+      <h2>One menu for QR, web, and print.</h2>
+      <p>
+        Create your menu once in NexMenus, then share it as a QR code, a web link,
+        or a clean printable PDF — all generated from the same items.
+      </p>
+      <a routerLink="/m/ocean-farm" class="blog-print-card__link">See a live demo menu</a>
+    </aside>
+  </section>
+
+  <div class="blog-layout">
+    <aside class="blog-toc" aria-label="Article sections">
+      <a href="/blog/how-to-create-a-restaurant-menu/#step-1">1. Create the menu</a>
+      <a href="/blog/how-to-create-a-restaurant-menu/#step-2">2. Categories</a>
+      <a href="/blog/how-to-create-a-restaurant-menu/#step-3">3. Items &amp; photos</a>
+      <a href="/blog/how-to-create-a-restaurant-menu/#step-4">4. Details &amp; preview</a>
+      <a href="/blog/how-to-create-a-restaurant-menu/#step-5">5. Share it</a>
+      <a href="/blog/how-to-create-a-restaurant-menu/#faq">FAQ</a>
+    </aside>
+
+    <div class="blog-content">
+      <section>
+        <h2>Before you start</h2>
+        <p>
+          Gather your item names, prices, and one-sentence descriptions — a phone note or a
+          crumpled paper menu is a fine starting point. Photos are optional; you can add them
+          item by item later. In the screenshots below we build "Ocean &amp; Farm", a demo
+          California restaurant, from an empty account.
+        </p>
+      </section>
+
+      <section id="step-1">
+        <span class="blog-step-kicker">Step 1</span>
+        <h2>Create your menu</h2>
+        <p>
+          <a routerLink="/register">Sign up free</a> and you'll land on <strong>Your menus</strong>.
+          Click <strong>Create new menu</strong>:
+        </p>
+        <figure class="blog-figure">
+          <img
+            src="/blog/create-tutorial-menus-list.webp"
+            alt="The NexMenus dashboard with the Create new menu button highlighted"
+            width="1280"
+            height="900"
+            loading="lazy"
+          />
+          <figcaption>Your menus is home base — every menu you create lives here.</figcaption>
+        </figure>
+        <p>
+          Give the menu a name — usually your restaurant's name, or "Dinner" / "Weekend Brunch"
+          if you'll run more than one — and pick your market, which sets the currency:
+        </p>
+        <figure class="blog-figure">
+          <img
+            src="/blog/create-tutorial-create-dialog.webp"
+            alt="The create menu dialog with a menu name typed in and the United States market selected"
+            width="1280"
+            height="900"
+            loading="lazy"
+          />
+          <figcaption>Name and market are all you need to start; everything else can change later.</figcaption>
+        </figure>
+        <p>
+          Your menu also gets a short public link automatically (like
+          <em>nexmenus.com/m/ocean-farm</em>) — that's the address guests will open, and the one
+          the QR code points to.
+        </p>
+      </section>
+
+      <section id="step-2">
+        <span class="blog-step-kicker">Step 2</span>
+        <h2>Add your categories</h2>
+        <p>
+          In the editor, click <strong>Manage</strong> next to Categories and add the sections
+          guests expect to scan first: Appetizers, Mains, Drinks, Desserts. Keep it to four to
+          six categories — more than that and the menu starts to feel like homework.
+        </p>
+        <ul>
+          <li>Order categories the way people eat: starters before mains, desserts last.</li>
+          <li>Split drinks out if you have more than a handful — a "Drinks" pill is easier to tap than a long scroll.</li>
+          <li>You can rename, reorder, or delete categories at any time without touching the items.</li>
+        </ul>
+      </section>
+
+      <section id="step-3">
+        <span class="blog-step-kicker">Step 3</span>
+        <h2>Add items with prices and photos</h2>
+        <p>Click <strong>Add item</strong> and fill in the form — name, price, description, category:</p>
+        <figure class="blog-figure">
+          <img
+            src="/blog/create-tutorial-add-item.webp"
+            alt="The NexMenus new item form with fields for photo, item name, price, description, category, and availability"
+            width="1280"
+            height="900"
+            loading="lazy"
+          />
+          <figcaption>One form per dish: photo, name, price, description, category, availability.</figcaption>
+        </figure>
+        <p>A few rules that make menus sell better:</p>
+        <ul>
+          <li><strong>Keep descriptions to one sentence.</strong> Name the key ingredients and the preparation — "Grilled bread topped with fresh tomatoes, basil, garlic, and olive oil" — and stop.</li>
+          <li><strong>Use real photos of your food</strong>, shot from above or at 45° in daylight. A mediocre stock photo is worse than no photo.</li>
+          <li><strong>Photos are optional per item.</strong> It's fine to photograph your ten bestsellers and leave the rest text-only.</li>
+          <li><strong>Use Sold out instead of deleting.</strong> When the calamari runs out mid-service, flip the availability — the item comes back tomorrow with one tap.</li>
+        </ul>
+        <p>Repeat for each dish. Here's the editor with Ocean &amp; Farm's ten items in place:</p>
+        <figure class="blog-figure">
+          <img
+            src="/blog/create-tutorial-editor.webp"
+            alt="The NexMenus editor showing a complete menu with categories and items, with the Add item button highlighted"
+            width="1280"
+            height="900"
+            loading="lazy"
+          />
+          <figcaption>Click any item to edit it; select a category to drag items into order.</figcaption>
+        </figure>
+      </section>
+
+      <section id="step-4">
+        <span class="blog-step-kicker">Step 4</span>
+        <h2>Add restaurant details and preview</h2>
+        <p>
+          Switch to the <strong>Details</strong> tab to add the things guests look for besides
+          food: address, phone number (this powers a tap-to-call button), hours, and your logo.
+          Then click <strong>Preview</strong> to see exactly what guests will see:
+        </p>
+        <figure class="blog-figure">
+          <img
+            src="/blog/create-tutorial-live-menu.webp"
+            alt="The finished live restaurant menu with logo, address, category pills, dish photos, and prices"
+            width="1280"
+            height="900"
+            loading="lazy"
+          />
+          <figcaption>The live menu: logo, address, tap-to-call, category pills, photos, and prices.</figcaption>
+        </figure>
+        <p>
+          Check it on your own phone too — most guests will see the menu on a phone screen,
+          not a laptop.
+        </p>
+      </section>
+
+      <section id="step-5">
+        <span class="blog-step-kicker">Step 5</span>
+        <h2>Share it: QR code, link, or print</h2>
+        <p>
+          Open <strong>Share &amp; Print</strong>. From here you can download the QR code as a
+          PNG for table tents and stickers, copy the short link for Instagram or Google Business
+          Profile, or export the printable PDF menu:
+        </p>
+        <figure class="blog-figure">
+          <img
+            src="/blog/create-tutorial-share-qr.webp"
+            alt="The NexMenus Share and Print page showing the menu QR code, printable menu PDF button, and share link"
+            width="1280"
+            height="900"
+            loading="lazy"
+          />
+          <figcaption>One page for everything guests scan, tap, or hold: QR, link, and printable PDF.</figcaption>
+        </figure>
+        <p>
+          Need paper menus for the dining room or takeout bags? We wrote a companion tutorial
+          for that: <a routerLink="/blog/how-to-print-menus-for-restaurants">how to print a
+          restaurant menu</a> — it picks up exactly where this guide ends.
+        </p>
+        <div class="blog-menu-promo">
+          <div>
+            <p class="blog-menu-promo__label">Free to start</p>
+            <h3>Build your menu in the time it takes to read this.</h3>
+            <p>
+              Create your restaurant menu once and use it as your QR menu, web menu, and
+              printable PDF. Every edit goes live everywhere, instantly.
+            </p>
+          </div>
+          <div class="blog-menu-promo__actions">
+            <a routerLink="/register" class="nx-btn nx-btn--primary">Create your menu free</a>
+            <a routerLink="/m/ocean-farm">View the demo menu</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq">
+        <h2>Frequently asked questions</h2>
+
+        <h3>How much does it cost to create a menu?</h3>
+        <p>
+          Nothing to start — creating a menu, sharing the link, and the QR code are free.
+          You don't need a designer or any software beyond a browser.
+        </p>
+
+        <h3>Do I need photos for every dish?</h3>
+        <p>
+          No. Add photos where they earn their place — signature dishes and high-margin items —
+          and leave the rest text-only. Items without photos still look clean on the live menu.
+        </p>
+
+        <h3>How many categories should a menu have?</h3>
+        <p>
+          Four to six for most restaurants. Guests scan categories before items, so each one
+          should answer a real question: what can I start with, what's the main event, what do
+          I drink.
+        </p>
+
+        <h3>Do menu changes go live immediately?</h3>
+        <p>
+          Yes. The QR code and link never change, so a price edit or a sold-out flag shows up
+          for guests the moment you save — no reprinting QR codes, no re-uploading PDFs.
+        </p>
+
+        <h3>Can I create separate lunch and dinner menus?</h3>
+        <p>
+          Yes — create a second menu from Your menus. Each menu gets its own link and QR code,
+          so lunch tables and dinner tables can point to different menus.
+        </p>
+      </section>
+
+      <section>
+        <h2>Bottom line</h2>
+        <p>
+          To create a restaurant menu: sign up, name the menu, add four to six categories, enter
+          each item with a price and a one-sentence description, add photos to the dishes that
+          deserve them, fill in your address and hours, and share the QR code or link. From the
+          same menu you can also <a routerLink="/blog/how-to-print-menus-for-restaurants">print
+          a paper version</a> whenever you need one.
+        </p>
+      </section>
+    </div>
+  </div>
+
+  <footer class="blog-footer">
+    <div class="blog-footer__inner">
+      <app-brand-logo [size]="19" />
+      <p>© {{ year }} NexMenus. All rights reserved.</p>
+      <a routerLink="/terms">Terms</a>
+    </div>
+  </footer>
+</article>
