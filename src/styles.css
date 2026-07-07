@@ -208,26 +208,8 @@ button {
   margin-top: 9px;
   line-height: 1.5;
 }
-.auth__google { margin-top: 22px; font-size: 14.5px; }
-.auth__divider {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin: 20px 0;
-}
-.auth__divider::before,
-.auth__divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--line-soft);
-}
-.auth__divider span {
-  font-size: 12px;
-  color: var(--muted-2);
-  font-weight: 600;
-}
 .auth__form {
+  margin-top: 22px;
   display: flex;
   flex-direction: column;
   gap: 14px;
