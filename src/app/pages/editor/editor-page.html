@@ -157,6 +157,7 @@
             <div class="ed-detail-card__heading">
               <div><strong>Basics</strong><span>Hero, logo, name, tagline, brand color</span></div>
             </div>
+            <div class="ed-cover-drop">
             <button type="button" class="ed-cover" [disabled]="coverUploading()"
                     (click)="coverInput.browse()" aria-label="Upload hero photo">
               @if (coverUrl()) {
@@ -169,6 +170,7 @@
             <input #coverInput="filePondPick" appFilePondPick type="file"
                    [acceptedFileTypes]="logoAcceptedTypes" [maxFileSize]="logoMaxFileSize"
                    (picked)="onCoverPicked($event)" (rejected)="onCoverRejected()" />
+            </div>
 
           <div class="ed-logo-row">
             <div class="ed-drop">

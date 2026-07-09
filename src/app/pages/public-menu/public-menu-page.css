@@ -25,5 +25,27 @@
 .pm-lightbox{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:24px;background:rgba(9,9,11,.88)}.pm-lightbox img{max-width:min(900px,100%);max-height:85vh;border-radius:14px}.pm-lightbox button{position:fixed;top:18px;right:18px;width:40px;height:40px;border:0;border-radius:50%;background:#fff;font-size:24px;cursor:pointer}
 .pm-missing{min-height:70vh;display:grid;place-content:center;gap:14px;text-align:center}
 @media(min-width:700px){.pm{padding-block:42px}.pm-page{box-shadow:0 24px 70px rgba(20,20,40,.14)}.pm-action--icon span{display:inline}}
+@media(min-width:900px){
+  .pm{padding:48px 32px 72px}
+  .pm-page{width:min(100%,980px);border-radius:22px}
+  .pm-breadcrumb{padding:13px 48px}
+  .pm-hero{height:280px}
+  .pm-identity{margin-top:-46px;padding:0 48px 26px}
+  .pm-logo{width:72px;height:72px;border-radius:20px;font-size:16px}
+  .pm-identity h1{font-size:32px;margin-top:16px}
+  .pm-tagline{font-size:15px}
+  .pm-highlights{margin-top:14px}
+  .pm-actions{max-width:590px;margin-top:20px}
+  .pm-more{max-width:590px}
+  .pm-info{margin:0 48px 10px;padding:20px 22px}
+  .pm-info h2{font-size:15px}
+  .pm-menu{padding:30px 48px 28px}
+  .pm-menu__head h2{font-size:22px}
+  .pm-tabs{padding-bottom:8px}
+  .pm-items{display:grid;grid-template-columns:1fr 1fr;column-gap:34px;max-height:none;padding-right:0}
+  .pm-about,.pm-faq{margin-inline:48px;padding-block:24px}
+  .pm-about h2,.pm-faq h2{font-size:18px}
+  .pm-footer{padding:22px 48px}
+}
 @media(max-width:420px){.pm{padding:0;background:#fff}.pm-page{width:100%;border:0;border-radius:0;box-shadow:none}.pm-editor-link{position:relative;display:block;top:auto;left:auto;border-radius:0}.pm-action{padding-inline:8px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}

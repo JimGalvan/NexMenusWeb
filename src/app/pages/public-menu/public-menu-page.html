@@ -39,17 +39,6 @@
           <p class="pm-tagline">{{ menu()!.description }}@if (city(); as menuCity) { in {{ menuCity }}}</p>
         }
 
-        <div class="pm-facts">
-          @if (priceRange(); as range) {
-            <span>{{ range }}@if (cuisines().length) { · {{ cuisines().slice(0, 2).join(' · ') }}}</span>
-          } @else if (cuisines().length) {
-            <span>{{ cuisines().slice(0, 3).join(' · ') }}</span>
-          }
-          @if (menu()!.operatingHours) {
-            <span class="pm-fact-open"><i></i>{{ menu()!.operatingHours }}</span>
-          }
-        </div>
-
         @if (highlights().length) {
           <div class="pm-highlights">
             @for (highlight of highlights(); track highlight) {
@@ -122,7 +111,6 @@
       <section class="pm-menu" aria-labelledby="menu-title">
         <div class="pm-menu__head">
           <h2 id="menu-title">Menu</h2>
-          <span>Updated {{ updatedLabel() }}</span>
         </div>
         <div class="pm-tabs scrollarea" role="tablist" aria-label="Menu categories">
           @for (pill of pills(); track pill.id) {

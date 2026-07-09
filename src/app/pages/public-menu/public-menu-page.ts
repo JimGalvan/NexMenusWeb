@@ -72,22 +72,6 @@ export class PublicMenuPageComponent {
     const address = this.menu()?.address;
     return address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}` : null;
   });
-  readonly priceRange = computed(() => {
-    const menu = this.menu();
-    if (!menu) return null;
-    const prices = [...menu.items, ...menu.uncategorizedItems]
-      .map(item => Number(item.priceAmount))
-      .filter(price => Number.isFinite(price) && price > 0);
-    if (!prices.length) return null;
-    const average = prices.reduce((sum, price) => sum + price, 0) / prices.length;
-    return average < 12 ? '$' : average < 28 ? '$$' : average < 55 ? '$$$' : '$$$$';
-  });
-  readonly updatedLabel = computed(() => {
-    const menu = this.menu();
-    const value = (menu as PublicMenu & { updatedAt?: string } | null)?.updatedAt;
-    const date = value ? new Date(value) : new Date();
-    return new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(date);
-  });
   readonly phoneHref = computed(() => {
     const phone = this.menu()?.phone;
     if (!phone) return null;
