@@ -23,7 +23,14 @@ import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 import { MenuService } from '../../services/menu.service';
 import { AuthService } from '../../services/auth.service';
-import { MENU_SOCIAL_LINKS_PROPERTY, Menu, instagramHandleFrom } from '../../models/menu.model';
+import {
+  ContactMethod,
+  MENU_CONTACT_METHOD_PROPERTY,
+  MENU_SOCIAL_LINKS_PROPERTY,
+  Menu,
+  contactMethodFrom,
+  instagramHandleFrom,
+} from '../../models/menu.model';
 import { BottomSheetComponent } from '../../components/ui/bottom-sheet/bottom-sheet';
 import { ImageCropperComponent } from '../../components/ui/image-cropper/image-cropper';
 
@@ -265,6 +272,7 @@ export class EditorPageComponent {
   menuName = signal('');
   description = signal('');
   phone = signal('');
+  contactMethod = signal<ContactMethod>('text');
   address = signal('');
   instagramHandle = signal('');
   showEmail = signal(false);
@@ -335,6 +343,7 @@ export class EditorPageComponent {
     this.menuName.set(menu.name);
     this.description.set(menu.description ?? '');
     this.phone.set(menu.phone ?? '');
+    this.contactMethod.set(contactMethodFrom(menu.properties));
     this.address.set(menu.address ?? '');
     this.instagramHandle.set(instagramHandleFrom(menu.properties));
     this.showEmail.set(menu.showEmail ?? false);
@@ -672,13 +681,20 @@ export class EditorPageComponent {
         address: this.address().trim() || null,
         showEmail: this.showEmail(),
         operatingHours: this.hoursTouched() || !menu.operatingHours ? this.operatingHoursText() : menu.operatingHours,
-        properties: [{
-          name: MENU_SOCIAL_LINKS_PROPERTY,
-          type: 'JSON',
-          value: this.instagramHandle().trim()
-            ? JSON.stringify([{ key: 'instagram', handle: this.instagramHandle().trim(), visible: true }])
-            : null,
-        }],
+        properties: [
+          {
+            name: MENU_SOCIAL_LINKS_PROPERTY,
+            type: 'JSON',
+            value: this.instagramHandle().trim()
+              ? JSON.stringify([{ key: 'instagram', handle: this.instagramHandle().trim(), visible: true }])
+              : null,
+          },
+          {
+            name: MENU_CONTACT_METHOD_PROPERTY,
+            type: 'TEXT',
+            value: this.contactMethod() === 'call' ? 'call' : null,
+          },
+        ],
       })
       .subscribe({
         next: updated => {

@@ -188,6 +188,7 @@
   overflow-wrap: anywhere;
 }
 .pr-footer__phone { font-weight: 700; color: var(--accent, var(--brand)); }
+.pr-footer__textonly { font-weight: 600; font-size: 0.9em; color: #77777f; }
 .pr-footer__powered { font-size: 11.5px; color: #b9b9c2; margin-top: 14px; }
 
 @media (min-width: 720px) {

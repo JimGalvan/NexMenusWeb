@@ -3,7 +3,14 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
 import { AuthService } from '../../services/auth.service';
 import { SeoService } from '../../services/seo.service';
-import { PublicMenu, PublicMenuItem, instagramHandleFrom, instagramUrlFrom, menuInitials } from '../../models/menu.model';
+import {
+  PublicMenu,
+  PublicMenuItem,
+  contactMethodFrom,
+  instagramHandleFrom,
+  instagramUrlFrom,
+  menuInitials,
+} from '../../models/menu.model';
 import { BottomSheetComponent } from '../../components/ui/bottom-sheet/bottom-sheet';
 
 const CAT_GRADIENTS: Record<string, string> = {
@@ -52,6 +59,12 @@ export class PublicMenuPageComponent {
   readonly initials = computed(() => (this.menu() ? menuInitials(this.menu()!.name) : ''));
   readonly instagramHandle = computed(() => instagramHandleFrom(this.menu()?.properties));
   readonly instagramUrl = computed(() => instagramUrlFrom(this.menu()?.properties));
+  readonly contactMethod = computed(() => contactMethodFrom(this.menu()?.properties));
+  readonly phoneHref = computed(() => {
+    const phone = this.menu()?.phone;
+    if (!phone) return null;
+    return (this.contactMethod() === 'call' ? 'tel:' : 'sms:') + phone;
+  });
 
   constructor() {
     this.menuService.getPublicMenu(this.slug).subscribe({

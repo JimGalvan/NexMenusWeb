@@ -80,7 +80,7 @@
               @if (menu()!.phone) { · }
             }
             @if (menu()!.phone) {
-              <span class="pr-footer__phone">{{ menu()!.phone }}</span>
+              <span class="pr-footer__phone">{{ menu()!.phone }}@if (textOnly()) {&ngsp;<span class="pr-footer__textonly">(text only)</span>}</span>
             }
             @if (menu()!.email) {
               <br>{{ menu()!.email }}

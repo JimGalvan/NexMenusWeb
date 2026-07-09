@@ -195,6 +195,21 @@
 
           <label class="ed-field-label">Phone</label>
           <input class="ed-input" [ngModel]="phone()" (ngModelChange)="phone.set($event)" inputmode="tel" placeholder="Phone number" />
+          @if (phone().trim()) {
+            <div class="ed-contact-method" role="radiogroup" aria-label="How diners contact you">
+              <span class="ed-contact-method__label">Diners reach you by</span>
+              <div class="ed-contact-method__options">
+                <button type="button" class="ed-contact-method__opt"
+                        [class.is-selected]="contactMethod() === 'text'"
+                        [attr.aria-pressed]="contactMethod() === 'text'"
+                        (click)="contactMethod.set('text')">Text</button>
+                <button type="button" class="ed-contact-method__opt"
+                        [class.is-selected]="contactMethod() === 'call'"
+                        [attr.aria-pressed]="contactMethod() === 'call'"
+                        (click)="contactMethod.set('call')">Call</button>
+              </div>
+            </div>
+          }
 
           <label class="ed-field-label">Address</label>
           <textarea class="ed-input ed-textarea" rows="2" [ngModel]="address()" (ngModelChange)="address.set($event)" placeholder="Street, city, state"></textarea>

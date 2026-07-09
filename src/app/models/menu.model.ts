@@ -34,6 +34,18 @@ export const MENU_PROPERTY_KEYS = {
   logo: 'logoObjectKey',
 } as const;
 
+/** Custom property holding how diners contact the phone number. */
+export const MENU_CONTACT_METHOD_PROPERTY = 'phoneContactMethod';
+
+export type ContactMethod = 'text' | 'call';
+
+/** Contact method for the menu phone; absent or unrecognized means 'text'. */
+export function contactMethodFrom(properties: MenuProperty[] | undefined): ContactMethod {
+  return properties?.find(p => p.name === MENU_CONTACT_METHOD_PROPERTY)?.value === 'call'
+    ? 'call'
+    : 'text';
+}
+
 /** Custom property shared with the social-links implementation in Teasely. */
 export const MENU_SOCIAL_LINKS_PROPERTY = 'socialLinks';
 

@@ -69,12 +69,19 @@
                                 Contact
                             </a>
                         }
-                        @if (menu()!.phone) {
-                            <a class="pm-call" [href]="'tel:' + menu()!.phone" [style.background]="accent()">
-                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                    <path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 5 5L19 18l-2 3a14 14 0 0 1-12-12L5 4Z" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/>
-                                </svg>
-                                Call to Order
+                        @if (phoneHref(); as href) {
+                            <a class="pm-call" [href]="href" [style.background]="accent()">
+                                @if (contactMethod() === 'call') {
+                                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 5 5L19 18l-2 3a14 14 0 0 1-12-12L5 4Z" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/>
+                                    </svg>
+                                    Call to Order
+                                } @else {
+                                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <path d="M21 12a8 8 0 0 1-8 8H4l1.6-3.2A8 8 0 1 1 21 12Z" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/>
+                                    </svg>
+                                    Text to Order
+                                }
                             </a>
                         }
                     </div>
@@ -147,9 +154,9 @@
                         }{{ menu()!.operatingHours }}
                         </div>
                     }
-                    @if (menu()!.phone) {
-                        <a [href]="'tel:' + menu()!.phone" class="pm-footer__phone"
-                           [style.color]="accent()">{{ menu()!.phone }}</a>
+                    @if (phoneHref(); as href) {
+                        <a [href]="href" class="pm-footer__phone"
+                           [style.color]="accent()">{{ menu()!.phone }}@if (contactMethod() === 'text') {&ngsp;<span class="pm-footer__textonly">(text only)</span>}</a>
                     }
                     @if (menu()!.email) {
                         <a [href]="'mailto:' + menu()!.email" class="pm-footer__email"

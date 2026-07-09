@@ -2,7 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
 import { SeoService } from '../../services/seo.service';
-import { PublicMenu, PublicMenuItem, menuInitials, priceLabel } from '../../models/menu.model';
+import { PublicMenu, PublicMenuItem, contactMethodFrom, menuInitials, priceLabel } from '../../models/menu.model';
 
 interface PrintSection {
   name: string;
@@ -30,6 +30,7 @@ export class PrintMenuPageComponent {
   readonly loading = signal(true);
 
   readonly initials = computed(() => (this.menu() ? menuInitials(this.menu()!.name) : ''));
+  readonly textOnly = computed(() => contactMethodFrom(this.menu()?.properties) === 'text');
 
   /** Categories with at least one item, plus a trailing group for
    *  uncategorized items — same grouping as the diner page's pills. */

@@ -274,6 +274,18 @@
 }
 .ed-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-tint); }
 .ed-textarea { line-height: 1.45; min-height: 78px; }
+.ed-contact-method { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; }
+.ed-contact-method__label { color: var(--muted-2); font-size: 12px; font-weight: 700; }
+.ed-contact-method__options {
+  display: inline-flex; padding: 3px; gap: 2px;
+  border: 1.5px solid var(--line); border-radius: 11px; background: var(--surface);
+}
+.ed-contact-method__opt {
+  border: none; background: transparent; color: var(--muted-2);
+  font: inherit; font-size: 13px; font-weight: 750;
+  padding: 6px 16px; border-radius: 8px; cursor: pointer;
+}
+.ed-contact-method__opt.is-selected { background: var(--accent); color: #fff; }
 .ed-social-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-top: 20px; }
 .ed-social-head__title { margin: 0 0 9px; }
 .ed-social-head__sub { color: var(--muted-2); font-size: 11px; font-weight: 650; }
