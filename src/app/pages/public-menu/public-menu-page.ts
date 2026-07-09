@@ -7,11 +7,14 @@ import {
   PublicMenu,
   PublicMenuItem,
   contactMethodFrom,
+  coverUrlFrom,
+  cuisinesFrom,
+  faqsFrom,
+  highlightsFrom,
   instagramHandleFrom,
   instagramUrlFrom,
   menuInitials,
 } from '../../models/menu.model';
-import { BottomSheetComponent } from '../../components/ui/bottom-sheet/bottom-sheet';
 
 const CAT_GRADIENTS: Record<string, string> = {
   Starters: 'linear-gradient(135deg,#e2ecd9,#c7d9ba)',
@@ -34,7 +37,7 @@ interface Pill {
 /** Diner-facing public menu (photo-forward direction A). Themeable per restaurant. */
 @Component({
   selector: 'app-public-menu-page',
-  imports: [RouterLink, BottomSheetComponent],
+  imports: [RouterLink],
   templateUrl: './public-menu-page.html',
   styleUrl: './public-menu-page.css',
 })
@@ -60,6 +63,31 @@ export class PublicMenuPageComponent {
   readonly instagramHandle = computed(() => instagramHandleFrom(this.menu()?.properties));
   readonly instagramUrl = computed(() => instagramUrlFrom(this.menu()?.properties));
   readonly contactMethod = computed(() => contactMethodFrom(this.menu()?.properties));
+  readonly coverUrl = computed(() => coverUrlFrom(this.menu()?.properties));
+  readonly cuisines = computed(() => cuisinesFrom(this.menu()?.properties));
+  readonly highlights = computed(() => highlightsFrom(this.menu()?.properties));
+  readonly faqs = computed(() => faqsFrom(this.menu()?.properties));
+  readonly city = computed(() => extractCity(this.menu()?.address ?? null));
+  readonly directionsHref = computed(() => {
+    const address = this.menu()?.address;
+    return address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}` : null;
+  });
+  readonly priceRange = computed(() => {
+    const menu = this.menu();
+    if (!menu) return null;
+    const prices = [...menu.items, ...menu.uncategorizedItems]
+      .map(item => Number(item.priceAmount))
+      .filter(price => Number.isFinite(price) && price > 0);
+    if (!prices.length) return null;
+    const average = prices.reduce((sum, price) => sum + price, 0) / prices.length;
+    return average < 12 ? '$' : average < 28 ? '$$' : average < 55 ? '$$$' : '$$$$';
+  });
+  readonly updatedLabel = computed(() => {
+    const menu = this.menu();
+    const value = (menu as PublicMenu & { updatedAt?: string } | null)?.updatedAt;
+    const date = value ? new Date(value) : new Date();
+    return new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(date);
+  });
   readonly phoneHref = computed(() => {
     const phone = this.menu()?.phone;
     if (!phone) return null;
@@ -76,7 +104,7 @@ export class PublicMenuPageComponent {
           description: buildDescription(menu, city),
           noindex: this.landingPreview,
           canonicalPath: `/m/${this.slug}`,
-          image: menu.logoUrl ?? undefined,
+          image: coverUrlFrom(menu.properties) ?? menu.logoUrl ?? undefined,
         });
         this.seo.addJsonLd(`menu-jsonld-${menu.id}`, buildMenuJsonLd(menu, this.slug));
         this.loading.set(false);
@@ -124,6 +152,14 @@ export class PublicMenuPageComponent {
     return menu.items.filter(i => i.categoryId === id);
   });
 
+  itemCountFor(categoryId: string): number {
+    const menu = this.menu();
+    if (!menu) return 0;
+    return categoryId === UNCATEGORIZED
+      ? menu.uncategorizedItems.length
+      : menu.items.filter(item => item.categoryId === categoryId).length;
+  }
+
   gradientFor(cat: string): string {
     return CAT_GRADIENTS[cat] ?? '#e7e7ec';
   }
@@ -132,6 +168,17 @@ export class PublicMenuPageComponent {
     return item.imageUrl
       ? `url("${item.imageUrl}") center/cover no-repeat, ${this.gradientFor(this.currentCatName())}`
       : this.gradientFor(this.currentCatName());
+  }
+
+  share() {
+    const menu = this.menu();
+    if (!menu || typeof navigator === 'undefined') return;
+    const url = typeof location === 'undefined' ? `https://nexmenus.com/m/${menu.slug}` : location.href;
+    if (navigator.share) {
+      void navigator.share({ title: `${menu.name} — Menu & Prices`, text: `View the menu at ${menu.name}`, url });
+    } else if (navigator.clipboard) {
+      void navigator.clipboard.writeText(url);
+    }
   }
 
   openPhoto(item: PublicMenuItem) {
@@ -205,6 +252,10 @@ function buildMenuJsonLd(menu: PublicMenu, slug: string): Record<string, unknown
     : null;
 
   const instagramUrl = instagramUrlFrom(menu.properties);
+  const coverUrl = coverUrlFrom(menu.properties);
+  const cuisines = cuisinesFrom(menu.properties);
+  const highlights = highlightsFrom(menu.properties);
+  const faqs = faqsFrom(menu.properties);
 
   const menuItem = (item: PublicMenuItem) => ({
     '@type': 'MenuItem',
@@ -241,7 +292,9 @@ function buildMenuJsonLd(menu: PublicMenu, slug: string): Record<string, unknown
     name: menu.name,
     url: `https://nexmenus.com/m/${slug}`,
     ...(menu.description ? { description: menu.description } : {}),
-    ...(menu.logoUrl ? { image: menu.logoUrl } : {}),
+    ...(coverUrl || menu.logoUrl ? { image: coverUrl ?? menu.logoUrl } : {}),
+    ...(cuisines.length ? { servesCuisine: cuisines } : {}),
+    ...(highlights.length ? { amenityFeature: highlights.map(name => ({ '@type': 'LocationFeatureSpecification', name, value: true })) } : {}),
     ...(menu.phone ? { telephone: menu.phone } : {}),
     ...(address ? { address } : {}),
     ...(priceRange ? { priceRange } : {}),
@@ -252,5 +305,15 @@ function buildMenuJsonLd(menu: PublicMenu, slug: string): Record<string, unknown
       name: `${menu.name} Menu`,
       hasMenuSection: sections,
     },
+    ...(faqs.length ? {
+      subjectOf: {
+        '@type': 'FAQPage',
+        mainEntity: faqs.map(faq => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+        })),
+      },
+    } : {}),
   };
 }

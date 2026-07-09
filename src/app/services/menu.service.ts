@@ -8,6 +8,7 @@ import {
   AddItemRequest,
   Category,
   CreateMenuRequest,
+  MenuMediaKind,
   MENU_PROPERTY_KEYS,
   Menu,
   MenuItem,
@@ -146,6 +147,10 @@ export class MenuService {
 
   // ---- media ----
 
+  uploadMedia(menuId: string, kind: MenuMediaKind, file: File): Observable<Menu> {
+    return this.http.post<MenuV2Wire>(`${this.api}/${menuId}/media/${kind}`, formData(file)).pipe(map(toMenuFromV2));
+  }
+
   uploadLogo(menuId: string, file: File): Observable<Menu> {
     return this.http.post<MenuWire>(`${this.api}/${menuId}/logo`, formData(file)).pipe(map(toMenu));
   }
@@ -208,7 +213,7 @@ function splitProperties(properties: MenuProperty[]) {
     operatingHours: virtual.get(MENU_PROPERTY_KEYS.operatingHours) ?? null,
     showEmail: virtual.get(MENU_PROPERTY_KEYS.showEmail) === 'true',
     logoUrl: virtual.get(MENU_PROPERTY_KEYS.logo) ?? null,
-    custom: properties.filter(p => !(Object.values(MENU_PROPERTY_KEYS) as string[]).includes(p.name)),
+    custom: properties.filter(p => p.name === MENU_PROPERTY_KEYS.cover || !(Object.values(MENU_PROPERTY_KEYS) as string[]).includes(p.name)),
   };
 }
 

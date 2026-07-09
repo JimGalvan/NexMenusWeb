@@ -153,6 +153,23 @@
         </div>
 
         <div class="ed-form scrollarea">
+          <section class="ed-detail-card">
+            <div class="ed-detail-card__heading">
+              <div><strong>Basics</strong><span>Hero, logo, name, tagline, brand color</span></div>
+            </div>
+            <button type="button" class="ed-cover" [disabled]="coverUploading()"
+                    (click)="coverInput.browse()" aria-label="Upload hero photo">
+              @if (coverUrl()) {
+                <img class="ed-cover__img" [src]="coverUrl()" alt="Restaurant hero" />
+              } @else {
+                <span class="ed-cover__placeholder">Add a hero photo</span>
+              }
+              <span class="ed-cover__edit">{{ coverUploading() ? 'Uploading…' : (coverUrl() ? 'Change photo' : 'Upload photo') }}</span>
+            </button>
+            <input #coverInput="filePondPick" appFilePondPick type="file"
+                   [acceptedFileTypes]="logoAcceptedTypes" [maxFileSize]="logoMaxFileSize"
+                   (picked)="onCoverPicked($event)" (rejected)="onCoverRejected()" />
+
           <div class="ed-logo-row">
             <div class="ed-drop">
               <button type="button" class="ed-logo ed-logo--btn" [style.background]="logoUrl() ? null : accent()"
@@ -190,6 +207,9 @@
                       (click)="selectAccent(c)"></button>
             }
           </div>
+          </section>
+          <section class="ed-detail-card">
+            <div class="ed-detail-card__heading"><div><strong>Contact & hours</strong><span>Phone, address, hours diners see</span></div></div>
 
           <div class="ed-divider"></div>
 
@@ -261,6 +281,53 @@
               </div>
             }
           </div>
+          </section>
+
+          <section class="ed-detail-card ed-detail-card--seo">
+            <div class="ed-detail-card__heading">
+              <div><strong>SEO & discovery</strong><span>Helps your menu rank on Google</span></div>
+              <span class="ed-detail-card__badge">{{ cuisines().length + highlights().length }} added</span>
+            </div>
+            <label class="ed-field-label">Cuisine</label>
+            <div class="ed-choice-chips">
+              @for (option of cuisineOptions; track option) {
+                <button type="button" class="ed-choice-chip" [class.is-selected]="cuisines().includes(option)"
+                        [style.borderColor]="cuisines().includes(option) ? accent() : null"
+                        [style.color]="cuisines().includes(option) ? accent() : null"
+                        (click)="toggleCuisine(option)">{{ option }}</button>
+              }
+            </div>
+
+            <label class="ed-field-label">Highlights</label>
+            <div class="ed-highlight-list">
+              @for (option of highlightOptions; track option) {
+                <button type="button" class="ed-highlight" (click)="toggleHighlight(option)">
+                  <span>{{ option }}</span>
+                  <span class="ed-switch" [class.is-on]="highlights().includes(option)"
+                        [style.background]="highlights().includes(option) ? accent() : null">
+                    <span class="ed-switch__knob"></span>
+                  </span>
+                </button>
+              }
+            </div>
+
+            <div class="ed-section-head">
+              <label class="ed-field-label ed-field-label--inline">FAQ</label>
+              <button type="button" class="ed-link-btn" (click)="addFaq()">+ Add question</button>
+            </div>
+            <div class="ed-faq-list">
+              @for (faq of faqs(); track $index; let i = $index) {
+                <div class="ed-faq">
+                  <div class="ed-faq__head">
+                    <input class="ed-input" [ngModel]="faq.question" (ngModelChange)="updateFaq(i, 'question', $event)" placeholder="Question diners ask" />
+                    <button type="button" class="ed-faq__remove" (click)="removeFaq(i)" aria-label="Remove question">×</button>
+                  </div>
+                  <textarea class="ed-input ed-textarea" rows="2" [ngModel]="faq.answer"
+                            (ngModelChange)="updateFaq(i, 'answer', $event)" placeholder="Clear, useful answer"></textarea>
+                </div>
+              }
+            </div>
+          </section>
         </div>
       </div>
     }

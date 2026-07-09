@@ -2,6 +2,13 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "extract-designs",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["C:/Users/jimmy/AppData/Local/Temp/claude/C--Users-jimmy-WebstormProjects-NexMenusWeb/3932f372-3208-4971-b5c4-9f3fc58e717c/scratchpad/extract.js"],
+      "port": 4999,
+      "autoPort": false
+    },
+    {
       "name": "nexmenus",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["start", "--", "--port", "4399"],

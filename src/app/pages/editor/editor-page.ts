@@ -26,9 +26,17 @@ import { AuthService } from '../../services/auth.service';
 import {
   ContactMethod,
   MENU_CONTACT_METHOD_PROPERTY,
+  MENU_CUISINES_PROPERTY,
+  MENU_FAQS_PROPERTY,
+  MENU_HIGHLIGHTS_PROPERTY,
   MENU_SOCIAL_LINKS_PROPERTY,
   Menu,
+  MenuFaq,
   contactMethodFrom,
+  coverUrlFrom,
+  cuisinesFrom,
+  faqsFrom,
+  highlightsFrom,
   instagramHandleFrom,
 } from '../../models/menu.model';
 import { BottomSheetComponent } from '../../components/ui/bottom-sheet/bottom-sheet';
@@ -72,7 +80,8 @@ const LOGO_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 const LOGO_MAX_BYTES = 5 * 1024 * 1024;
 const LOGO_MAX_SIZE_LABEL = '5MB';
 const ITEM_PHOTO_ASPECT = 16 / 9;
-type CropTarget = 'logo' | 'item';
+const COVER_PHOTO_ASPECT = 16 / 7;
+type CropTarget = 'logo' | 'cover' | 'item';
 const DEFAULT_HOURS: EditorHoursRow[] = [
   { key: 'mon', day: 'Monday', shortDay: 'Mon', closed: false, openTime: '09:00', closeTime: '22:00' },
   { key: 'tue', day: 'Tuesday', shortDay: 'Tue', closed: false, openTime: '09:00', closeTime: '22:00' },
@@ -279,6 +288,11 @@ export class EditorPageComponent {
   accent = signal(this.menuService.accent());
   logoUrl = signal('');
   logoUploading = signal(false);
+  coverUrl = signal('');
+  coverUploading = signal(false);
+  cuisines = signal<string[]>([]);
+  highlights = signal<string[]>([]);
+  faqs = signal<MenuFaq[]>([]);
   cats = signal<string[]>([]);
   items = signal<EditorItem[]>([]);
   notFound = signal(false);
@@ -305,6 +319,8 @@ export class EditorPageComponent {
   readonly logoMaxFileSize = LOGO_MAX_SIZE_LABEL;
   readonly photoAcceptedTypes = LOGO_TYPES;
   readonly photoMaxFileSize = LOGO_MAX_SIZE_LABEL;
+  readonly cuisineOptions = ['California', 'Seafood', 'Farm-to-table', 'Bakery', 'Mexican', 'Italian', 'Coffee shop', 'Pizza'];
+  readonly highlightOptions = ['Family friendly', 'Local pickup', 'Delivery', 'Outdoor seating', 'Vegetarian options'];
 
   hoursRows = signal<EditorHoursRow[]>(cloneHours(DEFAULT_HOURS));
   hoursSheetOpen = signal(false);
@@ -348,6 +364,10 @@ export class EditorPageComponent {
     this.instagramHandle.set(instagramHandleFrom(menu.properties));
     this.showEmail.set(menu.showEmail ?? false);
     this.logoUrl.set(menu.logoUrl ?? '');
+    this.coverUrl.set(coverUrlFrom(menu.properties) ?? '');
+    this.cuisines.set(cuisinesFrom(menu.properties));
+    this.highlights.set(highlightsFrom(menu.properties));
+    this.faqs.set(faqsFrom(menu.properties));
     const parsedHours = menu.operatingHours ? parseOperatingHours(menu.operatingHours) : null;
     if (parsedHours) this.hoursRows.set(parsedHours);
 
@@ -666,6 +686,18 @@ export class EditorPageComponent {
     this.instagramHandle.set(handle);
   }
 
+  toggleCuisine(value: string) {
+    this.cuisines.update(values => values.includes(value) ? values.filter(item => item !== value) : [...values, value]);
+  }
+  toggleHighlight(value: string) {
+    this.highlights.update(values => values.includes(value) ? values.filter(item => item !== value) : [...values, value]);
+  }
+  addFaq() { this.faqs.update(faqs => [...faqs, { question: '', answer: '' }]); }
+  updateFaq(index: number, field: keyof MenuFaq, value: string) {
+    this.faqs.update(faqs => faqs.map((faq, i) => i === index ? { ...faq, [field]: value } : faq));
+  }
+  removeFaq(index: number) { this.faqs.update(faqs => faqs.filter((_, i) => i !== index)); }
+
   /** PATCH the menu's editable details, including generated display text for hours. */
   private persistDetails(onDone?: () => void) {
     const menu = this.menuModel();
@@ -694,6 +726,23 @@ export class EditorPageComponent {
             type: 'TEXT',
             value: this.contactMethod() === 'call' ? 'call' : null,
           },
+          {
+            name: MENU_CUISINES_PROPERTY,
+            type: 'JSON',
+            value: this.cuisines().length ? JSON.stringify(this.cuisines()) : null,
+          },
+          {
+            name: MENU_HIGHLIGHTS_PROPERTY,
+            type: 'JSON',
+            value: this.highlights().length ? JSON.stringify(this.highlights()) : null,
+          },
+          {
+            name: MENU_FAQS_PROPERTY,
+            type: 'JSON',
+            value: this.faqs().some(faq => faq.question.trim() && faq.answer.trim())
+              ? JSON.stringify(this.faqs().filter(faq => faq.question.trim() && faq.answer.trim()))
+              : null,
+          },
         ],
       })
       .subscribe({
@@ -716,6 +765,17 @@ export class EditorPageComponent {
   }
   onLogoRejected() {
     this.flash('Logo must be JPEG, PNG or WebP');
+  }
+
+  onCoverPicked(file: File) {
+    if (file.size > LOGO_MAX_BYTES) {
+      this.flash('Hero photo must be under 5 MB');
+      return;
+    }
+    this.openCropper(file, { aspectRatio: COVER_PHOTO_ASPECT, round: false, title: 'Move & Scale', target: 'cover' });
+  }
+  onCoverRejected() {
+    this.flash('Hero photo must be JPEG, PNG or WebP');
   }
 
   // ---- photo ----
@@ -775,6 +835,28 @@ export class EditorPageComponent {
           this.logoUrl.set(this.menuModel()?.logoUrl ?? ''); // revert
           URL.revokeObjectURL(preview);
           this.flash('Could not upload logo');
+        },
+      });
+      return;
+    }
+
+    if (target === 'cover') {
+      const preview = URL.createObjectURL(file);
+      this.coverUrl.set(preview);
+      this.coverUploading.set(true);
+      this.menuService.uploadMedia(this.menuId, 'cover', file).subscribe({
+        next: menu => {
+          this.menuModel.set(menu);
+          this.coverUploading.set(false);
+          this.coverUrl.set(coverUrlFrom(menu.properties) ?? '');
+          URL.revokeObjectURL(preview);
+          this.flash('Hero photo updated');
+        },
+        error: () => {
+          this.coverUploading.set(false);
+          this.coverUrl.set(coverUrlFrom(this.menuModel()?.properties) ?? '');
+          URL.revokeObjectURL(preview);
+          this.flash('Could not upload hero photo');
         },
       });
       return;

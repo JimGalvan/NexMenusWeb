@@ -1,3 +1,29 @@
+.ed-detail-card { background:#fff; border:1px solid #e4e4e7; border-radius:16px; padding:18px; margin-bottom:14px; box-shadow:0 4px 14px rgba(20,20,40,.035); }
+.ed-detail-card__heading { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+.ed-detail-card__heading strong { display:block; font-size:15px; }
+.ed-detail-card__heading span { display:block; color:#9a9aa3; font-size:12px; margin-top:2px; }
+.ed-detail-card__badge { color:var(--accent)!important; background:var(--accent-tint); border-radius:999px; padding:5px 9px; font-weight:700; white-space:nowrap; }
+.ed-cover { position:relative; display:block; width:100%; aspect-ratio:16/7; border:0; border-radius:13px; overflow:hidden; background:#e8e8ec; cursor:pointer; padding:0; margin-bottom:18px; }
+.ed-cover__img { width:100%; height:100%; object-fit:cover; display:block; }
+.ed-cover__placeholder { display:grid; place-items:center; height:100%; color:#71717a; font-weight:700; }
+.ed-cover__edit { position:absolute; right:10px; bottom:10px; padding:7px 10px; border-radius:9px; color:#fff; background:rgba(24,24,27,.76); font-size:12px; font-weight:700; }
+.ed-choice-chips { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 20px; }
+.ed-choice-chip { border:1.5px solid #e4e4e7; background:#fff; border-radius:999px; padding:8px 13px; color:#52525b; font:600 13px inherit; cursor:pointer; }
+.ed-choice-chip.is-selected { background:var(--accent-tint); }
+.ed-highlight-list { border:1.5px solid #e4e4e7; border-radius:13px; overflow:hidden; margin-bottom:18px; }
+.ed-highlight { display:flex; width:100%; align-items:center; justify-content:space-between; padding:11px 13px; background:#fff; border:0; border-bottom:1px solid #f0f0f1; font:600 14px inherit; cursor:pointer; }
+.ed-highlight:last-child { border-bottom:0; }
+.ed-faq-list { display:flex; flex-direction:column; gap:10px; }
+.ed-faq { border:1.5px solid #e4e4e7; border-radius:13px; padding:12px; }
+.ed-faq__head { display:flex; gap:8px; align-items:center; margin-bottom:8px; }
+.ed-faq__head .ed-input { margin:0; }
+.ed-faq__remove { width:32px; height:32px; flex:0 0 auto; border:0; border-radius:50%; background:#f4f4f5; color:#71717a; font-size:20px; cursor:pointer; }
+.ed-detail-card .ed-divider { margin-inline:-18px; }
+.ed-detail-card .ed-logo-row + .ed-field-label { margin-top:22px; }
+@media (max-width:600px) {
+  .ed-form { padding-inline:12px; }
+  .ed-detail-card { padding:16px; border-radius:14px; }
+}
 :host { display: block; }
 
 .ed {

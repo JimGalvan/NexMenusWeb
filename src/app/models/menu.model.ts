@@ -32,7 +32,55 @@ export const MENU_PROPERTY_KEYS = {
   operatingHours: 'operatingHours',
   showEmail: 'showEmail',
   logo: 'logoObjectKey',
+  cover: 'coverObjectKey',
 } as const;
+
+export type MenuMediaKind = 'logo' | 'cover';
+
+export const MENU_CUISINES_PROPERTY = 'cuisines';
+export const MENU_HIGHLIGHTS_PROPERTY = 'highlights';
+export const MENU_FAQS_PROPERTY = 'faqs';
+
+export interface MenuFaq {
+  question: string;
+  answer: string;
+}
+
+function propertyJson(properties: MenuProperty[] | undefined, name: string): unknown {
+  const raw = properties?.find(property => property.name === name)?.value;
+  if (!raw) return [];
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return [];
+  }
+}
+
+export function coverUrlFrom(properties: MenuProperty[] | undefined): string | null {
+  return properties?.find(property => property.name === MENU_PROPERTY_KEYS.cover)?.value ?? null;
+}
+
+export function cuisinesFrom(properties: MenuProperty[] | undefined): string[] {
+  const value = propertyJson(properties, MENU_CUISINES_PROPERTY);
+  return Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : [];
+}
+
+export function highlightsFrom(properties: MenuProperty[] | undefined): string[] {
+  const value = propertyJson(properties, MENU_HIGHLIGHTS_PROPERTY);
+  return Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : [];
+}
+
+export function faqsFrom(properties: MenuProperty[] | undefined): MenuFaq[] {
+  const value = propertyJson(properties, MENU_FAQS_PROPERTY);
+  if (!Array.isArray(value)) return [];
+  return value.filter(
+    (item): item is MenuFaq =>
+      !!item &&
+      typeof item === 'object' &&
+      typeof (item as MenuFaq).question === 'string' &&
+      typeof (item as MenuFaq).answer === 'string',
+  );
+}
 
 /** Custom property holding how diners contact the phone number. */
 export const MENU_CONTACT_METHOD_PROPERTY = 'phoneContactMethod';
