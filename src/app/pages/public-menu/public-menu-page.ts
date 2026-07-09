@@ -159,7 +159,7 @@ export class PublicMenuPageComponent {
     if (!menu || typeof navigator === 'undefined') return;
     const url = typeof location === 'undefined' ? `https://nexmenus.com/m/${menu.slug}` : location.href;
     if (navigator.share) {
-      void navigator.share({ title: `${menu.name} — Menu & Prices`, text: `View the menu at ${menu.name}`, url });
+      void navigator.share({ title: `${menu.name}`, text: `View the menu at ${menu.name}`, url });
     } else if (navigator.clipboard) {
       void navigator.clipboard.writeText(url);
     }
