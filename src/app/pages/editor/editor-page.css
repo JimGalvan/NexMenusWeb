@@ -274,6 +274,23 @@
 }
 .ed-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-tint); }
 .ed-textarea { line-height: 1.45; min-height: 78px; }
+.ed-social-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-top: 20px; }
+.ed-social-head__title { margin: 0 0 9px; }
+.ed-social-head__sub { color: var(--muted-2); font-size: 11px; font-weight: 650; }
+.ed-instagram {
+  display: flex; align-items: center; min-height: 48px; overflow: hidden;
+  border: 1.5px solid var(--line); border-radius: 13px; background: var(--surface);
+}
+.ed-instagram:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-tint); }
+.ed-instagram__icon {
+  display: grid; place-items: center; align-self: stretch; width: 48px; flex: 0 0 48px;
+  color: #c13584; background: linear-gradient(145deg, #fff4d8, #fce4f1); border-right: 1px solid var(--line-soft);
+}
+.ed-instagram__prefix { margin-left: 13px; color: var(--muted-2); font-size: 14px; font-weight: 750; }
+.ed-instagram__input {
+  min-width: 0; flex: 1; border: 0; outline: 0; padding: 12px 14px 12px 3px;
+  color: var(--text); background: transparent; font: inherit;
+}
 
 .ed-formhead {
   display: flex;

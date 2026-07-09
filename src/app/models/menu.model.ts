@@ -7,6 +7,70 @@
 export type Market = 'US' | 'MX';
 export type Currency = 'USD' | 'MXN';
 
+// ---- v2 properties ----
+
+export type MenuPropertyType = 'TEXT' | 'URL' | 'MEDIA' | 'BOOLEAN' | 'NUMBER' | 'JSON';
+
+/**
+ * Generic name/type/value menu data (v2). Well-known ("virtual") names map to
+ * the flat v1 fields on the backend: `phone`, `address`, `operatingHours`,
+ * `showEmail`, `logoObjectKey` (MEDIA, read-only — its value arrives as a
+ * presigned URL). Any other name is a custom property that needs no new
+ * endpoint or backend change.
+ */
+export interface MenuProperty {
+  name: string;
+  type: MenuPropertyType;
+  /** null in a write request clears/removes the property. */
+  value: string | null;
+}
+
+/** Virtual property names handled specially by the client adapters. */
+export const MENU_PROPERTY_KEYS = {
+  phone: 'phone',
+  address: 'address',
+  operatingHours: 'operatingHours',
+  showEmail: 'showEmail',
+  logo: 'logoObjectKey',
+} as const;
+
+/** Custom property shared with the social-links implementation in Teasely. */
+export const MENU_SOCIAL_LINKS_PROPERTY = 'socialLinks';
+
+export interface SocialLink {
+  key: string;
+  handle: string;
+  visible: boolean;
+}
+
+/** Parse valid social links without letting malformed custom JSON break a menu. */
+export function socialsFrom(properties: MenuProperty[] | undefined): SocialLink[] {
+  const raw = properties?.find(p => p.name === MENU_SOCIAL_LINKS_PROPERTY)?.value;
+  if (!raw) return [];
+  try {
+    const parsed: unknown = JSON.parse(raw);
+    return Array.isArray(parsed)
+      ? parsed
+          .filter(
+            (link): link is { key: string; handle: string; visible?: boolean } =>
+              !!link && typeof link.key === 'string' && typeof link.handle === 'string',
+          )
+          .map(link => ({ key: link.key, handle: link.handle, visible: link.visible !== false }))
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+export function instagramHandleFrom(properties: MenuProperty[] | undefined): string {
+  return socialsFrom(properties).find(link => link.key === 'instagram' && link.visible)?.handle ?? '';
+}
+
+export function instagramUrlFrom(properties: MenuProperty[] | undefined): string | null {
+  const handle = instagramHandleFrom(properties);
+  return handle ? `https://www.instagram.com/${encodeURIComponent(handle)}/` : null;
+}
+
 export interface Category {
   id: string;
   name: string;
@@ -43,6 +107,8 @@ export interface Menu {
   /** When true, the owner's account email is exposed on the public menu. */
   showEmail: boolean;
   logoUrl: string | null;
+  /** Custom (non-virtual) v2 properties; empty for v1-only responses. */
+  properties: MenuProperty[];
   categories: Category[];
   items: MenuItem[];
   createdAt: string;
@@ -95,6 +161,8 @@ export interface PublicMenu {
   /** Owner's account email; present only when the owner opted to show it. */
   email: string | null;
   logoUrl: string | null;
+  /** Custom (non-virtual) v2 properties; empty for v1-only responses. */
+  properties: MenuProperty[];
   categories: PublicCategory[];
   items: PublicMenuItem[];
   uncategorizedItems: PublicMenuItem[];
@@ -119,6 +187,8 @@ export interface UpdateMenuRequest {
   address?: string | null;
   operatingHours?: string | null;
   showEmail?: boolean;
+  /** Custom properties to upsert (or remove, when value is null). */
+  properties?: MenuProperty[];
 }
 
 export interface AddCategoryRequest {

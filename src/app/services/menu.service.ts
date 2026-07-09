@@ -8,9 +8,11 @@ import {
   AddItemRequest,
   Category,
   CreateMenuRequest,
+  MENU_PROPERTY_KEYS,
   Menu,
   MenuItem,
   MenuPreviewImages,
+  MenuProperty,
   MenuSummary,
   PublicMenu,
   PublicMenuItem,
@@ -38,6 +40,9 @@ export class MenuService {
   private http = inject(HttpClient);
   private readonly api = `${environment.apiBaseUrl}/api/${environment.apiVersion}/menus`;
   private readonly publicApi = `${environment.apiBaseUrl}/api/${environment.apiVersion}/public/menus`;
+  /** v2 carries contact/logo (and any future menu data) as a generic property list. */
+  private readonly apiV2 = `${environment.apiBaseUrl}/api/${environment.apiVersionV2}/menus`;
+  private readonly publicApiV2 = `${environment.apiBaseUrl}/api/${environment.apiVersionV2}/public/menus`;
 
   /** Brand accent is a client-only theming concern, not part of the contract. */
   readonly accent = signal<string>(safeStorage.getItem(ACCENT_KEY) ?? '#22224b');
@@ -54,7 +59,7 @@ export class MenuService {
   }
 
   getMenu(menuId: string): Observable<Menu> {
-    return this.http.get<MenuWire>(`${this.api}/${menuId}`).pipe(map(toMenu));
+    return this.http.get<MenuV2Wire>(`${this.apiV2}/${menuId}`).pipe(map(toMenuFromV2));
   }
 
   /** Up to 3 item image URLs for a menu's card cover strip (separate, never-cached endpoint). */
@@ -80,15 +85,18 @@ export class MenuService {
 
   updateMenu(menuId: string, req: UpdateMenuRequest): Observable<Menu> {
     return this.http
-      .patch<MenuWire>(`${this.api}/${menuId}`, {
+      .patch<MenuV2Wire>(`${this.apiV2}/${menuId}`, {
         name: req.name,
         description: req.description ?? null,
-        phone: req.phone ?? null,
-        address: req.address ?? null,
-        operatingHours: req.operatingHours ?? null,
-        showEmail: req.showEmail ?? false,
+        properties: [
+          { name: MENU_PROPERTY_KEYS.phone, type: 'TEXT', value: req.phone ?? null },
+          { name: MENU_PROPERTY_KEYS.address, type: 'TEXT', value: req.address ?? null },
+          { name: MENU_PROPERTY_KEYS.operatingHours, type: 'TEXT', value: req.operatingHours ?? null },
+          { name: MENU_PROPERTY_KEYS.showEmail, type: 'BOOLEAN', value: String(req.showEmail ?? false) },
+          ...(req.properties ?? []),
+        ],
       })
-      .pipe(map(toMenu));
+      .pipe(map(toMenuFromV2));
   }
 
   deleteMenu(menuId: string): Observable<void> {
@@ -151,16 +159,25 @@ export class MenuService {
   // ---- public ----
 
   getPublicMenu(slug: string): Observable<PublicMenu> {
-    return this.http.get<PublicMenuWire>(`${this.publicApi}/${slug}`).pipe(map(toPublicMenu));
+    return this.http.get<PublicMenuV2Wire>(`${this.publicApiV2}/${slug}`).pipe(map(toPublicMenuFromV2));
   }
 }
 
 // ---- wire types (priceAmount arrives as a JSON number) ----
 
 type MenuItemWire = Omit<MenuItem, 'priceAmount'> & { priceAmount: number | string };
-type MenuWire = Omit<Menu, 'items'> & { items: MenuItemWire[] };
+type MenuWire = Omit<Menu, 'items' | 'properties'> & { items: MenuItemWire[] };
 type PublicMenuItemWire = Omit<PublicMenuItem, 'priceAmount'> & { priceAmount: number | string };
-type PublicMenuWire = Omit<PublicMenu, 'items' | 'uncategorizedItems'> & {
+
+/** v2 wire shapes: flat contact/logo fields are replaced by `properties`. */
+type MenuV2Wire = Omit<
+  Menu,
+  'items' | 'phone' | 'address' | 'operatingHours' | 'showEmail' | 'logoUrl'
+> & { items: MenuItemWire[] };
+type PublicMenuV2Wire = Omit<
+  PublicMenu,
+  'items' | 'uncategorizedItems' | 'phone' | 'address' | 'operatingHours' | 'logoUrl'
+> & {
   items: PublicMenuItemWire[];
   uncategorizedItems: PublicMenuItemWire[];
 };
@@ -169,13 +186,47 @@ function toItem(raw: MenuItemWire): MenuItem {
   return { ...raw, priceAmount: formatPrice(raw.priceAmount) };
 }
 
+/** v1 responses (create, logo upload) carry flat fields and no custom properties. */
 function toMenu(raw: MenuWire): Menu {
-  return { ...raw, items: raw.items.map(toItem) };
+  return { ...raw, properties: [], items: raw.items.map(toItem) };
 }
 
-function toPublicMenu(raw: PublicMenuWire): PublicMenu {
+/**
+ * Splits a v2 property list into the flat convenience fields the pages consume
+ * and the remaining custom properties. `logoObjectKey` is MEDIA, so its value
+ * arrives as a presigned read URL.
+ */
+function splitProperties(properties: MenuProperty[]) {
+  const virtual = new Map(
+    properties
+      .filter(p => (Object.values(MENU_PROPERTY_KEYS) as string[]).includes(p.name))
+      .map(p => [p.name, p.value])
+  );
+  return {
+    phone: virtual.get(MENU_PROPERTY_KEYS.phone) ?? null,
+    address: virtual.get(MENU_PROPERTY_KEYS.address) ?? null,
+    operatingHours: virtual.get(MENU_PROPERTY_KEYS.operatingHours) ?? null,
+    showEmail: virtual.get(MENU_PROPERTY_KEYS.showEmail) === 'true',
+    logoUrl: virtual.get(MENU_PROPERTY_KEYS.logo) ?? null,
+    custom: properties.filter(p => !(Object.values(MENU_PROPERTY_KEYS) as string[]).includes(p.name)),
+  };
+}
+
+function toMenuFromV2(raw: MenuV2Wire): Menu {
+  const { custom, ...flat } = splitProperties(raw.properties);
+  return { ...raw, ...flat, properties: custom, items: raw.items.map(toItem) };
+}
+
+function toPublicMenuFromV2(raw: PublicMenuV2Wire): PublicMenu {
   const normalize = (i: PublicMenuItemWire): PublicMenuItem => ({ ...i, priceAmount: formatPrice(i.priceAmount) });
-  return { ...raw, items: raw.items.map(normalize), uncategorizedItems: raw.uncategorizedItems.map(normalize) };
+  const { custom, showEmail: _showEmail, ...flat } = splitProperties(raw.properties);
+  return {
+    ...raw,
+    ...flat,
+    properties: custom,
+    items: raw.items.map(normalize),
+    uncategorizedItems: raw.uncategorizedItems.map(normalize),
+  };
 }
 
 function itemBody(req: AddItemRequest | UpdateItemRequest) {

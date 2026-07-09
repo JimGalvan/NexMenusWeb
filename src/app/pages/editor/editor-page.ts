@@ -23,7 +23,7 @@ import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 import { MenuService } from '../../services/menu.service';
 import { AuthService } from '../../services/auth.service';
-import { Menu } from '../../models/menu.model';
+import { MENU_SOCIAL_LINKS_PROPERTY, Menu, instagramHandleFrom } from '../../models/menu.model';
 import { BottomSheetComponent } from '../../components/ui/bottom-sheet/bottom-sheet';
 import { ImageCropperComponent } from '../../components/ui/image-cropper/image-cropper';
 
@@ -266,6 +266,7 @@ export class EditorPageComponent {
   description = signal('');
   phone = signal('');
   address = signal('');
+  instagramHandle = signal('');
   showEmail = signal(false);
   accent = signal(this.menuService.accent());
   logoUrl = signal('');
@@ -335,6 +336,7 @@ export class EditorPageComponent {
     this.description.set(menu.description ?? '');
     this.phone.set(menu.phone ?? '');
     this.address.set(menu.address ?? '');
+    this.instagramHandle.set(instagramHandleFrom(menu.properties));
     this.showEmail.set(menu.showEmail ?? false);
     this.logoUrl.set(menu.logoUrl ?? '');
     const parsedHours = menu.operatingHours ? parseOperatingHours(menu.operatingHours) : null;
@@ -646,6 +648,15 @@ export class EditorPageComponent {
     this.hoursTouched.set(true);
   }
 
+  setInstagramHandle(value: string) {
+    const handle = value
+      .trim()
+      .replace(/^https?:\/\/(www\.)?instagram\.com\//i, '')
+      .replace(/^@+/, '')
+      .split(/[/?#]/, 1)[0];
+    this.instagramHandle.set(handle);
+  }
+
   /** PATCH the menu's editable details, including generated display text for hours. */
   private persistDetails(onDone?: () => void) {
     const menu = this.menuModel();
@@ -661,6 +672,13 @@ export class EditorPageComponent {
         address: this.address().trim() || null,
         showEmail: this.showEmail(),
         operatingHours: this.hoursTouched() || !menu.operatingHours ? this.operatingHoursText() : menu.operatingHours,
+        properties: [{
+          name: MENU_SOCIAL_LINKS_PROPERTY,
+          type: 'JSON',
+          value: this.instagramHandle().trim()
+            ? JSON.stringify([{ key: 'instagram', handle: this.instagramHandle().trim(), visible: true }])
+            : null,
+        }],
       })
       .subscribe({
         next: updated => {

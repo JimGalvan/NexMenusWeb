@@ -3,7 +3,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
 import { AuthService } from '../../services/auth.service';
 import { SeoService } from '../../services/seo.service';
-import { PublicMenu, PublicMenuItem, menuInitials } from '../../models/menu.model';
+import { PublicMenu, PublicMenuItem, instagramHandleFrom, instagramUrlFrom, menuInitials } from '../../models/menu.model';
 import { BottomSheetComponent } from '../../components/ui/bottom-sheet/bottom-sheet';
 
 const CAT_GRADIENTS: Record<string, string> = {
@@ -50,6 +50,8 @@ export class PublicMenuPageComponent {
   selectedPhoto = signal<PublicMenuItem | null>(null);
 
   readonly initials = computed(() => (this.menu() ? menuInitials(this.menu()!.name) : ''));
+  readonly instagramHandle = computed(() => instagramHandleFrom(this.menu()?.properties));
+  readonly instagramUrl = computed(() => instagramUrlFrom(this.menu()?.properties));
 
   constructor() {
     this.menuService.getPublicMenu(this.slug).subscribe({
@@ -189,6 +191,8 @@ function buildMenuJsonLd(menu: PublicMenu, slug: string): Record<string, unknown
     ? `${Math.min(...prices)}-${Math.max(...prices)} ${menu.currency}`
     : null;
 
+  const instagramUrl = instagramUrlFrom(menu.properties);
+
   const menuItem = (item: PublicMenuItem) => ({
     '@type': 'MenuItem',
     name: item.name,
@@ -229,6 +233,7 @@ function buildMenuJsonLd(menu: PublicMenu, slug: string): Record<string, unknown
     ...(address ? { address } : {}),
     ...(priceRange ? { priceRange } : {}),
     ...(menu.email ? { email: menu.email } : {}),
+    ...(instagramUrl ? { sameAs: [instagramUrl] } : {}),
     hasMenu: {
       '@type': 'Menu',
       name: `${menu.name} Menu`,

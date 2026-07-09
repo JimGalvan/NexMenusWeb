@@ -13,21 +13,24 @@ const path = require('path');
 
 const apiBaseUrl = process.env.API_BASE_URL ?? '';
 const apiVersion = process.env.API_VERSION ?? 'v1';
+const apiVersionV2 = process.env.API_VERSION_V2 ?? 'v2';
 const supportEmail = process.env.SUPPORT_EMAIL ?? '';
 
 const target = path.join(__dirname, '..', 'src', 'environments', 'environment.prod.ts');
 
 const contents = `export const apiVersion1 = ${JSON.stringify(apiVersion)};
+export const apiVersion2 = ${JSON.stringify(apiVersionV2)};
 
 export const environment = {
   production: true,
   apiBaseUrl: ${JSON.stringify(apiBaseUrl)},
   apiVersion: apiVersion1,
+  apiVersionV2: apiVersion2,
   supportEmail: ${JSON.stringify(supportEmail)},
 };
 `;
 
 fs.writeFileSync(target, contents);
 console.log(
-  `[set-env] wrote ${path.relative(process.cwd(), target)} (apiBaseUrl='${apiBaseUrl}', apiVersion='${apiVersion}', supportEmail='${supportEmail}')`,
+  `[set-env] wrote ${path.relative(process.cwd(), target)} (apiBaseUrl='${apiBaseUrl}', apiVersion='${apiVersion}', apiVersionV2='${apiVersionV2}', supportEmail='${supportEmail}')`,
 );

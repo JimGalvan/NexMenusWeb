@@ -209,7 +209,16 @@
 .pm-footer__name { font-weight: 700; font-size: 13.5px; }
 .pm-footer__lines { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.55; }
 .pm-footer__phone { display: inline-block; margin-top: 9px; font-weight: 700; font-size: 13px; }
-.pm-footer__email { display: block; margin-top: 6px; font-weight: 700; font-size: 13px; overflow-wrap: anywhere; }
+.pm-footer__email,
+.pm-footer__instagram { display: block; margin-top: 6px; font-weight: 700; font-size: 13px; overflow-wrap: anywhere; }
+.pm-instagram {
+  display: inline-flex; align-items: center; gap: 7px; min-height: 38px; padding: 0 12px;
+  border: 1px solid #e4e4e7; border-radius: 11px; color: #c13584; background: #fff;
+  font-size: 12px; font-weight: 750;
+}
+.pm-instagram:hover { background: #fff7fb; border-color: #edc7dc; }
+.pm-instagram__label { display: none; }
+@media (min-width: 900px) { .pm-instagram__label { display: inline; } }
 .pm-powered {
   justify-self: center;
   text-align: center;

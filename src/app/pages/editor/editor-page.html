@@ -199,6 +199,24 @@
           <label class="ed-field-label">Address</label>
           <textarea class="ed-input ed-textarea" rows="2" [ngModel]="address()" (ngModelChange)="address.set($event)" placeholder="Street, city, state"></textarea>
 
+          <div class="ed-social-head">
+            <label class="ed-field-label ed-social-head__title" for="instagram-handle">Instagram</label>
+            <span class="ed-social-head__sub">Shown on your public menu</span>
+          </div>
+          <div class="ed-instagram">
+            <span class="ed-instagram__icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/>
+                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/>
+                <circle cx="17.4" cy="6.7" r="1" fill="currentColor"/>
+              </svg>
+            </span>
+            <span class="ed-instagram__prefix">@</span>
+            <input id="instagram-handle" class="ed-instagram__input" [ngModel]="instagramHandle()"
+                   (ngModelChange)="setInstagramHandle($event)" placeholder="yourrestaurant"
+                   autocapitalize="off" autocomplete="off" spellcheck="false" />
+          </div>
+
           <label class="ed-toggle">
             <span class="ed-toggle__text">
               <span class="ed-toggle__title">Let diners email me</span>
