@@ -1,171 +1,197 @@
 @if (loading()) {
-  <div class="pm-missing"><p>Loading menu…</p></div>
+    <div class="pm-missing"><p>Loading menu…</p></div>
 } @else if (!menu()) {
-  <div class="pm-missing">
-    <p>This menu isn't available.</p>
-    <a routerLink="/" class="nx-btn nx-btn--primary">Go to NexMenus</a>
-  </div>
+    <div class="pm-missing">
+        <p>This menu isn't available.</p>
+        <a routerLink="/" class="nx-btn nx-btn--primary">Go to NexMenus</a>
+    </div>
 } @else {
-  <main class="pm" [class.has-editor-link]="ownerMenuId()" [style.--accent]="accent()">
-    @if (ownerMenuId(); as editorMenuId) {
-      <a class="pm-editor-link" [routerLink]="['/editor', editorMenuId]">← Back to editor</a>
+    <main class="pm" [class.has-editor-link]="ownerMenuId()" [style.--accent]="accent()">
+        @if (ownerMenuId(); as editorMenuId) {
+            <a class="pm-editor-link" [routerLink]="['/editor', editorMenuId]">← Back to editor</a>
+        }
+
+        <div class="pm-page">
+            <nav class="pm-breadcrumb" aria-label="Breadcrumb">
+                <a routerLink="/">NexMenus</a><span>›</span>
+                @if (city(); as menuCity) {
+                    <span>{{ menuCity }}</span><span>›</span>
+                }
+                <strong>{{ menu()!.name }}</strong>
+            </nav>
+
+            <div class="pm-hero" [class.pm-hero--empty]="!coverUrl()">
+                @if (coverUrl(); as cover) {
+                    <img [src]="cover" [alt]="menu()!.name + ' restaurant'"/>
+                }
+                <div class="pm-hero__fade"></div>
+            </div>
+
+            <header class="pm-identity">
+                @if (menu()!.logoUrl) {
+                    <img class="pm-logo" [src]="menu()!.logoUrl" [alt]="menu()!.name + ' logo'"/>
+                } @else {
+                    <span class="pm-logo pm-logo--fallback" [style.background]="accent()">{{ initials() }}</span>
+                }
+
+                <h1>{{ menu()!.name }} — Menu &amp; Prices</h1>
+                @if (menu()!.description) {
+                    <p class="pm-tagline">{{ menu()!.description }}@if (city(); as menuCity) {
+                        in {{ menuCity }}
+                    }</p>
+                }
+
+                @if (highlights().length) {
+                    <div class="pm-highlights">
+                        @for (highlight of highlights(); track highlight) {
+                            <span>{{ highlight }}</span>
+                        }
+                    </div>
+                }
+
+                <div class="pm-actions">
+                    @if (directionsHref(); as directions) {
+                        <a class="pm-action pm-action--ghost" [href]="directions" target="_blank"
+                           rel="noopener noreferrer">Directions</a>
+                    } @else {
+                        <button class="pm-action pm-action--ghost" type="button" disabled>Directions</button>
+                    }
+                    @if (phoneHref(); as href) {
+                        <a class="pm-action pm-action--primary"
+                           [href]="href">{{ contactMethod() === 'call' ? 'Call' : 'Text' }}</a>
+                    } @else {
+                        <button class="pm-action pm-action--primary" type="button" disabled>Contact</button>
+                    }
+                    <button class="pm-action pm-action--icon" type="button" (click)="share()"
+                            aria-label="Share this menu">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <circle cx="18" cy="5" r="2.4" stroke="currentColor" stroke-width="1.7"/>
+                            <circle cx="6" cy="12" r="2.4" stroke="currentColor" stroke-width="1.7"/>
+                            <circle cx="18" cy="19" r="2.4" stroke="currentColor" stroke-width="1.7"/>
+                            <path d="M8 11l8-5M8 13l8 5" stroke="currentColor" stroke-width="1.7"/>
+                        </svg>
+                        <span>Share</span>
+                    </button>
+                    <button class="pm-action pm-action--icon pm-action--more" type="button"
+                            (click)="infoOpen.set(!infoOpen())" aria-label="More restaurant links">
+                        <svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true">
+                            <circle cx="5" cy="12" r="1.4"/>
+                            <circle cx="12" cy="12" r="1.4"/>
+                            <circle cx="19" cy="12" r="1.4"/>
+                        </svg>
+                    </button>
+                </div>
+
+                @if (infoOpen()) {
+                    <div class="pm-more">
+                        @if (menu()!.email) {
+                            <a [href]="'mailto:' + menu()!.email"><span>✉</span><b>Contact</b><small>{{ menu()!.email }}</small></a>
+                        }
+                        @if (instagramUrl(); as instagram) {
+                            <a [href]="instagram" target="_blank"
+                               rel="noopener noreferrer"><span>◎</span><b>Instagram</b><small>&#64;{{ instagramHandle() }}</small></a>
+                        }
+                        <a [routerLink]="['/m', menu()!.slug, 'print']"><span>▣</span><b>Print menu</b><small>Printable
+                            version</small></a>
+                    </div>
+                }
+            </header>
+
+            @if (menu()!.operatingHours || menu()!.address || menu()!.phone) {
+                <section class="pm-info">
+                    <h2>Hours &amp; Location</h2>
+                    @if (menu()!.operatingHours) {
+                        <div class="pm-info__hours">{{ menu()!.operatingHours }}</div>
+                    }
+                    @if (menu()!.address) {
+                        <p>{{ menu()!.address }}</p>
+                    }
+                    @if (phoneHref(); as href) {
+                        <a [href]="href">{{ menu()!.phone }}</a>
+                    }
+                    @if (faqs().length) {
+                        <a
+                                class="pm-faq-jump"
+                                [routerLink]="['/m', menu()!.slug]"
+                                fragment="menu-faq"
+                        >
+                            <span>Have a question?</span><b>Jump to FAQ</b><i>↓</i>
+                        </a>
+                    }
+                </section>
+            }
+
+            <section class="pm-menu" aria-labelledby="menu-title">
+                <div class="pm-menu__head">
+                    <h2 id="menu-title">Menu</h2>
+                </div>
+                <div class="pm-tabs scrollarea" role="tablist" aria-label="Menu categories">
+                    @for (pill of pills(); track pill.id) {
+                        <button type="button" role="tab" [attr.aria-selected]="currentCatId() === pill.id"
+                                [class.is-active]="currentCatId() === pill.id"
+                                (click)="activeCatId.set(pill.id)">{{ pill.name }} ({{ itemCountFor(pill.id) }})
+                        </button>
+                    }
+                </div>
+
+                <div class="pm-items scrollarea">
+                    @for (item of items(); track item.id) {
+                        <article class="pm-item" [class.is-sold]="item.soldOut">
+                            @if (item.imageUrl) {
+                                <button type="button" class="pm-item__photo" (click)="openPhoto(item)"
+                                        [attr.aria-label]="'Open photo of ' + item.name">
+                                    <img [src]="item.imageUrl" [alt]="item.name" loading="lazy" width="52" height="52"/>
+                                </button>
+                            }
+                            <div class="pm-item__body">
+                                <div><h3>{{ item.name }}</h3><strong
+                                        [style.color]="accent()">${{ item.priceAmount }}</strong></div>
+                                @if (item.description) {
+                                    <p>{{ item.description }}</p>
+                                }
+                                @if (item.soldOut) {
+                                    <small>Sold out</small>
+                                }
+                            </div>
+                        </article>
+                    }
+                </div>
+            </section>
+
+            @if (menu()!.description) {
+                <section class="pm-about">
+                    <h2>About {{ menu()!.name }}</h2>
+                    <p>{{ menu()!.description }}</p>
+                </section>
+            }
+
+            @if (faqs().length) {
+                <section class="pm-faq" id="menu-faq">
+                    <h2>Frequently asked questions</h2>
+                    @for (faq of faqs(); track faq.question) {
+                        <div><h3>{{ faq.question }}</h3>
+                            <p>{{ faq.answer }}</p></div>
+                    }
+                </section>
+            }
+
+            <footer class="pm-footer">
+                <p>{{ menu()!.name }}@if (menu()!.address) {
+                    · {{ menu()!.address }}
+                }
+                    @if (menu()!.phone) {
+                        · {{ menu()!.phone }}
+                    }</p>
+                <a routerLink="/">Menu powered by <strong>NexMenus</strong></a>
+            </footer>
+        </div>
+    </main>
+
+    @if (selectedPhoto(); as item) {
+        <div class="pm-lightbox" (click)="closePhoto()" role="dialog" aria-modal="true"
+             [attr.aria-label]="item.name + ' photo'">
+            <button type="button" (click)="closePhoto(); $event.stopPropagation()" aria-label="Close photo">×</button>
+            <img [src]="item.imageUrl" [alt]="item.name" (click)="$event.stopPropagation()"/>
+        </div>
     }
-
-    <div class="pm-page">
-      <nav class="pm-breadcrumb" aria-label="Breadcrumb">
-        <a routerLink="/">NexMenus</a><span>›</span>
-        @if (city(); as menuCity) {
-          <span>{{ menuCity }}</span><span>›</span>
-        }
-        <strong>{{ menu()!.name }}</strong>
-      </nav>
-
-      <div class="pm-hero" [class.pm-hero--empty]="!coverUrl()">
-        @if (coverUrl(); as cover) {
-          <img [src]="cover" [alt]="menu()!.name + ' restaurant'" />
-        }
-        <div class="pm-hero__fade"></div>
-      </div>
-
-      <header class="pm-identity">
-        @if (menu()!.logoUrl) {
-          <img class="pm-logo" [src]="menu()!.logoUrl" [alt]="menu()!.name + ' logo'" />
-        } @else {
-          <span class="pm-logo pm-logo--fallback" [style.background]="accent()">{{ initials() }}</span>
-        }
-
-        <h1>{{ menu()!.name }} — Menu &amp; Prices</h1>
-        @if (menu()!.description) {
-          <p class="pm-tagline">{{ menu()!.description }}@if (city(); as menuCity) { in {{ menuCity }}}</p>
-        }
-
-        @if (highlights().length) {
-          <div class="pm-highlights">
-            @for (highlight of highlights(); track highlight) {
-              <span>{{ highlight }}</span>
-            }
-          </div>
-        }
-
-        <div class="pm-actions">
-          @if (directionsHref(); as directions) {
-            <a class="pm-action pm-action--ghost" [href]="directions" target="_blank" rel="noopener noreferrer">Directions</a>
-          } @else {
-            <button class="pm-action pm-action--ghost" type="button" disabled>Directions</button>
-          }
-          @if (phoneHref(); as href) {
-            <a class="pm-action pm-action--primary" [href]="href">{{ contactMethod() === 'call' ? 'Call' : 'Text' }}</a>
-          } @else {
-            <button class="pm-action pm-action--primary" type="button" disabled>Contact</button>
-          }
-          <button class="pm-action pm-action--icon" type="button" (click)="share()" aria-label="Share this menu">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <circle cx="18" cy="5" r="2.4" stroke="currentColor" stroke-width="1.7"/>
-              <circle cx="6" cy="12" r="2.4" stroke="currentColor" stroke-width="1.7"/>
-              <circle cx="18" cy="19" r="2.4" stroke="currentColor" stroke-width="1.7"/>
-              <path d="M8 11l8-5M8 13l8 5" stroke="currentColor" stroke-width="1.7"/>
-            </svg>
-            <span>Share</span>
-          </button>
-          <button class="pm-action pm-action--icon pm-action--more" type="button"
-                  (click)="infoOpen.set(!infoOpen())" aria-label="More restaurant links">
-            <svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="19" cy="12" r="1.4"/>
-            </svg>
-          </button>
-        </div>
-
-        @if (infoOpen()) {
-          <div class="pm-more">
-            @if (menu()!.email) {
-              <a [href]="'mailto:' + menu()!.email"><span>✉</span><b>Contact</b><small>{{ menu()!.email }}</small></a>
-            }
-            @if (instagramUrl(); as instagram) {
-              <a [href]="instagram" target="_blank" rel="noopener noreferrer"><span>◎</span><b>Instagram</b><small>&#64;{{ instagramHandle() }}</small></a>
-            }
-            <a [routerLink]="['/m', menu()!.slug, 'print']"><span>▣</span><b>Print menu</b><small>Printable version</small></a>
-          </div>
-        }
-      </header>
-
-      @if (menu()!.operatingHours || menu()!.address || menu()!.phone) {
-        <section class="pm-info">
-          <h2>Hours &amp; Location</h2>
-          @if (menu()!.operatingHours) {
-            <div class="pm-info__hours">{{ menu()!.operatingHours }}</div>
-          }
-          @if (menu()!.address) {
-            <p>{{ menu()!.address }}</p>
-          }
-          @if (phoneHref(); as href) {
-            <a [href]="href">{{ menu()!.phone }}</a>
-          }
-          @if (faqs().length) {
-            <a class="pm-faq-jump" href="#menu-faq">
-              <span>Have a question?</span><b>Jump to FAQ</b><i>↓</i>
-            </a>
-          }
-        </section>
-      }
-
-      <section class="pm-menu" aria-labelledby="menu-title">
-        <div class="pm-menu__head">
-          <h2 id="menu-title">Menu</h2>
-        </div>
-        <div class="pm-tabs scrollarea" role="tablist" aria-label="Menu categories">
-          @for (pill of pills(); track pill.id) {
-            <button type="button" role="tab" [attr.aria-selected]="currentCatId() === pill.id"
-                    [class.is-active]="currentCatId() === pill.id"
-                    (click)="activeCatId.set(pill.id)">{{ pill.name }} ({{ itemCountFor(pill.id) }})</button>
-          }
-        </div>
-
-        <div class="pm-items scrollarea">
-          @for (item of items(); track item.id) {
-            <article class="pm-item" [class.is-sold]="item.soldOut">
-              @if (item.imageUrl) {
-                <button type="button" class="pm-item__photo" (click)="openPhoto(item)"
-                        [attr.aria-label]="'Open photo of ' + item.name">
-                  <img [src]="item.imageUrl" [alt]="item.name" loading="lazy" width="52" height="52" />
-                </button>
-              }
-              <div class="pm-item__body">
-                <div><h3>{{ item.name }}</h3><strong [style.color]="accent()">${{ item.priceAmount }}</strong></div>
-                @if (item.description) { <p>{{ item.description }}</p> }
-                @if (item.soldOut) { <small>Sold out</small> }
-              </div>
-            </article>
-          }
-        </div>
-      </section>
-
-      @if (menu()!.description) {
-        <section class="pm-about">
-          <h2>About {{ menu()!.name }}</h2>
-          <p>{{ menu()!.description }}</p>
-        </section>
-      }
-
-      @if (faqs().length) {
-        <section class="pm-faq" id="menu-faq">
-          <h2>Frequently asked questions</h2>
-          @for (faq of faqs(); track faq.question) {
-            <div><h3>{{ faq.question }}</h3><p>{{ faq.answer }}</p></div>
-          }
-        </section>
-      }
-
-      <footer class="pm-footer">
-        <p>{{ menu()!.name }}@if (menu()!.address) { · {{ menu()!.address }}}@if (menu()!.phone) { · {{ menu()!.phone }}}</p>
-        <a routerLink="/">Menu powered by <strong>NexMenus</strong></a>
-      </footer>
-    </div>
-  </main>
-
-  @if (selectedPhoto(); as item) {
-    <div class="pm-lightbox" (click)="closePhoto()" role="dialog" aria-modal="true" [attr.aria-label]="item.name + ' photo'">
-      <button type="button" (click)="closePhoto(); $event.stopPropagation()" aria-label="Close photo">×</button>
-      <img [src]="item.imageUrl" [alt]="item.name" (click)="$event.stopPropagation()" />
-    </div>
-  }
 }
