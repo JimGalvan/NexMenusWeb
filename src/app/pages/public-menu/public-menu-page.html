@@ -228,8 +228,26 @@
                     </div>
                 }
 
-                @if (menu()!.email) {
+                @if (phoneHref(); as href) {
                     @if (menu()!.address) {
+                        <div class="pm-sheet__divider"></div>
+                    }
+                    <a class="pm-sheet__block pm-sheet__block--link" [href]="href">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 5 5L19 18l-2 3a14 14 0 0 1-12-12L5 4Z"
+                                  stroke="#A1A1AA" stroke-width="1.7" stroke-linejoin="round"/>
+                        </svg>
+                        <div class="pm-sheet__block-body">
+                            <div class="pm-sheet__label">{{ contactMethod() === 'text' ? 'Text' : 'Phone' }}</div>
+                            <div class="pm-sheet__addr" [style.color]="accent()">
+                                {{ menu()!.phone }}@if (contactMethod() === 'text') {&ngsp;<span class="pm-sheet__textonly">(text only)</span>}
+                            </div>
+                        </div>
+                    </a>
+                }
+
+                @if (menu()!.email) {
+                    @if (menu()!.address || menu()!.phone) {
                         <div class="pm-sheet__divider"></div>
                     }
                     <a class="pm-sheet__block pm-sheet__block--link" [href]="'mailto:' + menu()!.email">

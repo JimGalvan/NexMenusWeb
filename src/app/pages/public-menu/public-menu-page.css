@@ -279,6 +279,7 @@
 .pm-sheet__hours { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); margin-top: 6px; }
 .pm-sheet__hours .is-closed { color: var(--faint); font-weight: 600; }
 .pm-sheet__addr { font-size: 12.5px; color: var(--text-3); margin-top: 6px; line-height: 1.5; }
+.pm-sheet__textonly { font-size: 11.5px; font-weight: 600; opacity: 0.75; }
 .pm-sheet__divider { height: 1px; background: var(--line-soft); margin: 16px 0; }
 .pm-sheet__call {
   display: flex;
