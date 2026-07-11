@@ -16,6 +16,7 @@ const ZOOM_MAX = 3;
   styleUrl: './image-cropper.css',
 })
 export class ImageCropperComponent implements AfterViewInit, OnDestroy {
+  @ViewChild('stageWrap') private stageWrapRef!: ElementRef<HTMLDivElement>;
   @ViewChild('stage') private stageRef!: ElementRef<HTMLDivElement>;
   @ViewChild('img') private imgRef!: ElementRef<HTMLImageElement>;
 
@@ -39,7 +40,12 @@ export class ImageCropperComponent implements AfterViewInit, OnDestroy {
     // and produces a misaligned/duplicated-looking crop view. Measuring the
     // rendered width and setting an explicit height up front avoids that.
     const stage = this.stageRef.nativeElement;
-    stage.style.height = `${stage.clientWidth / this.aspectRatio()}px`;
+    const stageWrap = this.stageWrapRef.nativeElement;
+    const ratio = this.aspectRatio();
+    const availableWidth = Math.min(stageWrap.clientWidth, 960);
+    const width = Math.min(availableWidth, stageWrap.clientHeight * ratio);
+    stage.style.width = `${width}px`;
+    stage.style.height = `${width / ratio}px`;
 
     this.cropper = new Cropper(this.imgRef.nativeElement, {
       aspectRatio: this.aspectRatio(),

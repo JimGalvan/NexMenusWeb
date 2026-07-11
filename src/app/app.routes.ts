@@ -118,6 +118,18 @@ export const routes: Routes = [
       import('./pages/print-menu/print-menu-page').then(m => m.PrintMenuPageComponent),
   },
 
+  // Anonymous draft flow (links handed out by the ChatGPT MCP; tokenized, noindex).
+  {
+    path: 'claim/:token',
+    loadComponent: () =>
+      import('./pages/claim/claim-page').then(m => m.ClaimPageComponent),
+  },
+  {
+    path: 'preview/:token',
+    loadComponent: () =>
+      import('./pages/preview/preview-page').then(m => m.PreviewPageComponent),
+  },
+
 
   { path: '**', redirectTo: '' },
 ];

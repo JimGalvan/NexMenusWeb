@@ -1,0 +1,43 @@
+:host { display: block; }
+
+/* Auth layout is shared globally in styles.css (.auth*); claim-specific bits below. */
+
+.claim__summary {
+  display: grid;
+  gap: 10px;
+  margin: 18px 0 6px;
+  padding: 14px 16px;
+  border: 1px solid rgba(34, 34, 75, 0.12);
+  border-radius: 12px;
+  background: rgba(34, 34, 75, 0.03);
+}
+
+.claim__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 0.92rem;
+}
+
+.claim__row span { opacity: 0.65; }
+
+.claim__cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.claim__cta--secondary {
+  margin-top: 10px;
+  background: transparent;
+  border: 1px solid rgba(34, 34, 75, 0.25);
+}
+
+.claim__hint {
+  margin-top: 12px;
+  font-size: 0.85rem;
+  text-align: center;
+  opacity: 0.65;
+}

@@ -1,8 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
+import { safeReturnUrl } from '../../core/safe-return-url';
 import { BrandLogoComponent } from '../../components/ui/brand-logo/brand-logo';
 
 @Component({
@@ -14,6 +15,7 @@ import { BrandLogoComponent } from '../../components/ui/brand-logo/brand-logo';
 export class RegisterPageComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   email = signal('');
   password = signal('');
@@ -35,7 +37,7 @@ export class RegisterPageComponent {
     this.loading.set(true);
     this.error.set('');
     this.authService.register({ email, password }).subscribe({
-      next: () => this.router.navigate(['/app']),
+      next: () => this.router.navigateByUrl(safeReturnUrl(this.route.snapshot.queryParamMap.get('returnUrl'))),
       error: () => {
         this.loading.set(false);
         this.error.set('Could not create your account. Please try again.');

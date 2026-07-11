@@ -1,0 +1,90 @@
+<div class="auth">
+  <div class="auth__card scrollarea claim">
+    <a routerLink="/" class="auth__brand"><app-brand-logo [size]="21" /></a>
+
+    @switch (state()) {
+      @case ('loading') {
+        <header class="auth__head">
+          <h1>Checking your menu draft…</h1>
+          <p>One moment.</p>
+        </header>
+      }
+
+      @case ('unclaimed') {
+        <header class="auth__head">
+          <h1>Claim your menu</h1>
+          <p>
+            You created a draft for <strong>{{ displayName() }}</strong> with ChatGPT.
+            Claiming adds it to your NexMenus account so you can edit and publish it.
+          </p>
+        </header>
+
+        <div class="claim__summary">
+          @if (status()?.businessName) {
+            <div class="claim__row"><span>Business</span><strong>{{ status()!.businessName }}</strong></div>
+          }
+          @if (status()?.menuName) {
+            <div class="claim__row"><span>Menu</span><strong>{{ status()!.menuName }}</strong></div>
+          }
+          <div class="claim__row"><span>Draft expires</span><strong>{{ expiresText() }}</strong></div>
+        </div>
+
+        @if (claimError()) { <p class="auth__error">{{ claimError() }}</p> }
+
+        @if (auth.isAuthenticated()) {
+          <button type="button" class="nx-btn nx-btn--primary auth__submit" (click)="claim()">
+            Claim this menu
+          </button>
+          <p class="claim__hint">It will open in the editor, ready to review and publish.</p>
+        } @else {
+          <a class="nx-btn nx-btn--primary auth__submit claim__cta"
+             routerLink="/login" [queryParams]="returnParams">Log in to claim</a>
+          <a class="nx-btn auth__submit claim__cta claim__cta--secondary"
+             routerLink="/register" [queryParams]="returnParams">Create a free account</a>
+          <p class="claim__hint">You'll come right back here after signing in.</p>
+        }
+      }
+
+      @case ('claiming') {
+        <header class="auth__head">
+          <h1>Claiming your menu…</h1>
+          <p>Setting everything up. This takes a moment.</p>
+        </header>
+      }
+
+      @case ('claimed') {
+        <header class="auth__head">
+          <h1>Already claimed</h1>
+          <p>This draft has already been added to a NexMenus account, so this link is no longer active.</p>
+        </header>
+        <a class="nx-btn nx-btn--primary auth__submit claim__cta" routerLink="/app">Go to my menus</a>
+      }
+
+      @case ('expired') {
+        <header class="auth__head">
+          <h1>This draft has expired</h1>
+          <p>
+            Unclaimed drafts are kept for a limited time and this one is gone.
+            You can create a new one in ChatGPT, or build your menu here in a few minutes.
+          </p>
+        </header>
+        <a class="nx-btn nx-btn--primary auth__submit claim__cta" routerLink="/register">Start a menu on NexMenus</a>
+      }
+
+      @case ('unavailable') {
+        <header class="auth__head">
+          <h1>Temporarily unavailable</h1>
+          <p>Claiming is briefly unavailable. Your draft is safe — please try this link again in a few minutes.</p>
+        </header>
+      }
+
+      @default {
+        <header class="auth__head">
+          <h1>Invalid link</h1>
+          <p>This claim link isn't valid. Check that the full link was copied from your ChatGPT conversation.</p>
+        </header>
+        <a class="nx-btn nx-btn--primary auth__submit claim__cta" routerLink="/">Go to NexMenus</a>
+      }
+    }
+  </div>
+</div>

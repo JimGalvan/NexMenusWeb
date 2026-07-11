@@ -5,7 +5,7 @@
     <button type="button" class="crop-screen__done" (click)="confirm()">Done</button>
   </div>
 
-  <div class="crop-screen__stage-wrap">
+  <div #stageWrap class="crop-screen__stage-wrap">
     <div #stage class="crop-screen__stage" [class.is-round]="round()">
       <img #img [src]="imageSrc()" crossorigin="anonymous" />
       @if (!round()) {

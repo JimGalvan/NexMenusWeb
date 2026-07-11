@@ -16,5 +16,8 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'blog/**', renderMode: RenderMode.Server },
   { path: 'm/:slug', renderMode: RenderMode.Server },
   { path: 'm/:slug/print', renderMode: RenderMode.Client },
+  // Tokenized private draft pages: client-only so credentials stay out of SSR.
+  { path: 'claim/:token', renderMode: RenderMode.Client },
+  { path: 'preview/:token', renderMode: RenderMode.Client },
   { path: '**', renderMode: RenderMode.Client },
 ];

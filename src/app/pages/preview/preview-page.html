@@ -1,0 +1,111 @@
+@switch (state()) {
+  @case ('loading') {
+    <div class="preview__status"><p>Loading preview…</p></div>
+  }
+
+  @case ('ready') {
+    <div class="preview">
+      <div class="preview__banner" role="status">
+        <strong>Unclaimed draft</strong> — expires {{ expiresText() }}.
+        To keep this menu, use the claim link from your ChatGPT conversation.
+      </div>
+
+      <header class="preview__head">
+        <h1>{{ title() }}</h1>
+        @if (preview()!.menuName && preview()!.businessName) {
+          <p class="preview__menu-name">{{ preview()!.menuName }}</p>
+        }
+        @if (preview()!.content.business?.description) {
+          <p class="preview__description">{{ preview()!.content.business!.description }}</p>
+        }
+        @if (preview()!.content.business?.cuisines?.length) {
+          <div class="preview__tags">
+            @for (cuisine of preview()!.content.business!.cuisines!; track cuisine) {
+              <span class="preview__tag">{{ cuisine }}</span>
+            }
+          </div>
+        }
+      </header>
+
+      <div class="preview__meta">
+        @if (preview()!.content.location?.phone) {
+          <div class="preview__meta-row">
+            <span>Contact</span>
+            <a [href]="phoneHref()">{{ preview()!.content.location!.phone }}</a>
+          </div>
+        }
+        @if (preview()!.content.location?.address) {
+          <div class="preview__meta-row"><span>Address</span>{{ preview()!.content.location!.address }}</div>
+        }
+        @if (preview()!.content.operatingHours) {
+          <div class="preview__meta-row"><span>Hours</span>{{ preview()!.content.operatingHours }}</div>
+        }
+      </div>
+
+      @for (category of categories(); track category.name) {
+        <section class="preview__category">
+          <h2>{{ category.name }}</h2>
+          <ul>
+            @for (item of category.items ?? []; track item.name) {
+              <li class="preview__item" [class.preview__item--unavailable]="item.available === false">
+                <div class="preview__item-main">
+                  <span class="preview__item-name">{{ item.name }}</span>
+                  @if (item.description) {
+                    <span class="preview__item-description">{{ item.description }}</span>
+                  }
+                </div>
+                <span class="preview__item-price">{{ price(item.priceAmount) }}</span>
+              </li>
+            }
+          </ul>
+        </section>
+      }
+
+      @if (preview()!.content.business?.about) {
+        <section class="preview__category">
+          <h2>About</h2>
+          <p class="preview__about">{{ preview()!.content.business!.about }}</p>
+        </section>
+      }
+
+      @if (preview()!.content.faqs?.length) {
+        <section class="preview__category">
+          <h2>FAQs</h2>
+          @for (faq of preview()!.content.faqs!; track faq.question) {
+            <div class="preview__faq">
+              <p class="preview__faq-q">{{ faq.question }}</p>
+              <p class="preview__faq-a">{{ faq.answer }}</p>
+            </div>
+          }
+        </section>
+      }
+
+      <footer class="preview__foot">
+        Draft preview · not a live menu · <a routerLink="/">NexMenus</a>
+      </footer>
+    </div>
+  }
+
+  @case ('gone') {
+    <div class="preview__status">
+      <h1>This preview is no longer available</h1>
+      <p>The draft was claimed or has expired.</p>
+      <a routerLink="/">Go to NexMenus</a>
+    </div>
+  }
+
+  @case ('unavailable') {
+    <div class="preview__status">
+      <h1>Temporarily unavailable</h1>
+      <p>Please try this link again in a few minutes.</p>
+    </div>
+  }
+
+  @default {
+    <div class="preview__status">
+      <h1>Invalid link</h1>
+      <p>Check that the full preview link was copied from your ChatGPT conversation.</p>
+      <a routerLink="/">Go to NexMenus</a>
+    </div>
+  }
+}
