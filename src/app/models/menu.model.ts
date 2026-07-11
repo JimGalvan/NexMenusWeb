@@ -349,6 +349,11 @@ export function priceLabel(amount: string): string {
   return '$' + amount.replace(/\.00$/, '');
 }
 
+/** Whether a diner-facing item has a price worth displaying. */
+export function hasPrice(amount: string): boolean {
+  return Number(amount) > 0;
+}
+
 /** Compact "2h ago" label derived from an ISO `updatedAt`. */
 export function relativeTime(iso: string): string {
   const minutes = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);

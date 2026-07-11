@@ -56,8 +56,10 @@
               <div class="pr-item">
                 <div class="pr-item__row">
                   <span class="pr-item__name">{{ it.name }}</span>
-                  <span class="pr-item__dots"></span>
-                  <span class="pr-item__price">{{ priceLabel(it.priceAmount) }}</span>
+                  @if (hasPrice(it.priceAmount)) {
+                    <span class="pr-item__dots"></span>
+                    <span class="pr-item__price">{{ priceLabel(it.priceAmount) }}</span>
+                  }
                 </div>
                 @if (it.description) {
                   <div class="pr-item__desc">{{ it.description }}</div>

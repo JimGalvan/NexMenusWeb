@@ -2,7 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
 import { SeoService } from '../../services/seo.service';
-import { PublicMenu, PublicMenuItem, accentFrom, contactMethodFrom, menuInitials, priceLabel } from '../../models/menu.model';
+import { PublicMenu, PublicMenuItem, accentFrom, contactMethodFrom, hasPrice, menuInitials, priceLabel } from '../../models/menu.model';
 
 interface PrintSection {
   name: string;
@@ -61,6 +61,7 @@ export class PrintMenuPageComponent {
   }
 
   priceLabel = priceLabel;
+  hasPrice = hasPrice;
 
   print() {
     window.print();

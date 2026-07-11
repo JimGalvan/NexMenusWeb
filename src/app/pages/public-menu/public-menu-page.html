@@ -167,8 +167,11 @@
                                 </button>
                             }
                             <div class="pm-item__body">
-                                <div><h3>{{ item.name }}</h3><strong
-                                        [style.color]="accent()">${{ item.priceAmount }}</strong></div>
+                                <div><h3>{{ item.name }}</h3>
+                                    @if (+item.priceAmount > 0) {
+                                        <strong [style.color]="accent()">${{ item.priceAmount }}</strong>
+                                    }
+                                </div>
                                 @if (item.description) {
                                     <p>{{ item.description }}</p>
                                 }
