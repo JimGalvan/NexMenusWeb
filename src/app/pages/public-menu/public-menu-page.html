@@ -20,25 +20,48 @@
                 <strong>{{ menu()!.name }}</strong>
             </nav>
 
-            <div class="pm-hero" [class.pm-hero--empty]="!coverUrl()">
-                @if (coverUrl(); as cover) {
+            @if (coverUrl(); as cover) {
+                <div class="pm-hero">
                     <img [src]="cover" [alt]="menu()!.name + ' restaurant'"/>
-                }
-                <div class="pm-hero__fade"></div>
-            </div>
+                    <div class="pm-hero__fade"></div>
+                </div>
+            } @else {
+                <div class="pm-hero-rule"></div>
+            }
 
-            <header class="pm-identity">
-                @if (menu()!.logoUrl) {
-                    <img class="pm-logo" [src]="menu()!.logoUrl" [alt]="menu()!.name + ' logo'"/>
-                } @else {
-                    <span class="pm-logo pm-logo--fallback" [style.background]="accent()">{{ initials() }}</span>
+            <header class="pm-identity" [class.pm-identity--no-cover]="!coverUrl()">
+                <div class="pm-identity__top">
+                    @if (menu()!.logoUrl) {
+                        <img class="pm-logo" [src]="menu()!.logoUrl" [alt]="menu()!.name + ' logo'"/>
+                    } @else {
+                        <span class="pm-logo pm-logo--fallback" [style.background]="accent()">{{ initials() }}</span>
+                    }
+
+                    @if (!coverUrl()) {
+                        <div class="pm-identity__copy">
+                            <h1>{{ menu()!.name }}</h1>
+                            @if (menu()!.description) {
+                                <p class="pm-tagline">{{ menu()!.description }}@if (city(); as menuCity) {
+                                    in {{ menuCity }}
+                                }</p>
+                            }
+                        </div>
+                    }
+                </div>
+
+                @if (coverUrl()) {
+                    <h1>{{ menu()!.name }}</h1>
+                    @if (menu()!.description) {
+                        <p class="pm-tagline">{{ menu()!.description }}@if (city(); as menuCity) {
+                            in {{ menuCity }}
+                        }</p>
+                    }
                 }
 
-                <h1>{{ menu()!.name }}</h1>
-                @if (menu()!.description) {
-                    <p class="pm-tagline">{{ menu()!.description }}@if (city(); as menuCity) {
-                        in {{ menuCity }}
-                    }</p>
+                @if (cuisines().length) {
+                    <div class="pm-facts">
+                        <span>{{ cuisines().join(' · ') }}</span>
+                    </div>
                 }
 
                 @if (highlights().length) {
