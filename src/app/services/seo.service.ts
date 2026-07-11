@@ -27,14 +27,14 @@ export class SeoService {
 
     this.title.setTitle(metadata.title);
     this.upsert('name', 'description', metadata.description);
-    this.upsert('name', 'robots', metadata.noindex ? 'noindex, nofollow' : 'index, follow');
+    this.upsert('name', 'robots', metadata.noindex ? 'noindex, nofollow' : 'index,follow,max-image-preview:large');
     this.upsert('property', 'og:site_name', 'NexMenus');
     this.upsert('property', 'og:type', metadata.type ?? 'website');
     this.upsert('property', 'og:title', metadata.title);
     this.upsert('property', 'og:description', metadata.description);
     this.upsert('property', 'og:url', url);
     this.upsert('property', 'og:image', image);
-    this.upsert('name', 'twitter:card', 'summary');
+    this.upsert('name', 'twitter:card', 'summary_large_image');
     this.upsert('name', 'twitter:title', metadata.title);
     this.upsert('name', 'twitter:description', metadata.description);
     this.upsert('name', 'twitter:image', image);

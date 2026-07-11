@@ -49,9 +49,9 @@ export class LandingPageComponent {
 
   constructor(private seo: SeoService) {
     this.seo.setPage({
-      title: 'Printable Restaurant Menus & Digital QR Menus | NexMenus',
+      title: 'Digital Restaurant Menu & Storefront Builder | NexMenus',
       description:
-        'Create a print-ready restaurant menu PDF and digital QR menu from one simple editor. Update prices, photos, and sold-out items anytime. Free to launch.',
+        'Create a mobile-friendly restaurant storefront with your menu, photos, prices, hours, QR code, pickup or delivery details, and a printable PDF. Free to launch.',
       canonicalPath: '/',
     });
 
@@ -82,9 +82,9 @@ export class LandingPageComponent {
           '@type': 'WebPage',
           '@id': `${SITE}/#webpage`,
           url: `${SITE}/`,
-          name: 'Printable Restaurant Menus & Digital QR Menus | NexMenus',
+          name: 'Digital Restaurant Menu & Storefront Builder | NexMenus',
           description:
-            'Create a print-ready restaurant menu PDF and digital QR menu from one simple editor. Update prices, photos, and sold-out items anytime.',
+            'Create a mobile-friendly restaurant storefront with your menu, photos, prices, hours, QR code, pickup or delivery details, and a printable PDF.',
           isPartOf: { '@id': `${SITE}/#website` },
           about: { '@id': `${SITE}/#software` },
         },
@@ -96,27 +96,8 @@ export class LandingPageComponent {
           operatingSystem: 'Web',
           url: `${SITE}/`,
           description:
-            'NexMenus helps restaurants and food businesses create printable menus, print-ready PDFs, and digital QR menus from one editor.',
+            'A digital menu and local storefront builder for restaurants and food businesses.',
           publisher: { '@id': `${SITE}/#organization` },
-          offers: {
-            '@type': 'Offer',
-            price: '0',
-            priceCurrency: 'USD',
-            description: 'Free to launch',
-          },
-          audience: {
-            '@type': 'Audience',
-            audienceType: 'Restaurants and food businesses',
-          },
-        },
-        {
-          '@type': 'FAQPage',
-          '@id': `${SITE}/#faq`,
-          mainEntity: FAQS.map((faq) => ({
-            '@type': 'Question',
-            name: faq.q,
-            acceptedAnswer: { '@type': 'Answer', text: faq.a },
-          })),
         },
       ],
     });
