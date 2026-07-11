@@ -6,6 +6,8 @@ import { SeoService } from '../../services/seo.service';
 import {
   PublicMenu,
   PublicMenuItem,
+  aboutFrom,
+  accentFrom,
   contactMethodFrom,
   coverUrlFrom,
   cuisinesFrom,
@@ -47,7 +49,7 @@ export class PublicMenuPageComponent {
   private authService = inject(AuthService);
   private seo = inject(SeoService);
 
-  readonly accent = this.menuService.accent;
+  readonly accent = computed(() => accentFrom(this.menu()?.properties) ?? '#22224b');
 
   private slug = this.route.snapshot.paramMap.get('slug')!;
   readonly landingPreview = this.route.snapshot.queryParamMap.get('embed') === 'landing';
@@ -64,6 +66,7 @@ export class PublicMenuPageComponent {
   readonly instagramUrl = computed(() => instagramUrlFrom(this.menu()?.properties));
   readonly contactMethod = computed(() => contactMethodFrom(this.menu()?.properties));
   readonly coverUrl = computed(() => coverUrlFrom(this.menu()?.properties));
+  readonly about = computed(() => aboutFrom(this.menu()?.properties));
   readonly cuisines = computed(() => cuisinesFrom(this.menu()?.properties));
   readonly highlights = computed(() => highlightsFrom(this.menu()?.properties));
   readonly faqs = computed(() => faqsFrom(this.menu()?.properties));
@@ -84,7 +87,7 @@ export class PublicMenuPageComponent {
         this.menu.set(menu);
         const city = extractCity(menu.address);
         this.seo.setPage({
-          title: city ? `${menu.name} — Menu & Prices in ${city} | NexMenus` : `${menu.name} Menu | NexMenus`,
+          title: city ? `${menu.name} Menu in ${city} | NexMenus` : `${menu.name} Menu | NexMenus`,
           description: buildDescription(menu, city),
           noindex: this.landingPreview,
           canonicalPath: `/m/${this.slug}`,
@@ -240,6 +243,7 @@ function buildMenuJsonLd(menu: PublicMenu, slug: string): Record<string, unknown
   const cuisines = cuisinesFrom(menu.properties);
   const highlights = highlightsFrom(menu.properties);
   const faqs = faqsFrom(menu.properties);
+  const about = aboutFrom(menu.properties);
 
   const menuItem = (item: PublicMenuItem) => ({
     '@type': 'MenuItem',
@@ -275,7 +279,7 @@ function buildMenuJsonLd(menu: PublicMenu, slug: string): Record<string, unknown
     '@type': 'Restaurant',
     name: menu.name,
     url: `https://nexmenus.com/m/${slug}`,
-    ...(menu.description ? { description: menu.description } : {}),
+    ...(menu.description || about ? { description: menu.description ?? about } : {}),
     ...(coverUrl || menu.logoUrl ? { image: coverUrl ?? menu.logoUrl } : {}),
     ...(cuisines.length ? { servesCuisine: cuisines } : {}),
     ...(highlights.length ? { amenityFeature: highlights.map(name => ({ '@type': 'LocationFeatureSpecification', name, value: true })) } : {}),

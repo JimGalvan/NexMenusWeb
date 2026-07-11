@@ -34,7 +34,7 @@
                     <span class="pm-logo pm-logo--fallback" [style.background]="accent()">{{ initials() }}</span>
                 }
 
-                <h1>{{ menu()!.name }} — Menu &amp; Prices</h1>
+                <h1>{{ menu()!.name }}</h1>
                 @if (menu()!.description) {
                     <p class="pm-tagline">{{ menu()!.description }}@if (city(); as menuCity) {
                         in {{ menuCity }}
@@ -58,7 +58,7 @@
                     }
                     @if (phoneHref(); as href) {
                         <a class="pm-action pm-action--primary"
-                           [href]="href">{{ contactMethod() === 'call' ? 'Call' : 'Text' }}</a>
+                           [href]="href">{{ contactMethod() === 'call' ? 'Call' : 'Text to Order' }}</a>
                     } @else {
                         <button class="pm-action pm-action--primary" type="button" disabled>Contact</button>
                     }
@@ -158,10 +158,10 @@
                 </div>
             </section>
 
-            @if (menu()!.description) {
+            @if (about()) {
                 <section class="pm-about">
                     <h2>About {{ menu()!.name }}</h2>
-                    <p>{{ menu()!.description }}</p>
+                    <p>{{ about() }}</p>
                 </section>
             }
 

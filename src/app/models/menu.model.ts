@@ -40,6 +40,8 @@ export type MenuMediaKind = 'logo' | 'cover';
 export const MENU_CUISINES_PROPERTY = 'cuisines';
 export const MENU_HIGHLIGHTS_PROPERTY = 'highlights';
 export const MENU_FAQS_PROPERTY = 'faqs';
+export const MENU_ABOUT_PROPERTY = 'about';
+export const MENU_ACCENT_PROPERTY = 'accentColor';
 
 export interface MenuFaq {
   question: string;
@@ -80,6 +82,15 @@ export function faqsFrom(properties: MenuProperty[] | undefined): MenuFaq[] {
       typeof (item as MenuFaq).question === 'string' &&
       typeof (item as MenuFaq).answer === 'string',
   );
+}
+
+export function aboutFrom(properties: MenuProperty[] | undefined): string {
+  return properties?.find(property => property.name === MENU_ABOUT_PROPERTY)?.value?.trim() ?? '';
+}
+
+export function accentFrom(properties: MenuProperty[] | undefined): string | null {
+  const value = properties?.find(property => property.name === MENU_ACCENT_PROPERTY)?.value?.trim() ?? '';
+  return /^#[0-9a-f]{6}$/i.test(value) ? value : null;
 }
 
 /** Custom property holding how diners contact the phone number. */

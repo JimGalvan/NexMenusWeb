@@ -155,7 +155,7 @@
         <div class="ed-form scrollarea">
           <section class="ed-detail-card">
             <div class="ed-detail-card__heading">
-              <div><strong>Basics</strong><span>Hero, logo, name, tagline, brand color</span></div>
+              <div><strong>Basics</strong><span>Hero, logo, name, description, brand color</span></div>
             </div>
             <div class="ed-cover-drop">
             <button type="button" class="ed-cover" [disabled]="coverUploading()"
@@ -198,8 +198,11 @@
           <label class="ed-field-label">Menu name</label>
           <input class="ed-input" [ngModel]="menuName()" (ngModelChange)="menuName.set($event)" placeholder="Restaurant or menu name" />
 
-          <label class="ed-field-label">Tagline</label>
+          <label class="ed-field-label">Menu description</label>
           <input class="ed-input" [ngModel]="description()" (ngModelChange)="description.set($event)" placeholder="e.g. Fresh California-inspired cuisine" />
+
+          <label class="ed-field-label">About section</label>
+          <textarea class="ed-input ed-textarea" rows="4" [ngModel]="about()" (ngModelChange)="about.set($event)" placeholder="Tell diners about the restaurant, chef, ingredients or story"></textarea>
 
           <label class="ed-field-label">Brand accent</label>
           <div class="ed-swatches">
@@ -224,7 +227,7 @@
                 <button type="button" class="ed-contact-method__opt"
                         [class.is-selected]="contactMethod() === 'text'"
                         [attr.aria-pressed]="contactMethod() === 'text'"
-                        (click)="contactMethod.set('text')">Text</button>
+                        (click)="contactMethod.set('text')">Text to Order</button>
                 <button type="button" class="ed-contact-method__opt"
                         [class.is-selected]="contactMethod() === 'call'"
                         [attr.aria-pressed]="contactMethod() === 'call'"

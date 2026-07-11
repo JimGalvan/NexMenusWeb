@@ -45,7 +45,7 @@ export class MenuService {
   private readonly apiV2 = `${environment.apiBaseUrl}/api/${environment.apiVersionV2}/menus`;
   private readonly publicApiV2 = `${environment.apiBaseUrl}/api/${environment.apiVersionV2}/public/menus`;
 
-  /** Brand accent is a client-only theming concern, not part of the contract. */
+  /** Last-used brand accent fallback; saved menus persist their own accent as a v2 property. */
   readonly accent = signal<string>(safeStorage.getItem(ACCENT_KEY) ?? '#22224b');
 
   setAccent(color: string): void {

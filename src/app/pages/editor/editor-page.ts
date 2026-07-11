@@ -25,6 +25,8 @@ import { MenuService } from '../../services/menu.service';
 import { AuthService } from '../../services/auth.service';
 import {
   ContactMethod,
+  MENU_ABOUT_PROPERTY,
+  MENU_ACCENT_PROPERTY,
   MENU_CONTACT_METHOD_PROPERTY,
   MENU_CUISINES_PROPERTY,
   MENU_FAQS_PROPERTY,
@@ -32,6 +34,8 @@ import {
   MENU_SOCIAL_LINKS_PROPERTY,
   Menu,
   MenuFaq,
+  aboutFrom,
+  accentFrom,
   contactMethodFrom,
   coverUrlFrom,
   cuisinesFrom,
@@ -74,7 +78,7 @@ interface EditorHoursSummaryRow {
   closed: boolean;
 }
 
-const ACCENTS = ['#22224b', '#0E7490', '#15803D', '#C2410C', '#BE123C', '#7C3AED'];
+const ACCENTS = ['#22224b', '#0E7490', '#15803D', '#C2410C', '#BE123C', '#7C3AED', '#2563EB', '#0891B2', '#65A30D', '#CA8A04', '#DB2777', '#4F46E5'];
 // Mirrors the API's ImageValidator limits for an instant client-side rejection.
 const LOGO_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 const LOGO_MAX_BYTES = 5 * 1024 * 1024;
@@ -280,6 +284,7 @@ export class EditorPageComponent {
   // ---- working state ----
   menuName = signal('');
   description = signal('');
+  about = signal('');
   phone = signal('');
   contactMethod = signal<ContactMethod>('text');
   address = signal('');
@@ -358,6 +363,8 @@ export class EditorPageComponent {
     this.menuModel.set(menu);
     this.menuName.set(menu.name);
     this.description.set(menu.description ?? '');
+    this.about.set(aboutFrom(menu.properties));
+    this.accent.set(accentFrom(menu.properties) ?? this.menuService.accent());
     this.phone.set(menu.phone ?? '');
     this.contactMethod.set(contactMethodFrom(menu.properties));
     this.address.set(menu.address ?? '');
@@ -714,6 +721,16 @@ export class EditorPageComponent {
         showEmail: this.showEmail(),
         operatingHours: this.hoursTouched() || !menu.operatingHours ? this.operatingHoursText() : menu.operatingHours,
         properties: [
+          {
+            name: MENU_ACCENT_PROPERTY,
+            type: 'TEXT',
+            value: this.accent(),
+          },
+          {
+            name: MENU_ABOUT_PROPERTY,
+            type: 'TEXT',
+            value: this.about().trim() || null,
+          },
           {
             name: MENU_SOCIAL_LINKS_PROPERTY,
             type: 'JSON',

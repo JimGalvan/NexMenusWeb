@@ -2,7 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
 import { SeoService } from '../../services/seo.service';
-import { PublicMenu, PublicMenuItem, contactMethodFrom, menuInitials, priceLabel } from '../../models/menu.model';
+import { PublicMenu, PublicMenuItem, accentFrom, contactMethodFrom, menuInitials, priceLabel } from '../../models/menu.model';
 
 interface PrintSection {
   name: string;
@@ -23,7 +23,7 @@ export class PrintMenuPageComponent {
   private menuService = inject(MenuService);
   private seo = inject(SeoService);
 
-  readonly accent = this.menuService.accent;
+  readonly accent = computed(() => accentFrom(this.menu()?.properties) ?? '#22224b');
 
   readonly slug = this.route.snapshot.paramMap.get('slug')!;
   readonly menu = signal<PublicMenu | null>(null);
