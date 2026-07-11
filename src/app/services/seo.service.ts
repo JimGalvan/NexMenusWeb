@@ -41,6 +41,21 @@ export class SeoService {
     this.setCanonical(url);
   }
 
+  /** Replace the site favicon with a custom image (e.g. a menu's logo). */
+  setFavicon(url: string): void {
+    this.document.head
+      .querySelectorAll<HTMLLinkElement>('link[rel="icon"], link[rel="apple-touch-icon"]')
+      .forEach(link => link.remove());
+    const icon = this.document.createElement('link');
+    icon.rel = 'icon';
+    icon.href = url;
+    this.document.head.appendChild(icon);
+    const apple = this.document.createElement('link');
+    apple.rel = 'apple-touch-icon';
+    apple.href = url;
+    this.document.head.appendChild(apple);
+  }
+
   addJsonLd(id: string, data: Record<string, unknown>): void {
     const existing = this.document.getElementById(id);
     if (existing) existing.remove();

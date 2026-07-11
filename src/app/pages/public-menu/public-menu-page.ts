@@ -93,6 +93,7 @@ export class PublicMenuPageComponent {
           canonicalPath: `/m/${this.slug}`,
           image: coverUrlFrom(menu.properties) ?? menu.logoUrl ?? undefined,
         });
+        if (menu.logoUrl) this.seo.setFavicon(menu.logoUrl);
         this.seo.addJsonLd(`menu-jsonld-${menu.id}`, buildMenuJsonLd(menu, this.slug));
         this.loading.set(false);
       },
