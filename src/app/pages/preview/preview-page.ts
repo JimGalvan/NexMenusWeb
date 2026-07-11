@@ -4,7 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { DraftService } from '../../services/draft.service';
 import { SeoService } from '../../services/seo.service';
 import { DraftCategory, DraftPreview } from '../../models/draft.model';
-import { formatPrice } from '../../models/menu.model';
+import { formatPrice, priceLabel } from '../../models/menu.model';
 
 type PreviewState = 'loading' | 'ready' | 'gone' | 'invalid' | 'unavailable';
 
@@ -71,6 +71,6 @@ export class PreviewPageComponent {
   }
 
   price(amount: string | number): string {
-    return formatPrice(amount);
+    return priceLabel(formatPrice(amount));
   }
 }
