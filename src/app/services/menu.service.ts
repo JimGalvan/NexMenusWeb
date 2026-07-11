@@ -188,7 +188,7 @@ type MenuV2Wire = Omit<
   Menu,
   'items' | 'phone' | 'address' | 'operatingHours' | 'showEmail' | 'logoUrl'
 > & { items: MenuItemWire[] };
-type PublicMenuV2Wire = Omit<
+export type PublicMenuV2Wire = Omit<
   PublicMenu,
   'items' | 'uncategorizedItems' | 'phone' | 'address' | 'operatingHours' | 'logoUrl'
 > & {
@@ -231,7 +231,7 @@ function toMenuFromV2(raw: MenuV2Wire): Menu {
   return { ...raw, ...flat, properties: custom, items: raw.items.map(toItem) };
 }
 
-function toPublicMenuFromV2(raw: PublicMenuV2Wire): PublicMenu {
+export function toPublicMenuFromV2(raw: PublicMenuV2Wire): PublicMenu {
   const normalize = (i: PublicMenuItemWire): PublicMenuItem => ({ ...i, priceAmount: formatPrice(i.priceAmount) });
   const { custom, showEmail: _showEmail, ...flat } = splitProperties(raw.properties);
   return {

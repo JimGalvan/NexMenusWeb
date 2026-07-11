@@ -114,8 +114,10 @@
                             <a [href]="instagram" target="_blank"
                                rel="noopener noreferrer"><span>◎</span><b>Instagram</b><small>&#64;{{ instagramHandle() }}</small></a>
                         }
-                        <a [routerLink]="['/m', menu()!.slug, 'print']"><span>▣</span><b>Print menu</b><small>Printable
-                            version</small></a>
+                        @if (!previewMode()) {
+                            <a [routerLink]="['/m', menu()!.slug, 'print']"><span>▣</span><b>Print menu</b><small>Printable
+                                version</small></a>
+                        }
                     </div>
                 }
             </header>
@@ -132,7 +134,7 @@
                     @if (phoneHref(); as href) {
                         <a [href]="href">{{ menu()!.phone }}</a>
                     }
-                    @if (faqs().length) {
+                    @if (faqs().length && !previewMode()) {
                         <a
                                 class="pm-faq-jump"
                                 [routerLink]="['/m', menu()!.slug]"

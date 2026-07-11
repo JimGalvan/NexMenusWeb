@@ -3,20 +3,21 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DraftService } from '../../services/draft.service';
 import { SeoService } from '../../services/seo.service';
-import { DraftCategory, DraftPreview } from '../../models/draft.model';
-import { formatPrice, priceLabel } from '../../models/menu.model';
+import { PublicMenu } from '../../models/menu.model';
+import { PublicMenuPageComponent } from '../public-menu/public-menu-page';
 
 type PreviewState = 'loading' | 'ready' | 'gone' | 'invalid' | 'unavailable';
 
 /**
  * Read-only render of an unclaimed anonymous draft (tokenized link from
- * ChatGPT). Explicitly a draft: banner, expiry, noindex; no claim link here —
+ * ChatGPT). Wraps the real storefront renderer with a draft banner, so the
+ * preview is pixel-identical to what claiming produces. No claim link here —
  * the claim URL is a separate credential that lives in the user's ChatGPT
  * conversation.
  */
 @Component({
   selector: 'app-preview-page',
-  imports: [RouterLink],
+  imports: [RouterLink, PublicMenuPageComponent],
   templateUrl: './preview-page.html',
   styleUrl: './preview-page.css',
 })
@@ -26,26 +27,13 @@ export class PreviewPageComponent {
   private seo = inject(SeoService);
 
   readonly state = signal<PreviewState>('loading');
-  readonly preview = signal<DraftPreview | null>(null);
+  readonly storefrontMenu = signal<PublicMenu | null>(null);
+  private readonly expiresAt = signal<string | null>(null);
 
-  readonly title = computed(() => {
-    const value = this.preview();
-    return value?.businessName || value?.menuName || 'Menu draft';
-  });
   readonly expiresText = computed(() => {
-    const iso = this.preview()?.expiresAt;
+    const iso = this.expiresAt();
     if (!iso) return '';
     return new Date(iso).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
-  });
-  readonly categories = computed<DraftCategory[]>(() => {
-    const categories = this.preview()?.content?.categories ?? [];
-    return [...categories].sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
-  });
-  readonly phoneHref = computed(() => {
-    const content = this.preview()?.content;
-    const phone = content?.location?.phone;
-    if (!phone) return null;
-    return (content?.ordering?.phoneContactMethod === 'call' ? 'tel:' : 'sms:') + phone;
   });
 
   constructor() {
@@ -61,16 +49,13 @@ export class PreviewPageComponent {
     }
     this.draftService.getPreview(token).subscribe({
       next: preview => {
-        this.preview.set(preview);
+        this.storefrontMenu.set(preview.menu);
+        this.expiresAt.set(preview.expiresAt);
         this.state.set('ready');
       },
       error: (error: HttpErrorResponse) => {
         this.state.set(error.status === 410 ? 'gone' : error.status === 503 ? 'unavailable' : 'invalid');
       },
     });
-  }
-
-  price(amount: string | number): string {
-    return priceLabel(formatPrice(amount));
   }
 }

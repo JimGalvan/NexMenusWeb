@@ -1,8 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { DraftClaimResult, DraftClaimStatus, DraftPreview } from '../models/draft.model';
+import { PublicMenuV2Wire, toPublicMenuFromV2 } from './menu.service';
 
 /**
  * Claim/preview endpoints for anonymous menu drafts created through ChatGPT.
@@ -24,6 +25,10 @@ export class DraftService {
   }
 
   getPreview(previewToken: string): Observable<DraftPreview> {
-    return this.http.get<DraftPreview>(`${this.api}/draft-previews/${encodeURIComponent(previewToken)}`);
+    return this.http
+      .get<DraftPreviewWire>(`${this.api}/draft-previews/${encodeURIComponent(previewToken)}`)
+      .pipe(map(wire => ({ ...wire, menu: toPublicMenuFromV2(wire.menu) })));
   }
 }
+
+type DraftPreviewWire = Omit<DraftPreview, 'menu'> & { menu: PublicMenuV2Wire };

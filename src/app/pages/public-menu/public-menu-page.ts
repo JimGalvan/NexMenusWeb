@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, input, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
 import { AuthService } from '../../services/auth.service';
@@ -43,16 +43,24 @@ interface Pill {
   templateUrl: './public-menu-page.html',
   styleUrl: './public-menu-page.css',
 })
-export class PublicMenuPageComponent {
+export class PublicMenuPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private menuService = inject(MenuService);
   private authService = inject(AuthService);
   private seo = inject(SeoService);
 
+  /**
+   * When set, this component becomes a pure renderer of the given menu (used
+   * by the draft preview page): no slug fetch, no SEO/JSON-LD side effects, no
+   * owner resolution, and slug-based links are hidden via previewMode.
+   */
+  readonly menuData = input<PublicMenu | null>(null);
+  readonly previewMode = input(false);
+
   readonly accent = computed(() => accentFrom(this.menu()?.properties) ?? '#22224b');
 
-  private slug = this.route.snapshot.paramMap.get('slug')!;
+  private slug = this.route.snapshot.paramMap.get('slug') ?? '';
   readonly landingPreview = this.route.snapshot.queryParamMap.get('embed') === 'landing';
   readonly menu = signal<PublicMenu | null>(null);
   readonly loading = signal(true);
@@ -82,7 +90,13 @@ export class PublicMenuPageComponent {
     return (this.contactMethod() === 'call' ? 'tel:' : 'sms:') + phone;
   });
 
-  constructor() {
+  ngOnInit() {
+    const provided = this.menuData();
+    if (provided) {
+      this.menu.set(provided);
+      this.loading.set(false);
+      return;
+    }
     this.menuService.getPublicMenu(this.slug).subscribe({
       next: menu => {
         // A renamed menu answers its old slug via the API's 301; move the

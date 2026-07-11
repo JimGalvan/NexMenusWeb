@@ -2,6 +2,7 @@
  * Anonymous menu drafts created through the NexMenus MCP (ChatGPT).
  * Shapes mirror the API DTOs in NexMenusAPI `domain/dto/draft`.
  */
+import { PublicMenu } from './menu.model';
 
 export interface DraftBusiness {
   businessName: string;
@@ -58,6 +59,8 @@ export interface DraftPreview {
   status: string;
   expiresAt: string;
   content: DraftContent;
+  /** The draft projected into the storefront's public-menu shape (normalized by DraftService). */
+  menu: PublicMenu;
 }
 
 /** GET /api/v1/draft-claims/{token} — status values: unclaimed | claimed | expired */
