@@ -100,6 +100,15 @@ export class MenuService {
       .pipe(map(toMenuFromV2));
   }
 
+  /**
+   * Renames the menu's public URL. The backend records the old slug so the
+   * previous URL keeps working as a permanent redirect. Fails with 409
+   * (MENU_SLUG_CONFLICT) when taken and 422 (INVALID_SLUG) when unusable.
+   */
+  updateSlug(menuId: string, slug: string): Observable<Menu> {
+    return this.http.patch<MenuWire>(`${this.api}/${menuId}/slug`, { slug }).pipe(map(toMenu));
+  }
+
   deleteMenu(menuId: string): Observable<void> {
     return this.http.delete<void>(`${this.api}/${menuId}`);
   }

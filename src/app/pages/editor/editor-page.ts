@@ -42,6 +42,7 @@ import {
   faqsFrom,
   highlightsFrom,
   instagramHandleFrom,
+  slugify,
 } from '../../models/menu.model';
 import { BottomSheetComponent } from '../../components/ui/bottom-sheet/bottom-sheet';
 import { ImageCropperComponent } from '../../components/ui/image-cropper/image-cropper';
@@ -301,6 +302,8 @@ export class EditorPageComponent {
   cats = signal<string[]>([]);
   items = signal<EditorItem[]>([]);
   notFound = signal(false);
+  slugDraft = signal('');
+  slugSaving = signal(false);
 
   screen = signal<Screen>('overview');
   activeCat = signal('All');
@@ -348,6 +351,15 @@ export class EditorPageComponent {
   readonly operatingHoursText = computed(() => formatOperatingHours(this.hoursRows()));
   readonly hoursSummaryRows = computed(() => summarizeHours(this.hoursRows()));
 
+  readonly menuSlug = computed(() => this.menuModel()?.slug ?? '');
+  /** What the draft becomes once the backend normalizes it, for the dirty check. */
+  readonly slugPreview = computed(() => {
+    const draft = this.slugDraft().trim();
+    return draft ? slugify(draft) : '';
+  });
+  readonly slugDirty = computed(() => !!this.slugPreview() && this.slugPreview() !== this.menuSlug());
+  readonly publicHost = typeof location !== 'undefined' ? location.host : 'nexmenus.com';
+
 
   constructor() {
     this.menuService.getMenu(this.menuId).subscribe({
@@ -364,6 +376,7 @@ export class EditorPageComponent {
   private hydrate(menu: Menu) {
     this.menuModel.set(menu);
     this.menuName.set(menu.name);
+    this.slugDraft.set(menu.slug);
     this.description.set(menu.description ?? '');
     this.about.set(aboutFrom(menu.properties));
     this.accent.set(accentFrom(menu.properties) ?? this.menuService.accent());
@@ -715,6 +728,36 @@ export class EditorPageComponent {
     this.faqs.update(faqs => faqs.map((faq, i) => i === index ? { ...faq, [field]: value } : faq));
   }
   removeFaq(index: number) { this.faqs.update(faqs => faqs.filter((_, i) => i !== index)); }
+
+  // ---- menu URL ----
+  saveSlug() {
+    const menu = this.menuModel();
+    if (!menu || !this.slugDirty() || this.slugSaving()) return;
+    this.slugSaving.set(true);
+    this.menuService.updateSlug(this.menuId, this.slugDraft().trim()).subscribe({
+      next: updated => {
+        this.slugSaving.set(false);
+        this.menuModel.set({ ...menu, slug: updated.slug });
+        this.slugDraft.set(updated.slug);
+        this.flash('Menu URL updated — the old link now redirects');
+      },
+      error: err => {
+        this.slugSaving.set(false);
+        if (err?.status === 409) this.flash('That URL is already taken');
+        else if (err?.status === 422) this.flash(err?.error?.message ?? 'That URL can’t be used');
+        else this.flash('Could not update menu URL');
+      },
+    });
+  }
+
+  copyMenuLink() {
+    const slug = this.menuSlug();
+    if (!slug) return;
+    navigator.clipboard
+      .writeText(`${location.origin}/m/${slug}`)
+      .then(() => this.flash('Link copied'))
+      .catch(() => this.flash('Could not copy link'));
+  }
 
   /** PATCH the menu's editable details, including generated display text for hours. */
   private persistDetails(onDone?: () => void) {

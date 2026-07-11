@@ -335,6 +335,20 @@
   color: var(--text); background: transparent; font: inherit;
 }
 
+.ed-slug {
+  display: flex; align-items: center; min-height: 48px; overflow: hidden;
+  border: 1.5px solid var(--line); border-radius: 13px; background: var(--surface);
+}
+.ed-slug:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-tint); }
+.ed-slug__prefix { margin-left: 14px; color: var(--muted-2); font-size: 14px; font-weight: 600; white-space: nowrap; }
+.ed-slug__input {
+  min-width: 0; flex: 1; border: 0; outline: 0; padding: 12px 14px 12px 2px;
+  color: var(--text); background: transparent; font: inherit; font-size: 15px; font-weight: 500;
+}
+.ed-slug__note { margin: 8px 2px 0; color: var(--muted-2); font-size: 12.5px; }
+.ed-slug__actions { display: flex; gap: 10px; margin-top: 14px; }
+.ed-slug__copy { border: 1.5px solid var(--line); color: var(--text); }
+
 .ed-formhead {
   display: flex;
   align-items: center;

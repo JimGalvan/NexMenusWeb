@@ -214,6 +214,29 @@
           </div>
           </section>
           <section class="ed-detail-card">
+            <div class="ed-detail-card__heading">
+              <div><strong>Menu URL</strong><span>The link diners use to view your menu</span></div>
+            </div>
+
+            <label class="ed-field-label" for="menu-slug">Custom slug</label>
+            <div class="ed-slug">
+              <span class="ed-slug__prefix">{{ publicHost }}/m/</span>
+              <input id="menu-slug" class="ed-slug__input" [ngModel]="slugDraft()"
+                     (ngModelChange)="slugDraft.set($event)" (keyup.enter)="saveSlug()"
+                     placeholder="your-restaurant" autocapitalize="off" autocomplete="off" spellcheck="false" />
+            </div>
+            @if (slugDirty()) {
+              <p class="ed-slug__note">Your current link will keep working — it'll redirect to the new one.</p>
+            }
+            <div class="ed-slug__actions">
+              <button type="button" class="nx-btn nx-btn--primary ed-slug__save" [style.background]="slugDirty() ? accent() : null"
+                      [disabled]="!slugDirty() || slugSaving()" (click)="saveSlug()">
+                {{ slugSaving() ? 'Saving…' : 'Save URL' }}
+              </button>
+              <button type="button" class="nx-btn nx-btn--ghost ed-slug__copy" (click)="copyMenuLink()">Copy link</button>
+            </div>
+          </section>
+          <section class="ed-detail-card">
             <div class="ed-detail-card__heading"><div><strong>Contact & hours</strong><span>Phone, address, hours diners see</span></div></div>
 
           <div class="ed-divider"></div>

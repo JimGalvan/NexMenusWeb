@@ -1,5 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
 import { AuthService } from '../../services/auth.service';
 import { SeoService } from '../../services/seo.service';
@@ -45,6 +45,7 @@ interface Pill {
 })
 export class PublicMenuPageComponent {
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private menuService = inject(MenuService);
   private authService = inject(AuthService);
   private seo = inject(SeoService);
@@ -84,17 +85,23 @@ export class PublicMenuPageComponent {
   constructor() {
     this.menuService.getPublicMenu(this.slug).subscribe({
       next: menu => {
+        // A renamed menu answers its old slug via the API's 301; move the
+        // page to the current URL so diners and crawlers land on one address.
+        if (menu.slug !== this.slug) {
+          this.router.navigate(['/m', menu.slug], { replaceUrl: true });
+          return;
+        }
         this.menu.set(menu);
         const city = extractCity(menu.address);
         this.seo.setPage({
           title: city ? `${menu.name} Menu in ${city} | NexMenus` : `${menu.name} Menu | NexMenus`,
           description: buildDescription(menu, city),
           noindex: this.landingPreview,
-          canonicalPath: `/m/${this.slug}`,
+          canonicalPath: `/m/${menu.slug}`,
           image: coverUrlFrom(menu.properties) ?? menu.logoUrl ?? undefined,
         });
         if (menu.logoUrl) this.seo.setFavicon(menu.logoUrl);
-        this.seo.addJsonLd(`menu-jsonld-${menu.id}`, buildMenuJsonLd(menu, this.slug));
+        this.seo.addJsonLd(`menu-jsonld-${menu.id}`, buildMenuJsonLd(menu, menu.slug));
         this.loading.set(false);
       },
       error: () => this.loading.set(false),
