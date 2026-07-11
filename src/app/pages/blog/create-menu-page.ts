@@ -78,7 +78,7 @@ export class CreateMenuPageComponent {
         {
           '@type': 'HowToStep',
           name: 'Add restaurant details and preview',
-          text: 'Switch to the Details tab to add your address, phone, and hours, then use Preview to see the menu exactly as guests will.',
+          text: 'Switch to the Settings tab to add your address, phone, and hours, then use Preview to see the menu exactly as guests will.',
           url: 'https://nexmenus.com/blog/how-to-create-a-restaurant-menu/#step-4',
           image: 'https://nexmenus.com/blog/create-tutorial-live-menu.webp',
         },

@@ -324,7 +324,9 @@ export class EditorPageComponent {
   readonly logoMaxFileSize = LOGO_MAX_SIZE_LABEL;
   readonly photoAcceptedTypes = LOGO_TYPES;
   readonly photoMaxFileSize = LOGO_MAX_SIZE_LABEL;
-  readonly cuisineOptions = ['California', 'Seafood', 'Farm-to-table', 'Bakery', 'Mexican', 'Italian', 'Coffee shop', 'Pizza'];
+  readonly cuisineOptions = ['California', 'Seafood', 'Farm-to-table', 'Bakery', 'Mexican', 'Italian', 'Coffee shop', 'Pizza', 'Burgers', 'Sushi', 'BBQ', 'Asian'];
+  cuisineDraft = signal('');
+  customCuisines = computed(() => this.cuisines().filter(value => !this.cuisineOptions.includes(value)));
   readonly highlightOptions = ['Family friendly', 'Local pickup', 'Delivery', 'Outdoor seating', 'Vegetarian options'];
 
   hoursRows = signal<EditorHoursRow[]>(cloneHours(DEFAULT_HOURS));
@@ -695,6 +697,15 @@ export class EditorPageComponent {
 
   toggleCuisine(value: string) {
     this.cuisines.update(values => values.includes(value) ? values.filter(item => item !== value) : [...values, value]);
+  }
+  addCustomCuisine() {
+    const draft = this.cuisineDraft().trim();
+    if (!draft) return;
+    const value = this.cuisineOptions.find(item => item.toLowerCase() === draft.toLowerCase()) ?? draft;
+    if (!this.cuisines().some(item => item.toLowerCase() === value.toLowerCase())) {
+      this.cuisines.update(values => [...values, value]);
+    }
+    this.cuisineDraft.set('');
   }
   toggleHighlight(value: string) {
     this.highlights.update(values => values.includes(value) ? values.filter(item => item !== value) : [...values, value]);

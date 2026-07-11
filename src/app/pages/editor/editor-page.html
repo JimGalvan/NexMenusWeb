@@ -46,7 +46,7 @@
           <div class="ed-title">{{ menuName() }}</div>
           <div class="ed-seg">
             <button class="ed-seg__btn is-active" (click)="showItems()">Items</button>
-            <button class="ed-seg__btn" (click)="showDetails()">Details</button>
+            <button class="ed-seg__btn" (click)="showDetails()">Settings</button>
           </div>
         </div>
 
@@ -148,7 +148,7 @@
           <div class="ed-title">{{ menuName() }}</div>
           <div class="ed-seg">
             <button class="ed-seg__btn" (click)="showItems()">Items</button>
-            <button class="ed-seg__btn is-active" (click)="showDetails()">Details</button>
+            <button class="ed-seg__btn is-active" (click)="showDetails()">Settings</button>
           </div>
         </div>
 
@@ -301,6 +301,16 @@
                         [style.color]="cuisines().includes(option) ? accent() : null"
                         (click)="toggleCuisine(option)">{{ option }}</button>
               }
+              @for (option of customCuisines(); track option) {
+                <button type="button" class="ed-choice-chip is-selected"
+                        [style.borderColor]="accent()" [style.color]="accent()"
+                        (click)="toggleCuisine(option)">{{ option }} ×</button>
+              }
+            </div>
+            <div class="ed-chip-add">
+              <input class="ed-input ed-chip-add__input" [ngModel]="cuisineDraft()" (ngModelChange)="cuisineDraft.set($event)"
+                     (keydown.enter)="addCustomCuisine()" placeholder="Add your own cuisine" />
+              <button type="button" class="ed-link-btn ed-chip-add__btn" [disabled]="!cuisineDraft().trim()" (click)="addCustomCuisine()">Add</button>
             </div>
 
             <label class="ed-field-label">Highlights</label>
