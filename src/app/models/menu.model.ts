@@ -4,8 +4,23 @@
  * is derived from the bearer token, so no `ownerId` here.
  */
 
-export type Market = 'US' | 'MX';
-export type Currency = 'USD' | 'MXN';
+// Country/currency come from the API (config-driven allowlist there); these are
+// open string types so adding a country never requires a frontend type change.
+export type Market = string;
+export type Currency = string;
+
+/**
+ * Markets offered in the create-menu picker. Keep in sync with the API's
+ * `menus.supported-countries` config (SUPPORTED_COUNTRIES env var).
+ */
+export const SUPPORTED_MARKETS: { code: Market; label: string; currency: Currency }[] = [
+  { code: 'US', label: 'United States', currency: 'USD' },
+  { code: 'MX', label: 'México', currency: 'MXN' },
+  { code: 'CA', label: 'Canada', currency: 'CAD' },
+  { code: 'GB', label: 'United Kingdom', currency: 'GBP' },
+  { code: 'ES', label: 'España', currency: 'EUR' },
+  { code: 'AU', label: 'Australia', currency: 'AUD' },
+];
 
 // ---- v2 properties ----
 
@@ -307,7 +322,33 @@ export interface ApiError {
 // ---- helpers ----
 
 export function currencyFor(market: Market): Currency {
-  return market === 'MX' ? 'MXN' : 'USD';
+  return SUPPORTED_MARKETS.find(m => m.code === market)?.currency ?? 'USD';
+}
+
+/** Price display is formatted by the menu's market, not the viewer's locale (Q7). */
+const CURRENCY_LOCALE: Record<string, string> = {
+  USD: 'en-US',
+  MXN: 'es-MX',
+  CAD: 'en-CA',
+  GBP: 'en-GB',
+  EUR: 'es-ES',
+  AUD: 'en-AU',
+};
+
+/** "14" + "USD" → "$14.00"; "12.5" + "EUR" → "12,50 €". */
+export function moneyLabel(amount: string | number, currency: Currency = 'USD'): string {
+  const n = typeof amount === 'number' ? amount : parseFloat(amount);
+  const safe = Number.isFinite(n) && n >= 0 ? n : 0;
+  try {
+    return new Intl.NumberFormat(CURRENCY_LOCALE[currency] ?? 'en-US', {
+      style: 'currency',
+      currency,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(safe);
+  } catch {
+    return safe.toFixed(2) + ' ' + currency;
+  }
 }
 
 /** Total item count across a full menu (owner view includes hidden items). */
@@ -344,9 +385,9 @@ export function formatPrice(amount: string | number): string {
   return Number.isFinite(n) && n >= 0 ? n.toFixed(2) : '0.00';
 }
 
-/** Diner-facing price label: "26.00" → "$26", "12.50" → "$12.50". */
-export function priceLabel(amount: string): string {
-  return '$' + amount.replace(/\.00$/, '');
+/** Diner-facing compact price label: whole amounts drop cents ("$26", "$12.50"). */
+export function priceLabel(amount: string, currency: Currency = 'USD'): string {
+  return moneyLabel(amount, currency).replace(/([.,]00)(?=\D|$)/, '');
 }
 
 /** Whether a diner-facing item has a price worth displaying. */

@@ -106,7 +106,7 @@
                           <span class="ed-row__badge" [class]="b.cls">{{ b.label }}</span>
                         }
                       </span>
-                      <span class="ed-row__meta">${{ it.price }} · {{ it.cat }}</span>
+                      <span class="ed-row__meta">{{ money(it.price) }} · {{ it.cat }}</span>
                     </span>
                   </button>
                   <button class="ed-row__more" (click)="openSheet(it.id)">
@@ -515,7 +515,7 @@
           <span class="ed-sheet__thumb" [style.background]="thumb(s)"></span>
           <div>
             <div class="ed-sheet__name">{{ s.name }}</div>
-            <div class="ed-sheet__meta">${{ s.price }} · {{ s.cat }}</div>
+            <div class="ed-sheet__meta">{{ money(s.price) }} · {{ s.cat }}</div>
           </div>
         </div>
         <button class="ed-sheet__btn" (click)="sheetEdit()">

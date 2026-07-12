@@ -58,7 +58,7 @@
                   <span class="pr-item__name">{{ it.name }}</span>
                   @if (hasPrice(it.priceAmount)) {
                     <span class="pr-item__dots"></span>
-                    <span class="pr-item__price">{{ priceLabel(it.priceAmount) }}</span>
+                    <span class="pr-item__price">{{ priceLabel(it.priceAmount, menu()?.currency) }}</span>
                   }
                 </div>
                 @if (it.description) {

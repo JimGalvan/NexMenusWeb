@@ -92,16 +92,13 @@
              (keyup.enter)="confirmCreate()" autofocus />
 
       <div class="create__market">
-        <button class="create__market-btn" [class.is-active]="newMenuMarket() === 'US'"
-                (click)="newMenuMarket.set('US')">
-          <span class="create__market-name">United States</span>
-          <span class="create__market-cur">USD $</span>
-        </button>
-        <button class="create__market-btn" [class.is-active]="newMenuMarket() === 'MX'"
-                (click)="newMenuMarket.set('MX')">
-          <span class="create__market-name">México</span>
-          <span class="create__market-cur">MXN $</span>
-        </button>
+        @for (m of markets; track m.code) {
+          <button class="create__market-btn" [class.is-active]="newMenuMarket() === m.code"
+                  (click)="newMenuMarket.set(m.code)">
+            <span class="create__market-name">{{ m.label }}</span>
+            <span class="create__market-cur">{{ m.currency }}</span>
+          </button>
+        }
       </div>
 
       <div class="create__actions">

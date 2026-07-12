@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
-import { Market, MenuSummary, menuInitials, relativeTime } from '../../models/menu.model';
+import { Market, MenuSummary, SUPPORTED_MARKETS, menuInitials, relativeTime } from '../../models/menu.model';
 import { BottomSheetComponent } from '../../components/ui/bottom-sheet/bottom-sheet';
 
 @Component({
@@ -24,6 +24,7 @@ export class MenusPageComponent {
   createOpen = signal(false);
   newMenuName = signal('');
   newMenuMarket = signal<Market>('US');
+  readonly markets = SUPPORTED_MARKETS;
   creating = signal(false);
   toast = signal('');
 

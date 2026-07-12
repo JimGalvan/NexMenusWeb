@@ -16,6 +16,7 @@ import {
   instagramHandleFrom,
   instagramUrlFrom,
   menuInitials,
+  moneyLabel,
 } from '../../models/menu.model';
 
 const CAT_GRADIENTS: Record<string, string> = {
@@ -89,6 +90,10 @@ export class PublicMenuPageComponent implements OnInit {
     if (!phone) return null;
     return (this.contactMethod() === 'call' ? 'tel:' : 'sms:') + phone;
   });
+
+  money(amount: string | number): string {
+    return moneyLabel(amount, this.menu()?.currency ?? 'USD');
+  }
 
   ngOnInit() {
     const provided = this.menuData();

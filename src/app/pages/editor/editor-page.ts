@@ -42,6 +42,7 @@ import {
   faqsFrom,
   highlightsFrom,
   instagramHandleFrom,
+  moneyLabel,
   slugify,
 } from '../../models/menu.model';
 import { BottomSheetComponent } from '../../components/ui/bottom-sheet/bottom-sheet';
@@ -281,6 +282,10 @@ export class EditorPageComponent {
 
   /** Authoritative menu from the backend; used to resolve category ids. */
   private menuModel = signal<Menu | null>(null);
+
+  money(amount: string | number): string {
+    return moneyLabel(amount, this.menuModel()?.currency ?? 'USD');
+  }
 
   // ---- working state ----
   menuName = signal('');
