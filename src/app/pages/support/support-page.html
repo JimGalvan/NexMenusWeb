@@ -1,0 +1,56 @@
+<div class="terms">
+  <header class="terms-nav">
+    <div class="terms-nav__inner">
+      <a routerLink="/" aria-label="NexMenus home"><app-brand-logo [size]="21" /></a>
+      <a routerLink="/" class="terms-nav__back" aria-label="Back to home">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M19 12H5M11 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        Back to home
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section class="terms-hero">
+      <p class="terms-kicker">Help</p>
+      <h1>Support</h1>
+      <p class="terms-intro">Questions about your menu, QR code, printing, billing, or the NexMenus plugin for ChatGPT — we're happy to help.</p>
+      <div class="terms-rule" aria-hidden="true"></div>
+    </section>
+
+    <article class="terms-body">
+      <section class="terms-card" id="contact">
+        <h2>Contact us</h2>
+        <p>Email is the fastest way to reach us. We typically reply within one business day.</p>
+        <address>
+          <a href="mailto:contact@nexmenus.com">contact&#64;nexmenus.com</a><br>
+          Galvan Digital LLC<br>2712 Loker Avenue West #1116<br>Carlsbad, CA 92010<br>United States
+        </address>
+      </section>
+
+      <section class="terms-section" id="common-questions">
+        <h2>Common questions</h2>
+        <p><strong>How do I edit my menu?</strong> Log in and open your menu from <a routerLink="/app">My menus</a> — prices, items, photos, hours, and styling are all in the editor, and your public page and printable PDF stay in sync automatically.</p>
+        <p><strong>Where is my QR code?</strong> Every menu has a share link and QR code in the app under QR &amp; Share.</p>
+        <p><strong>I created a menu in ChatGPT — how do I keep it?</strong> Open the claim link from your ChatGPT conversation and sign in or create a free account. Unclaimed drafts expire about 72 hours after creation. If your claim link stopped working or you lost it, email us and we'll help.</p>
+        <p><strong>How do I delete my account or data?</strong> Email us at <a href="mailto:contact@nexmenus.com">contact&#64;nexmenus.com</a> and we'll take care of it — see our <a routerLink="/privacy">Privacy Policy</a> for details on your rights.</p>
+      </section>
+
+      <section class="terms-section" id="more">
+        <h2>More resources</h2>
+        <p>Guides on creating, printing, and sharing menus live on our <a routerLink="/blog">blog</a>. For legal details, see the <a routerLink="/terms">Terms of Service</a> and <a routerLink="/privacy">Privacy Policy</a>.</p>
+      </section>
+    </article>
+  </main>
+
+  <footer class="terms-footer">
+    <div class="terms-footer__inner">
+      <span>© {{ year }} NexMenus. All rights reserved.</span>
+      <span class="terms-footer__links">
+        <a routerLink="/privacy">Privacy</a>
+        <a routerLink="/terms">Terms</a>
+      </span>
+    </div>
+  </footer>
+</div>

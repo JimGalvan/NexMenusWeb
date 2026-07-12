@@ -4,6 +4,7 @@ import { LoginPageComponent } from './pages/login/login-page';
 import { RegisterPageComponent } from './pages/register/register-page';
 import { TermsPageComponent } from './pages/terms/terms-page';
 import { PrivacyPageComponent } from './pages/privacy/privacy-page';
+import { SupportPageComponent } from './pages/support/support-page';
 import { AppShellComponent } from './components/layout/app-shell/app-shell';
 import { MenusPageComponent } from './pages/menus/menus-page';
 import { SharePageComponent } from './pages/share/share-page';
@@ -16,6 +17,7 @@ export const routes: Routes = [
   { path: 'register', component: RegisterPageComponent },
   { path: 'terms',    component: TermsPageComponent },
   { path: 'privacy',  component: PrivacyPageComponent },
+  { path: 'support',  component: SupportPageComponent },
   {
     path: 'blog',
     pathMatch: 'full',
