@@ -1,7 +1,6 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, ElementRef, PLATFORM_ID, ViewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, PLATFORM_ID, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { MenuBuilderEvent, MenuBuilderService } from '../../services/menu-builder.service';
 
 type ChatEntry =
@@ -19,6 +18,7 @@ export class MenuBuilderComponent {
 
   private readonly service = inject(MenuBuilderService);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly changeDetector = inject(ChangeDetectorRef);
 
   entries: ChatEntry[] = [];
   input = '';
@@ -35,6 +35,7 @@ export class MenuBuilderComponent {
     this.input = '';
     this.entries.push({ kind: 'message', role: 'user', text: message });
     this.streaming = true;
+    this.refresh();
     this.scrollToLatest();
 
     try {
@@ -48,6 +49,7 @@ export class MenuBuilderComponent {
       });
     } finally {
       this.streaming = false;
+      this.refresh();
       this.scrollToLatest();
     }
   }
@@ -63,6 +65,7 @@ export class MenuBuilderComponent {
     this.entries = [];
     this.input = '';
     this.conversationId = null;
+  this.refresh();
   }
 
   isExternal(url: string): boolean {
@@ -90,7 +93,12 @@ export class MenuBuilderComponent {
     } else if (event.type === 'error') {
       this.entries.push({ kind: 'message', role: 'assistant', text: event.data.message });
     }
+    this.refresh();
     this.scrollToLatest();
+  }
+
+  private refresh(): void {
+    this.changeDetector.markForCheck();
   }
 
   private scrollToLatest(): void {
