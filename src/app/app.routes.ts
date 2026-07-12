@@ -25,6 +25,11 @@ export const routes: Routes = [
       import('./pages/blog/blog-index-page').then(m => m.BlogIndexPageComponent),
   },
   {
+    path: 'blog/best-ai-menu-generator',
+    loadComponent: () =>
+      import('./pages/blog/best-ai-menu-generator-page').then(m => m.BestAiMenuGeneratorPageComponent),
+  },
+  {
     path: 'blog/how-to-make-free-digital-menu-for-your-restaurant',
     loadComponent: () =>
       import('./pages/blog/digital-menu-page').then(m => m.DigitalMenuPageComponent),

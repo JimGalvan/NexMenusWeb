@@ -124,6 +124,7 @@ const SITE_URL = 'https://nexmenus.com';
 const STATIC_SITEMAP_ENTRIES: { path: string; changefreq: string; priority: string }[] = [
   { path: '/', changefreq: 'weekly', priority: '1.0' },
   { path: '/blog', changefreq: 'monthly', priority: '0.5' },
+  { path: '/blog/best-ai-menu-generator', changefreq: 'monthly', priority: '0.7' },
   { path: '/blog/how-to-make-free-digital-menu-for-your-restaurant', changefreq: 'monthly', priority: '0.7' },
   { path: '/blog/how-to-make-free-qr-code-menu-for-your-restaurant', changefreq: 'monthly', priority: '0.7' },
   { path: '/blog/how-to-start-restaurant-california', changefreq: 'monthly', priority: '0.7' },

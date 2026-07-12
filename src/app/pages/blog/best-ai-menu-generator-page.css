@@ -1,0 +1,13 @@
+@import './restaurant-california-page.css';
+
+.blog-ai-cta { width: auto; margin-top: 22px; }
+.blog-table-wrap { margin: 22px 0; overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; }
+.blog-table-wrap table { width: 100%; min-width: 640px; border-collapse: collapse; font-size: 14px; }
+.blog-table-wrap th, .blog-table-wrap td { padding: 14px; border-bottom: 1px solid var(--line-soft); vertical-align: top; text-align: left; }
+.blog-table-wrap th { color: var(--text); background: var(--panel-2); font-size: 12px; }
+.blog-table-wrap tr:last-child td { border-bottom: 0; }
+.blog-transform { margin: 22px 0; padding: 20px; border-radius: 16px; background: var(--panel-2); }
+.blog-transform__label { margin: 0 0 7px; color: var(--brand); font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; }
+.blog-transform pre { margin: 0 0 20px; overflow-x: auto; color: var(--text-2); font: 13px/1.6 var(--font); white-space: pre-wrap; }
+.blog-transform ul { margin-bottom: 14px; }
+@media (max-width: 640px) { .blog-ai-cta { width: 100%; } .blog-table-wrap { margin-left: -2px; margin-right: -2px; } }
