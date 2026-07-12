@@ -7,6 +7,8 @@ type ChatEntry =
   | { kind: 'message'; role: 'user' | 'assistant'; text: string }
   | { kind: 'card'; cardKind: 'preview' | 'claim'; url: string; label: string };
 
+type Recovery = { message: string; retryMessage: string };
+
 @Component({
   selector: 'app-menu-builder',
   imports: [CommonModule, FormsModule],
@@ -24,40 +26,28 @@ export class MenuBuilderComponent {
   input = '';
   streaming = false;
   conversationId: string | null = null;
+  recovery: Recovery | null = null;
 
   get canSend(): boolean {
     return !this.streaming && this.input.trim().length > 0;
   }
 
-  async submit(): Promise<void> {
+  submit(): void {
     const message = this.input.trim();
     if (!message || this.streaming || !isPlatformBrowser(this.platformId)) return;
     this.input = '';
-    this.entries.push({ kind: 'message', role: 'user', text: message });
-    this.streaming = true;
-    this.refresh();
-    this.scrollToLatest();
+    void this.send(message, true);
+  }
 
-    try {
-      this.conversationId ||= await this.service.startConversation();
-      await this.service.sendMessage(this.conversationId, message, event => this.receive(event));
-    } catch (error) {
-      this.entries.push({
-        kind: 'message',
-        role: 'assistant',
-        text: error instanceof Error ? error.message : 'The menu builder is unavailable right now.',
-      });
-    } finally {
-      this.streaming = false;
-      this.refresh();
-      this.scrollToLatest();
-    }
+  retry(): void {
+    if (!this.recovery || this.streaming) return;
+    void this.send(this.recovery.retryMessage, false);
   }
 
   onKeydown(event: KeyboardEvent): void {
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
-      void this.submit();
+      this.submit();
     }
   }
 
@@ -65,11 +55,37 @@ export class MenuBuilderComponent {
     this.entries = [];
     this.input = '';
     this.conversationId = null;
-  this.refresh();
+    this.recovery = null;
+    this.refresh();
   }
 
   isExternal(url: string): boolean {
     return /^https?:\/\//i.test(url);
+  }
+
+  private async send(message: string, addUserMessage: boolean): Promise<void> {
+    if (addUserMessage) this.entries.push({ kind: 'message', role: 'user', text: message });
+    this.streaming = true;
+    this.recovery = null;
+    this.refresh();
+    this.scrollToLatest();
+
+    try {
+      this.conversationId ||= await this.service.startConversation();
+      await this.service.sendMessage(this.conversationId, message, event => this.receive(event));
+    } catch (error) {
+      const detail = error instanceof Error ? error.message : '';
+      this.recovery = {
+        message: detail === 'Load failed' || detail === 'Failed to fetch' || !detail
+          ? 'Couldn’t send that message. Check your connection and try again.'
+          : detail,
+        retryMessage: message,
+      };
+    } finally {
+      this.streaming = false;
+      this.refresh();
+      this.scrollToLatest();
+    }
   }
 
   private receive(event: MenuBuilderEvent): void {
@@ -84,14 +100,11 @@ export class MenuBuilderComponent {
         existing.label = event.data.label;
       } else {
         this.entries.push({
-          kind: 'card',
-          cardKind: event.data.kind,
-          url: event.data.url,
-          label: event.data.label,
+          kind: 'card', cardKind: event.data.kind, url: event.data.url, label: event.data.label,
         });
       }
     } else if (event.type === 'error') {
-      this.entries.push({ kind: 'message', role: 'assistant', text: event.data.message });
+      this.recovery = { message: event.data.message, retryMessage: '' };
     }
     this.refresh();
     this.scrollToLatest();

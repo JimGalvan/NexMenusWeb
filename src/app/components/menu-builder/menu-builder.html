@@ -24,6 +24,19 @@
             </div>
           }
         }
+        @if (recovery) {
+          <div class="lp-chat__row lp-chat__row--assistant">
+            <div class="lp-chat__recovery" role="alert">
+              <p>{{ recovery.message }}</p>
+              <div class="lp-chat__recovery-actions">
+                @if (recovery.retryMessage) {
+                  <button type="button" (click)="retry()" [disabled]="streaming">Retry message</button>
+                }
+                <button type="button" class="lp-chat__recovery-start" (click)="reset()" [disabled]="streaming">Start over</button>
+              </div>
+            </div>
+          </div>
+        }
         @if (streaming) {
           <div class="lp-chat__row lp-chat__row--assistant">
             <div class="lp-chat__bubble lp-chat__bubble--assistant lp-chat__typing" aria-label="Building your menu">
@@ -46,6 +59,6 @@
   @if (entries.length) {
     <button type="button" class="lp-aihero__reset" (click)="reset()" [disabled]="streaming">Start over</button>
   } @else {
-    <p class="lp-aihero__hint">Try “TreeSoup, Japanese restaurant, US” — then list items like “Miso Soup — $5.00”</p>
+    <p class="lp-aihero__hint">Try “TreeSoup, Japanese restaurant, US” — then list items like “Miso Soup — $5”</p>
   }
 </section>
