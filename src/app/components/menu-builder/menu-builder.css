@@ -5,19 +5,13 @@
 .lp-badge__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success-bright); }
 .lp-aihero__title { margin-top: 20px; font-size: clamp(38px, 8vw, 64px); line-height: 1.03; font-weight: 800; letter-spacing: -0.04em; text-wrap: balance; }
 .lp-aihero__sub { max-width: 650px; margin: 18px auto 0; color: var(--text-3); font-size: 17px; line-height: 1.6; text-wrap: pretty; }
-.lp-aihero__progress { display: flex; justify-content: center; gap: 9px; margin: 24px 0 0; padding: 0; color: var(--muted-2); list-style: none; font-size: 12.5px; font-weight: 750; }
-.lp-aihero__progress li { display: inline-flex; align-items: center; gap: 9px; }
-.lp-aihero__progress li:not(:last-child)::after { color: var(--muted-2); content: '→'; }
-.lp-aihero__progress .is-active { color: var(--brand); }
-.lp-aihero__progress .is-active::before, .lp-aihero__progress .is-complete::before { width: 7px; height: 7px; border-radius: 50%; background: var(--brand); content: ''; }
-.lp-aihero__progress .is-complete { color: var(--success); }
-.lp-aihero__progress .is-complete::before { background: var(--success); }
 
 .lp-chat { margin: 28px auto 0; overflow: hidden; border: 1px solid var(--line); border-radius: 22px; background: var(--surface); box-shadow: var(--shadow-card); text-align: left; }
 .lp-chat__thread { max-height: 420px; overflow-y: auto; padding: 20px 18px 8px; scroll-behavior: smooth; }
 .lp-chat__row { display: flex; margin-bottom: 12px; }
 .lp-chat__row--user { justify-content: flex-end; }
 .lp-chat__row--assistant { justify-content: flex-start; }
+.lp-chat__reply { max-width: min(88%, 540px); }
 .lp-chat__bubble { max-width: min(82%, 540px); padding: 11px 14px; border-radius: 16px; font-size: 14.5px; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
 .lp-chat__bubble--user { color: #fff; background: var(--brand); border-bottom-right-radius: 5px; }
 .lp-chat__bubble--assistant { color: var(--text-2); background: var(--panel-2); border-bottom-left-radius: 5px; }
@@ -53,5 +47,8 @@
 .lp-aihero__reset { margin-top: 14px; border: 0; color: var(--brand); background: transparent; font: inherit; font-size: 13px; font-weight: 700; }
 
 @keyframes typing { 0%, 60%, 100% { transform: translateY(0); opacity: .45; } 30% { transform: translateY(-3px); opacity: 1; } }
-@media (max-width: 640px) { .lp-aihero { padding-top: 52px; } .lp-aihero__progress { gap: 6px; font-size: 11px; } .lp-aihero__progress li { gap: 5px; } .lp-aihero__progress li:not(:last-child)::after { width: auto; } .lp-chat__thread { max-height: 340px; } .lp-chat__bubble { max-width: 90%; } .lp-chat__composer { align-items: stretch; flex-direction: column; } .lp-chat__send { width: 100%; min-height: 48px; } }
+@media (max-width: 640px) { .lp-aihero { padding-top: 52px; } .lp-chat__thread { max-height: 340px; } .lp-chat__bubble { max-width: 90%; } .lp-chat__composer { align-items: stretch; flex-direction: column; } .lp-chat__send { width: 100%; min-height: 48px; } }
 @media (prefers-reduced-motion: reduce) { .lp-chat__thread { scroll-behavior: auto; } .lp-chat__typing span { animation: none; } .lp-chat__card { transition: none; } }
+.lp-chat__menu-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 7px 2px 0; }
+.lp-chat__menu-actions a { color: var(--brand); font-size: 12.5px; font-weight: 750; text-decoration: underline; text-underline-offset: 3px; }
+.lp-chat__menu-actions a:focus-visible { outline: 3px solid var(--brand-ring); outline-offset: 3px; border-radius: 3px; }

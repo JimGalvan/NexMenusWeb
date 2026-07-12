@@ -3,9 +3,9 @@ import { ChangeDetectorRef, Component, ElementRef, PLATFORM_ID, ViewChild, injec
 import { FormsModule } from '@angular/forms';
 import { MenuBuilderEvent, MenuBuilderService } from '../../services/menu-builder.service';
 
-type ChatEntry =
-  | { kind: 'message'; role: 'user' | 'assistant'; text: string }
-  | { kind: 'card'; cardKind: 'preview' | 'claim'; url: string; label: string };
+type MenuLinks = { preview?: string; claim?: string };
+
+type ChatEntry = { kind: 'message'; role: 'user' | 'assistant'; text: string; links?: MenuLinks };
 type BuilderStep = 'business' | 'items' | 'preview';
 type Recovery = { message: string; retryMessage: string };
 
@@ -27,6 +27,7 @@ export class MenuBuilderComponent {
   streaming = false;
   conversationId: string | null = null;
   recovery: Recovery | null = null;
+  private menuLinks: MenuLinks = {};
   step: BuilderStep = 'business';
 
   get canSend(): boolean {
@@ -75,13 +76,11 @@ export class MenuBuilderComponent {
     this.input = '';
     this.conversationId = null;
     this.recovery = null;
+    this.menuLinks = {};
     this.step = 'business';
     this.refresh();
   }
 
-  isExternal(url: string): boolean {
-    return /^https?:\/\//i.test(url);
-  }
 
   private async send(message: string, addUserMessage: boolean): Promise<void> {
     if (addUserMessage) this.entries.push({ kind: 'message', role: 'user', text: message });
@@ -110,21 +109,14 @@ export class MenuBuilderComponent {
 
   private receive(event: MenuBuilderEvent): void {
     if (event.type === 'assistant') {
-      this.entries.push({ kind: 'message', role: 'assistant', text: event.data.text });
+      this.entries.push({ kind: 'message', role: 'assistant', text: event.data.text, links: { ...this.menuLinks } });
     } else if (event.type === 'draft') {
       if (event.data.readyToClaim) this.step = 'preview';
       else if (this.step === 'business') this.step = 'items';
     } else if (event.type === 'card') {
-      const existing = this.entries.find(
-        entry => entry.kind === 'card' && entry.cardKind === event.data.kind,
-      );
-      if (existing?.kind === 'card') {
-        existing.url = event.data.url;
-        existing.label = event.data.label;
-      } else {
-        this.entries.push({
-          kind: 'card', cardKind: event.data.kind, url: event.data.url, label: event.data.label,
-        });
+      this.menuLinks = { ...this.menuLinks, [event.data.kind]: event.data.url };
+      for (const entry of this.entries) {
+        if (entry.role === 'assistant') entry.links = { ...this.menuLinks };
       }
     } else if (event.type === 'error') {
       this.recovery = { message: event.data.message, retryMessage: '' };
