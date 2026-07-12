@@ -12,6 +12,7 @@ const fs = require('fs');
 const path = require('path');
 
 const apiBaseUrl = process.env.API_BASE_URL ?? '';
+const menuBuilderApiBaseUrl = process.env.MENU_BUILDER_API_BASE_URL ?? apiBaseUrl;
 const apiVersion = process.env.API_VERSION ?? 'v1';
 const apiVersionV2 = process.env.API_VERSION_V2 ?? 'v2';
 const supportEmail = process.env.SUPPORT_EMAIL ?? '';
@@ -24,6 +25,7 @@ export const apiVersion2 = ${JSON.stringify(apiVersionV2)};
 export const environment = {
   production: true,
   apiBaseUrl: ${JSON.stringify(apiBaseUrl)},
+  menuBuilderApiBaseUrl: ${JSON.stringify(menuBuilderApiBaseUrl)},
   apiVersion: apiVersion1,
   apiVersionV2: apiVersion2,
   supportEmail: ${JSON.stringify(supportEmail)},

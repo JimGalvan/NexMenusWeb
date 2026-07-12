@@ -1,0 +1,51 @@
+<section class="lp-aihero" id="ai-builder" aria-labelledby="ai-builder-title">
+  <span class="lp-badge"><span class="lp-badge__dot"></span>AI menu generator</span>
+  <h1 class="lp-aihero__title" id="ai-builder-title">Create your menu with AI</h1>
+  <p class="lp-aihero__sub">Tell it your business name and a few dishes with prices — it writes descriptions, organizes categories, and hands you a live menu link in seconds.</p>
+
+  <div class="lp-chat">
+    @if (entries.length || streaming) {
+      <div #thread class="lp-chat__thread" aria-live="polite" aria-label="Menu builder conversation">
+        @for (entry of entries; track $index) {
+          @if (entry.kind === 'message') {
+            <div class="lp-chat__row" [class.lp-chat__row--user]="entry.role === 'user'" [class.lp-chat__row--assistant]="entry.role === 'assistant'">
+              <div class="lp-chat__bubble" [class.lp-chat__bubble--user]="entry.role === 'user'" [class.lp-chat__bubble--assistant]="entry.role === 'assistant'">{{ entry.text }}</div>
+            </div>
+          } @else {
+            <div class="lp-chat__row lp-chat__row--assistant">
+              <a class="lp-chat__card" [href]="entry.url" [attr.target]="entry.cardKind === 'preview' || isExternal(entry.url) ? '_blank' : null" [attr.rel]="entry.cardKind === 'preview' || isExternal(entry.url) ? 'noopener' : null">
+                <span class="lp-chat__card-icon" aria-hidden="true">{{ entry.cardKind === 'preview' ? '↗' : '✓' }}</span>
+                <span class="lp-chat__card-copy">
+                  <strong>{{ entry.label }}</strong>
+                  <small>{{ entry.cardKind === 'preview' ? 'Open your live menu' : 'Save it to your free account' }}</small>
+                </span>
+                <span class="lp-chat__card-arrow" aria-hidden="true">→</span>
+              </a>
+            </div>
+          }
+        }
+        @if (streaming) {
+          <div class="lp-chat__row lp-chat__row--assistant">
+            <div class="lp-chat__bubble lp-chat__bubble--assistant lp-chat__typing" aria-label="Building your menu">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <form class="lp-chat__composer" (ngSubmit)="submit()">
+      <label class="sr-only" for="menu-builder-message">Describe your menu</label>
+      <textarea id="menu-builder-message" class="lp-chat__input" name="message" [(ngModel)]="input" (keydown)="onKeydown($event)" [disabled]="streaming" maxlength="2000" rows="1" placeholder="TreeSoup, Japanese restaurant, US…"></textarea>
+      <button type="submit" class="lp-chat__send" [disabled]="!canSend" aria-label="Send message">
+        <span aria-hidden="true">→</span>
+      </button>
+    </form>
+  </div>
+
+  @if (entries.length) {
+    <button type="button" class="lp-aihero__reset" (click)="reset()" [disabled]="streaming">Start over</button>
+  } @else {
+    <p class="lp-aihero__hint">Try “TreeSoup, Japanese restaurant, US” — then list items like “Miso Soup — $5.00”</p>
+  }
+</section>

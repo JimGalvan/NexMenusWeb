@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BrandLogoComponent } from '../../components/ui/brand-logo/brand-logo';
+import { MenuBuilderComponent } from '../../components/menu-builder/menu-builder';
 import { SeoService } from '../../services/seo.service';
 
 const SITE = 'https://nexmenus.com';
@@ -40,7 +41,7 @@ const FAQS: { q: string; a: string }[] = [
 
 @Component({
   selector: 'app-landing-page',
-  imports: [RouterLink, BrandLogoComponent],
+  imports: [RouterLink, BrandLogoComponent, MenuBuilderComponent],
   templateUrl: './landing-page.html',
   styleUrl: './landing-page.css',
 })
