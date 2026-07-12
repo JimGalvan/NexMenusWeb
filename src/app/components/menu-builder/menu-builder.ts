@@ -6,7 +6,7 @@ import { MenuBuilderEvent, MenuBuilderService } from '../../services/menu-builde
 type ChatEntry =
   | { kind: 'message'; role: 'user' | 'assistant'; text: string }
   | { kind: 'card'; cardKind: 'preview' | 'claim'; url: string; label: string };
-
+type BuilderStep = 'business' | 'items' | 'preview';
 type Recovery = { message: string; retryMessage: string };
 
 @Component({
@@ -27,9 +27,28 @@ export class MenuBuilderComponent {
   streaming = false;
   conversationId: string | null = null;
   recovery: Recovery | null = null;
+  step: BuilderStep = 'business';
 
   get canSend(): boolean {
     return !this.streaming && this.input.trim().length > 0;
+  }
+
+  get inputLabel(): string {
+    if (this.step === 'business') return 'Tell us about your business';
+    if (this.step === 'items') return 'Add menu items and prices';
+    return 'Make a change to your menu';
+  }
+
+  get placeholder(): string {
+    if (this.step === 'business') return 'TreeSoup, a Japanese restaurant in San Diego';
+    if (this.step === 'items') return 'Miso Soup — $5, Shio Ramen — $14.50';
+    return 'Add an item, change a price, or update a detail';
+  }
+
+  get helperText(): string {
+    if (this.step === 'business') return 'Start with your business name, type, and city.';
+    if (this.step === 'items') return 'List dishes and prices naturally — “Taco de Asada, $5” works.';
+    return 'Your draft is ready. You can still make changes before publishing.';
   }
 
   submit(): void {
@@ -40,7 +59,7 @@ export class MenuBuilderComponent {
   }
 
   retry(): void {
-    if (!this.recovery || this.streaming) return;
+    if (!this.recovery || this.streaming || !this.recovery.retryMessage) return;
     void this.send(this.recovery.retryMessage, false);
   }
 
@@ -56,6 +75,7 @@ export class MenuBuilderComponent {
     this.input = '';
     this.conversationId = null;
     this.recovery = null;
+    this.step = 'business';
     this.refresh();
   }
 
@@ -91,6 +111,9 @@ export class MenuBuilderComponent {
   private receive(event: MenuBuilderEvent): void {
     if (event.type === 'assistant') {
       this.entries.push({ kind: 'message', role: 'assistant', text: event.data.text });
+    } else if (event.type === 'draft') {
+      if (event.data.readyToClaim) this.step = 'preview';
+      else if (this.step === 'business') this.step = 'items';
     } else if (event.type === 'card') {
       const existing = this.entries.find(
         entry => entry.kind === 'card' && entry.cardKind === event.data.kind,
