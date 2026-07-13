@@ -26,6 +26,6 @@
     <form class="lp-chat__composer" (ngSubmit)="submit()"><div class="lp-chat__field"><label class="lp-chat__label" for="menu-builder-message">{{ inputLabel }}</label><textarea id="menu-builder-message" class="lp-chat__input" name="message" [(ngModel)]="input" (keydown)="onKeydown($event)" [disabled]="streaming" maxlength="2000" rows="1" [placeholder]="placeholder"></textarea></div><button type="submit" class="lp-chat__send" [disabled]="!canSend"><span>Start creating</span><span aria-hidden="true">→</span></button></form>
     <p class="lp-chat__helper">{{ helperText }}</p>
   </div>
-  <p class="lp-aihero__reassurance">No account required <span aria-hidden="true">·</span> No credit card <span aria-hidden="true">·</span> Edit everything before publishing</p>
+  <p class="lp-aihero__reassurance"><span aria-hidden="true"></span> No credit card <span aria-hidden="true">·</span> Edit everything before publishing</p>
   @if (entries.length) {<button type="button" class="lp-aihero__reset" (click)="reset()" [disabled]="streaming">Start over</button>}
 </section>
