@@ -5,6 +5,8 @@ import { Meta, Title } from '@angular/platform-browser';
 interface SeoMetadata {
   title: string;
   description: string;
+  ogDescription?: string;
+  twitterDescription?: string;
   canonicalPath?: string;
   image?: string;
   type?: string;
@@ -31,12 +33,12 @@ export class SeoService {
     this.upsert('property', 'og:site_name', 'NexMenus');
     this.upsert('property', 'og:type', metadata.type ?? 'website');
     this.upsert('property', 'og:title', metadata.title);
-    this.upsert('property', 'og:description', metadata.description);
+    this.upsert('property', 'og:description', metadata.ogDescription ?? metadata.description);
     this.upsert('property', 'og:url', url);
     this.upsert('property', 'og:image', image);
     this.upsert('name', 'twitter:card', 'summary_large_image');
     this.upsert('name', 'twitter:title', metadata.title);
-    this.upsert('name', 'twitter:description', metadata.description);
+    this.upsert('name', 'twitter:description', metadata.twitterDescription ?? metadata.description);
     this.upsert('name', 'twitter:image', image);
     this.setCanonical(url);
   }

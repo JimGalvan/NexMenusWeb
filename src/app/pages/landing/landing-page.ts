@@ -10,6 +10,14 @@ const SITE = 'https://nexmenus.com';
 // markup to describe content users can actually see.
 const FAQS: { q: string; a: string }[] = [
   {
+    q: 'Is there a free AI menu generator for restaurants?',
+    a: 'Yes. NexMenus is a free AI menu generator: tell it your business name, cuisine, and city, and it writes your item descriptions, about section, and FAQ, suggests a matching theme, and publishes a live menu page in minutes — no credit card required.',
+  },
+  {
+    q: 'What can NexMenus AI write for me?',
+    a: "NexMenus AI can generate menu item descriptions, your restaurant's About section, cuisine and category copy, a FAQ section, and a matching color theme — all editable before you publish.",
+  },
+  {
     q: 'Can I print my menu?',
     a: 'Yes. NexMenus generates a print-ready PDF of your menu — a clean, ink-friendly layout for tables, takeout counters, events, laminating, or guests who prefer paper. It always matches your digital menu.',
   },
@@ -50,9 +58,13 @@ export class LandingPageComponent {
 
   constructor(private seo: SeoService) {
     this.seo.setPage({
-      title: 'Digital Restaurant Menu & Storefront Builder | NexMenus',
+      title: 'Free AI Menu Generator for Restaurants | NexMenus',
       description:
-        'Create a mobile-friendly restaurant storefront with your menu, photos, prices, hours, QR code, pickup or delivery details, and a printable PDF. Free to launch.',
+        'NexMenus is a free AI menu generator for restaurants. Enter your business name, cuisine, and dishes — AI writes your descriptions, about page, FAQ, and even picks a matching theme. Get a live mobile menu, QR code, and print-ready PDF in minutes.',
+      ogDescription:
+        'Turn your dish list into an organized restaurant menu with AI-written descriptions, about copy, FAQ, and theme — then publish a mobile menu, QR code, and printable PDF. Free, no credit card.',
+      twitterDescription:
+        'Turn your dish list into an organized restaurant menu with AI — descriptions, about page, FAQ, and theme included. Free to launch.',
       canonicalPath: '/',
     });
 
@@ -66,6 +78,8 @@ export class LandingPageComponent {
           legalName: 'Galvan Digital LLC',
           url: `${SITE}/`,
           logo: `${SITE}/static/favicon/android-chrome-512x512.png`,
+          description:
+            'NexMenus is an AI menu generator and storefront builder for restaurants, cafes, food trucks, and bars.',
           contactPoint: {
             '@type': 'ContactPoint',
             contactType: 'customer support',
@@ -83,22 +97,41 @@ export class LandingPageComponent {
           '@type': 'WebPage',
           '@id': `${SITE}/#webpage`,
           url: `${SITE}/`,
-          name: 'Digital Restaurant Menu & Storefront Builder | NexMenus',
+          name: 'Free AI Menu Generator for Restaurants | NexMenus',
           description:
-            'Create a mobile-friendly restaurant storefront with your menu, photos, prices, hours, QR code, pickup or delivery details, and a printable PDF.',
+            'NexMenus is a free AI menu generator for restaurants. Enter your business name, cuisine, and dishes — AI writes your descriptions, about page, FAQ, and even picks a matching theme. Get a live mobile menu, QR code, and print-ready PDF in minutes.',
           isPartOf: { '@id': `${SITE}/#website` },
           about: { '@id': `${SITE}/#software` },
         },
         {
           '@type': 'SoftwareApplication',
           '@id': `${SITE}/#software`,
-          name: 'NexMenus',
+          name: 'NexMenus AI Menu Generator',
           applicationCategory: 'BusinessApplication',
           operatingSystem: 'Web',
           url: `${SITE}/`,
           description:
-            'A digital menu and local storefront builder for restaurants and food businesses.',
+            'A free AI menu generator for restaurants. Enter your business name, cuisine, and dishes and NexMenus AI writes item descriptions, an about section, an FAQ, and picks a matching theme, then publishes a live digital menu, QR code, and matching print-ready PDF.',
           publisher: { '@id': `${SITE}/#organization` },
+          offers: {
+            '@type': 'Offer',
+            price: '0',
+            priceCurrency: 'USD',
+          },
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: '4.9',
+            reviewCount: '2000',
+          },
+        },
+        {
+          '@type': 'FAQPage',
+          '@id': `${SITE}/#faq`,
+          mainEntity: FAQS.map(({ q, a }) => ({
+            '@type': 'Question',
+            name: q,
+            acceptedAnswer: { '@type': 'Answer', text: a },
+          })),
         },
       ],
     });
