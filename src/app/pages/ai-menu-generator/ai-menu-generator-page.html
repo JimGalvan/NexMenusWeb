@@ -67,14 +67,7 @@
           <div class="aim-preview__viewport" aria-live="polite">
             @switch (previewState()) {
               @case ('ready') {
-                @if (previewDraftEmpty()) {
-                  <div class="aim-preview__loading">
-                    <strong>{{ previewMenu()?.name }} is ready for dishes</strong>
-                    <p>Add your dishes in the builder to fill this menu — the preview updates as soon as they're generated.</p>
-                  </div>
-                } @else {
-                  <app-public-menu-page [menuData]="previewMenu()" [previewMode]="true" />
-                }
+                <app-public-menu-page [menuData]="previewMenu()" [previewMode]="true" />
               }
               @case ('loading') {
                 <div class="aim-preview__loading"><div class="aim-preview__spinner"></div><strong>Building your storefront</strong><p>The real menu will appear here as soon as the first draft is ready.</p></div>
