@@ -23,6 +23,7 @@
 .pm-about,.pm-faq{margin:0 18px;padding:16px 0;border-top:1px solid var(--line)}.pm-about h2,.pm-faq h2{font-size:15px;margin:0 0 8px}.pm-about p,.pm-faq p{font-size:12.5px;color:#52525b;line-height:1.6;margin:0}.pm-faq{scroll-margin-top:16px}.pm-faq>div{padding:9px 0;border-bottom:1px solid rgba(0,0,0,.05)}.pm-faq h3{font-size:13px;margin:0 0 3px}
 .pm-footer{padding:16px 18px;text-align:center;background:#fafafb;border-top:1px solid var(--line)}.pm-footer p{font-size:12px;color:#71717a;line-height:1.6;margin:0}.pm-footer a{display:block;margin-top:6px;color:#c4c4cc;font-size:11px;text-decoration:none}.pm-footer strong{color:#9a9aa3}
 .pm-lightbox{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:24px;background:rgba(9,9,11,.88)}.pm-lightbox img{max-width:min(900px,100%);max-height:85vh;border-radius:14px}.pm-lightbox button{position:fixed;top:18px;right:18px;width:40px;height:40px;border:0;border-radius:50%;background:#fff;font-size:24px;cursor:pointer}
+.pm-items__empty{grid-column:1/-1;padding:20px 0;color:#8a8a93;font-size:12.5px;margin:0}
 .pm-missing{min-height:70vh;display:grid;place-content:center;gap:14px;text-align:center}
 @media(min-width:700px){.pm{padding-block:42px}.pm-page{box-shadow:0 24px 70px rgba(20,20,40,.14)}.pm-action--icon span{display:inline}}
 @media(min-width:900px){

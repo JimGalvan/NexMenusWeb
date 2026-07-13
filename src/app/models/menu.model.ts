@@ -254,6 +254,42 @@ export interface PublicMenu {
   uncategorizedItems: PublicMenuItem[];
 }
 
+/** Replace (or add) one property by name, so placeholder values win over null-valued entries. */
+function upsertProperty(
+  properties: MenuProperty[],
+  name: string,
+  type: MenuPropertyType,
+  value: string,
+): MenuProperty[] {
+  return [...properties.filter(property => property.name !== name), { name, type, value }];
+}
+
+/**
+ * Draft-preview empty state: fill empty cosmetic text fields with placeholder
+ * copy so the storefront shell renders fully while a draft is still sparse.
+ * Only display-only fields are filled — never address/phone/email, which would
+ * turn into working Directions/tel links to fake data. Preview surfaces apply
+ * this at the data boundary; the live /m/:slug page never uses it.
+ */
+export function withDraftPlaceholders(menu: PublicMenu): PublicMenu {
+  let properties = menu.properties;
+  if (!cuisinesFrom(properties).length) {
+    properties = upsertProperty(properties, MENU_CUISINES_PROPERTY, 'JSON', JSON.stringify(['no cuisine yet']));
+  }
+  if (!highlightsFrom(properties).length) {
+    properties = upsertProperty(properties, MENU_HIGHLIGHTS_PROPERTY, 'JSON', JSON.stringify(['no highlights yet']));
+  }
+  if (!aboutFrom(properties)) {
+    const location = menu.address ? '' : ' Location: not added yet.';
+    properties = upsertProperty(properties, MENU_ABOUT_PROPERTY, 'TEXT', `No about section yet.${location}`);
+  }
+  return {
+    ...menu,
+    description: menu.description?.trim() ? menu.description : 'No menu description yet',
+    properties,
+  };
+}
+
 // ---- request payloads ----
 
 export interface CreateMenuRequest {
@@ -362,8 +398,9 @@ export function menuInitials(name: string): string {
     name
       .trim()
       .split(/\s+/)
+      .filter(w => /[\p{L}\p{N}]/u.test(w[0] ?? ''))
       .slice(0, 2)
-      .map(w => w[0] ?? '')
+      .map(w => w[0])
       .join('')
       .toUpperCase() || 'NM'
   );

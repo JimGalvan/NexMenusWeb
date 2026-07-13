@@ -1,9 +1,10 @@
-import { Component, OnDestroy, signal } from '@angular/core';
+import { Component, OnDestroy, computed, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BrandLogoComponent } from '../../components/ui/brand-logo/brand-logo';
 import { MenuBuilderComponent } from '../../components/menu-builder/menu-builder';
 import { PublicMenu } from '../../models/menu.model';
+import { EXAMPLE_MENU } from './example-menu';
 import { PublicMenuPageComponent } from '../public-menu/public-menu-page';
 import { DraftService } from '../../services/draft.service';
 import { SeoService } from '../../services/seo.service';
@@ -60,6 +61,15 @@ export class AiMenuGeneratorPageComponent implements OnDestroy {
   readonly previewState = signal<PreviewState>('example');
   readonly previewMenu = signal<PublicMenu | null>(null);
   readonly previewRefreshing = signal(false);
+  readonly exampleMenu = EXAMPLE_MENU;
+
+  /** A live draft whose dishes haven't been generated yet — the storefront
+   *  would render as a broken-looking empty menu, so show an intentional
+   *  "add your dishes" state instead. */
+  readonly previewDraftEmpty = computed(() => {
+    const menu = this.previewMenu();
+    return !!menu && menu.items.length === 0 && menu.uncategorizedItems.length === 0;
+  });
 
   private previewToken: string | null = null;
   private previewRequest?: Subscription;

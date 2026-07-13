@@ -67,7 +67,14 @@
           <div class="aim-preview__viewport" aria-live="polite">
             @switch (previewState()) {
               @case ('ready') {
-                <app-public-menu-page [menuData]="previewMenu()" [previewMode]="true" />
+                @if (previewDraftEmpty()) {
+                  <div class="aim-preview__loading">
+                    <strong>{{ previewMenu()?.name }} is ready for dishes</strong>
+                    <p>Add your dishes in the builder to fill this menu — the preview updates as soon as they're generated.</p>
+                  </div>
+                } @else {
+                  <app-public-menu-page [menuData]="previewMenu()" [previewMode]="true" />
+                }
               }
               @case ('loading') {
                 <div class="aim-preview__loading"><div class="aim-preview__spinner"></div><strong>Building your storefront</strong><p>The real menu will appear here as soon as the first draft is ready.</p></div>
@@ -76,16 +83,7 @@
                 <div class="aim-preview__loading"><strong>Preview temporarily unavailable</strong><p>Your conversation is safe. Continue in the builder or use the preview link when it appears.</p></div>
               }
               @default {
-                <article class="aim-example">
-                  <div class="aim-example__cover"><span>Example preview</span></div>
-                  <header><div class="aim-example__logo">O&amp;E</div><p>Barbecue · Fresno</p><h3>Oak &amp; Ember</h3><small>Slow smoke. California produce. Dinner worth gathering for.</small></header>
-                  <div class="aim-example__pills"><b>From the smoker</b><span>Sides</span><span>Drinks</span></div>
-                  <section>
-                    <div><h4>Oak-smoked brisket</h4><strong>$18</strong><p>Twelve-hour smoked beef brisket with house pickles.</p></div>
-                    <div><h4>St. Louis ribs</h4><strong>$22</strong><p>Dry-rubbed pork ribs finished over live oak.</p></div>
-                    <div><h4>Charred market squash</h4><strong>$12</strong><p>Seasonal squash, smoked chile, and herb vinaigrette.</p></div>
-                  </section>
-                </article>
+                <app-public-menu-page [menuData]="exampleMenu" [previewMode]="true" />
               }
             }
           </div>

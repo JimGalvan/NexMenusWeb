@@ -4,7 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { DraftService } from '../../services/draft.service';
 import { MenuBuilderSessionService } from '../../services/menu-builder-session.service';
 import { SeoService } from '../../services/seo.service';
-import { PublicMenu } from '../../models/menu.model';
+import { PublicMenu, withDraftPlaceholders } from '../../models/menu.model';
 import { PublicMenuPageComponent } from '../public-menu/public-menu-page';
 
 type PreviewState = 'loading' | 'ready' | 'gone' | 'invalid' | 'unavailable';
@@ -59,7 +59,7 @@ export class PreviewPageComponent {
     }
     this.draftService.getPreview(token).subscribe({
       next: preview => {
-        this.storefrontMenu.set(preview.menu);
+        this.storefrontMenu.set(withDraftPlaceholders(preview.menu));
         this.expiresAt.set(preview.expiresAt);
         this.state.set('ready');
       },
