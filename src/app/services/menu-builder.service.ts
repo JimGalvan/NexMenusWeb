@@ -38,8 +38,10 @@ export class MenuBuilderService {
     );
 
     if (!response.ok) {
-      const problem = await response.json().catch(() => null) as { message?: string } | null;
-      throw new Error(problem?.message || 'The menu builder is unavailable right now.');
+      const problem = await response.json().catch(() => null) as { code?: string; message?: string } | null;
+      const error = new Error(problem?.message || 'The menu builder is unavailable right now.') as Error & { code?: string };
+      error.code = problem?.code;
+      throw error;
     }
     if (!response.body) throw new Error('The menu builder returned an empty response.');
 

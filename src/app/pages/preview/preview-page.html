@@ -6,7 +6,11 @@
   @case ('ready') {
     <div class="preview__banner" role="status">
       <strong>Unclaimed draft</strong> — expires {{ expiresText() }}.
-      To keep this menu, use the claim link from your chat conversation.
+      @if (ownerClaimUrl()) {
+        This is your draft — <a class="preview__claim" [href]="ownerClaimUrl()">claim it now (free)</a> to keep it.
+      } @else {
+        To keep this menu, use the claim link from your chat conversation.
+      }
     </div>
     <app-public-menu-page [menuData]="storefrontMenu()" [previewMode]="true" />
   }

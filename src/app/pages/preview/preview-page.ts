@@ -2,6 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DraftService } from '../../services/draft.service';
+import { MenuBuilderSessionService } from '../../services/menu-builder-session.service';
 import { SeoService } from '../../services/seo.service';
 import { PublicMenu } from '../../models/menu.model';
 import { PublicMenuPageComponent } from '../public-menu/public-menu-page';
@@ -24,10 +25,13 @@ type PreviewState = 'loading' | 'ready' | 'gone' | 'invalid' | 'unavailable';
 export class PreviewPageComponent {
   private route = inject(ActivatedRoute);
   private draftService = inject(DraftService);
+  private session = inject(MenuBuilderSessionService);
   private seo = inject(SeoService);
 
   readonly state = signal<PreviewState>('loading');
   readonly storefrontMenu = signal<PublicMenu | null>(null);
+  /** Set only when this browser's own builder session owns this draft. */
+  readonly ownerClaimUrl = signal<string | null>(null);
   private readonly expiresAt = signal<string | null>(null);
 
   readonly expiresText = computed(() => {
@@ -46,6 +50,12 @@ export class PreviewPageComponent {
     if (!token) {
       this.state.set('invalid');
       return;
+    }
+    // Owner shortcut (session-recovery plan): only the browser that built the
+    // draft holds its claim URL; visitors from a shared link see no claim CTA.
+    const saved = this.session.load();
+    if (saved?.claimUrl && saved.previewUrl?.includes(token)) {
+      this.ownerClaimUrl.set(saved.claimUrl);
     }
     this.draftService.getPreview(token).subscribe({
       next: preview => {

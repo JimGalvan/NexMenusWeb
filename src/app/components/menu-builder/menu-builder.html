@@ -1,15 +1,30 @@
 <section class="lp-aihero" id="ai-builder" aria-labelledby="ai-builder-title">
   <span class="lp-badge"><span class="lp-badge__dot"></span>Free AI menu generator</span>
-  <h1 class="lp-aihero__title" id="ai-builder-title">Create your menu with AI</h1>
-  <p class="lp-aihero__sub">Enter your business name and dishes. NexMenus writes descriptions, organizes everything, and publishes a shareable menu in seconds.</p>
+  <h1 class="lp-aihero__title" id="ai-builder-title">Free AI Menu Generator for Restaurants</h1>
+  <p class="lp-aihero__sub">Turn your dish list into an organized restaurant menu with AI-written descriptions. Review every detail, then publish a mobile menu, QR code, and printable PDF.</p>
 
   <div class="lp-chat">
+    @if (resumeLabel && !entries.length && !streaming) {
+      <div class="lp-chat__resume" role="status">
+        <p><strong>Welcome back!</strong> Your draft for “{{ resumeLabel }}” is waiting.</p>
+        <div class="lp-chat__resume-actions">
+          @if (resumeLinks.preview) { <a [href]="resumeLinks.preview" target="_blank" rel="noopener">View menu <span aria-hidden="true">↗</span></a> }
+          @if (resumeLinks.claim) { <a [href]="resumeLinks.claim">Claim menu <span aria-hidden="true">→</span></a> }
+          <button type="button" (click)="reset()">Start a new menu</button>
+        </div>
+        <p class="lp-chat__resume-hint">Keep chatting below to continue editing it.</p>
+      </div>
+    }
     @if (entries.length || streaming) {
       <div #thread class="lp-chat__thread" aria-live="polite" aria-label="Menu builder conversation">
         @for (entry of entries; track $index) {
           <div class="lp-chat__row" [class.lp-chat__row--user]="entry.role === 'user'" [class.lp-chat__row--assistant]="entry.role === 'assistant'">
             <div class="lp-chat__reply">
-              <div class="lp-chat__bubble" [class.lp-chat__bubble--user]="entry.role === 'user'" [class.lp-chat__bubble--assistant]="entry.role === 'assistant'">{{ entry.text }}</div>
+              @if (entry.role === 'assistant') {
+                <div class="lp-chat__bubble lp-chat__bubble--assistant" [innerHTML]="format(entry.text)"></div>
+              } @else {
+                <div class="lp-chat__bubble lp-chat__bubble--user">{{ entry.text }}</div>
+              }
               @if (entry.role === 'assistant' && (entry.links?.preview || entry.links?.claim)) {
                 <div class="lp-chat__menu-actions" aria-label="Menu actions">
                   @if (entry.links?.preview) { <a [href]="entry.links?.preview" target="_blank" rel="noopener">View menu <span aria-hidden="true">↗</span></a> }
@@ -23,7 +38,7 @@
         @if (streaming) {<div class="lp-chat__row lp-chat__row--assistant"><div class="lp-chat__bubble lp-chat__bubble--assistant lp-chat__typing" aria-label="Building your menu"><span></span><span></span><span></span></div></div>}
       </div>
     }
-    <form class="lp-chat__composer" (ngSubmit)="submit()"><div class="lp-chat__field"><label class="lp-chat__label" for="menu-builder-message">{{ inputLabel }}</label><textarea id="menu-builder-message" class="lp-chat__input" name="message" [(ngModel)]="input" (keydown)="onKeydown($event)" [disabled]="streaming" maxlength="2000" rows="1" [placeholder]="placeholder"></textarea></div><button type="submit" class="lp-chat__send" [disabled]="!canSend"><span>Start creating</span><span aria-hidden="true">→</span></button></form>
+    <form class="lp-chat__composer" (ngSubmit)="submit()"><div class="lp-chat__field"><label class="lp-chat__label" for="menu-builder-message">{{ inputLabel }}</label><textarea id="menu-builder-message" class="lp-chat__input" name="message" [(ngModel)]="input" (keydown)="onKeydown($event)" [disabled]="streaming" maxlength="2000" rows="1" [placeholder]="placeholder"></textarea></div><button type="submit" class="lp-chat__send" [disabled]="!canSend"><span>{{ sendLabel }}</span><span aria-hidden="true">→</span></button></form>
     <p class="lp-chat__helper">{{ helperText }}</p>
   </div>
   <p class="lp-aihero__reassurance"><span aria-hidden="true"></span> No credit card <span aria-hidden="true">·</span> Edit everything before publishing</p>
