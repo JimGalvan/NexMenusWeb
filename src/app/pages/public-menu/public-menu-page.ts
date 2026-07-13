@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, input, signal } from '@angular/core';
+import { Component, OnInit, computed, effect, inject, input, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
 import { AuthService } from '../../services/auth.service';
@@ -66,6 +66,13 @@ export class PublicMenuPageComponent implements OnInit {
   readonly menu = signal<PublicMenu | null>(null);
   readonly loading = signal(true);
   readonly ownerMenuId = signal<string | null>(null);
+
+  private readonly suppliedMenuEffect = effect(() => {
+    const provided = this.menuData();
+    if (!provided) return;
+    this.menu.set(provided);
+    this.loading.set(false);
+  });
 
   activeCatId = signal<string>('');
   infoOpen = signal(false);

@@ -1,7 +1,20 @@
-<section class="lp-aihero" id="ai-builder" aria-labelledby="ai-builder-title">
-  <span class="lp-badge"><span class="lp-badge__dot"></span>Free AI menu generator</span>
-  <h1 class="lp-aihero__title" id="ai-builder-title">Free AI Menu Generator for Restaurants</h1>
-  <p class="lp-aihero__sub">Turn your dish list into an organized restaurant menu with AI-written descriptions. Review every detail, then publish a mobile menu, QR code, and printable PDF.</p>
+<section class="lp-aihero" [class.lp-aihero--embedded]="embedded" id="ai-builder" [attr.aria-labelledby]="embedded ? null : 'ai-builder-title'">
+  @if (!embedded) {
+    <span class="lp-badge"><span class="lp-badge__dot"></span>AI-assisted menu builder</span>
+    <h2 class="lp-aihero__title" id="ai-builder-title">{{ title }}</h2>
+    <p class="lp-aihero__sub">{{ subtitle }}</p>
+  }
+
+  @if (showStarterPrompts && !entries.length && !streaming) {
+    <div class="lp-starters" aria-label="Menu starter prompts">
+      <span>Start with an example</span>
+      <div class="lp-starters__list">
+        @for (prompt of starterPrompts; track prompt.label) {
+          <button type="button" (click)="useStarter(prompt.value)">{{ prompt.label }}</button>
+        }
+      </div>
+    </div>
+  }
 
   <div class="lp-chat">
     @if (resumeLabel && !entries.length && !streaming) {

@@ -1,0 +1,175 @@
+<div class="aim">
+  <header class="aim-nav">
+    <div class="aim-nav__inner">
+      <a routerLink="/" aria-label="NexMenus home"><app-brand-logo [size]="21" /></a>
+      <nav aria-label="AI menu generator navigation">
+        <a routerLink="/blog/best-ai-menu-generator">How AI menus work</a>
+        <a routerLink="/login">Log in</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="aim-hero">
+      <div class="aim-hero__eyebrow"><span></span>Free to start · No credit card</div>
+      <h1>Free AI Menu Generator for Restaurants</h1>
+      <p>Describe your business, paste your dishes and prices, and watch NexMenus organize them into a real restaurant menu you can review, edit, share, and print.</p>
+      <div class="aim-hero__proof" aria-label="Generator benefits">
+        <span>Plain-language input</span><i></i><span>Editable AI draft</span><i></i><span>Live menu preview</span>
+      </div>
+    </section>
+
+    <section class="aim-workspace" aria-label="Interactive AI menu generator">
+      <div class="aim-tabs" role="tablist" aria-label="Menu generator views">
+        <button type="button" role="tab" [attr.aria-selected]="activeTab() === 'builder'" (click)="activeTab.set('builder')">AI builder</button>
+        <button type="button" role="tab" [attr.aria-selected]="activeTab() === 'preview'" (click)="activeTab.set('preview')">
+          Menu preview
+          @if (previewState() === 'ready') { <span aria-label="Preview ready"></span> }
+        </button>
+      </div>
+
+      <div class="aim-builder" [class.is-mobile-hidden]="activeTab() !== 'builder'">
+        <div class="aim-pane__head">
+          <p class="aim-pane__kicker">Your side of the counter</p>
+          <h2>Tell us what is on the menu.</h2>
+          <p>Start rough. Dish names and prices are enough—we will ask for the missing details.</p>
+        </div>
+
+        <ol class="aim-progress" aria-label="Menu generation progress">
+          <li [attr.data-state]="stageState('business')"><span>1</span><div><strong>Business</strong><small>Name, type, and city</small></div></li>
+          <li [attr.data-state]="stageState('items')"><span>2</span><div><strong>Dishes</strong><small>Items, prices, and descriptions</small></div></li>
+          <li [attr.data-state]="stageState('preview')"><span>3</span><div><strong>Review</strong><small>Check the real menu draft</small></div></li>
+        </ol>
+
+        <app-menu-builder
+          [embedded]="true"
+          [showStarterPrompts]="true"
+          (previewUrlChange)="onPreviewUrl($event)"
+          (draftVersionChange)="onDraftVersion()"
+          (stepChange)="onStep($event)" />
+      </div>
+
+      <div class="aim-preview" [class.is-mobile-hidden]="activeTab() !== 'preview'">
+        <div class="aim-preview__bar">
+          <div><p class="aim-pane__kicker">Guest view</p><h2>Your menu preview</h2></div>
+          <div class="aim-preview__status" [attr.data-state]="previewState()">
+            @switch (previewState()) {
+              @case ('ready') { <span></span>{{ previewRefreshing() ? 'Updating' : 'Live draft' }} }
+              @case ('loading') { <span></span>Building }
+              @case ('error') { <span></span>Unavailable }
+              @default { <span></span>Example }
+            }
+          </div>
+        </div>
+
+        <div class="aim-preview__device">
+          <div class="aim-preview__chrome" aria-hidden="true"><span></span><span></span><span></span><b>nexmenus.com</b></div>
+          <div class="aim-preview__viewport" aria-live="polite">
+            @switch (previewState()) {
+              @case ('ready') {
+                <app-public-menu-page [menuData]="previewMenu()" [previewMode]="true" />
+              }
+              @case ('loading') {
+                <div class="aim-preview__loading"><div class="aim-preview__spinner"></div><strong>Building your storefront</strong><p>The real menu will appear here as soon as the first draft is ready.</p></div>
+              }
+              @case ('error') {
+                <div class="aim-preview__loading"><strong>Preview temporarily unavailable</strong><p>Your conversation is safe. Continue in the builder or use the preview link when it appears.</p></div>
+              }
+              @default {
+                <article class="aim-example">
+                  <div class="aim-example__cover"><span>Example preview</span></div>
+                  <header><div class="aim-example__logo">O&amp;E</div><p>Barbecue · Fresno</p><h3>Oak &amp; Ember</h3><small>Slow smoke. California produce. Dinner worth gathering for.</small></header>
+                  <div class="aim-example__pills"><b>From the smoker</b><span>Sides</span><span>Drinks</span></div>
+                  <section>
+                    <div><h4>Oak-smoked brisket</h4><strong>$18</strong><p>Twelve-hour smoked beef brisket with house pickles.</p></div>
+                    <div><h4>St. Louis ribs</h4><strong>$22</strong><p>Dry-rubbed pork ribs finished over live oak.</p></div>
+                    <div><h4>Charred market squash</h4><strong>$12</strong><p>Seasonal squash, smoked chile, and herb vinaigrette.</p></div>
+                  </section>
+                </article>
+              }
+            }
+          </div>
+        </div>
+        <p class="aim-preview__note">This view uses the same storefront renderer your guests will see. Verify prices, ingredients, and dietary claims before publishing.</p>
+      </div>
+    </section>
+
+    <section class="aim-transform">
+      <div class="aim-section-head">
+        <p class="aim-kicker">From notes to a menu</p>
+        <h2>Bring the dish list. Leave with something guests can use.</h2>
+        <p>The generator does more than write a paragraph. It turns the information you already have into a structured, editable storefront draft.</p>
+      </div>
+      <div class="aim-transform__grid">
+        <div class="aim-input-card">
+          <div class="aim-card-label">What you enter</div>
+          <pre>Oak &amp; Ember, barbecue restaurant in Fresno
+
+Brisket — $18
+St. Louis ribs — $22
+Charred squash — $12
+Sweet tea — $4</pre>
+          <p>Plain language is enough. Add ingredients or preparation details when they matter.</p>
+        </div>
+        <div class="aim-transform__arrow" aria-hidden="true">→</div>
+        <div class="aim-output-card">
+          <div class="aim-card-label">What NexMenus organizes</div>
+          <ul>
+            <li><span>01</span><div><strong>Clear categories</strong><small>Dishes grouped for the way guests scan.</small></div></li>
+            <li><span>02</span><div><strong>Useful descriptions</strong><small>A concise first draft you can correct.</small></div></li>
+            <li><span>03</span><div><strong>A complete storefront</strong><small>Menu, business copy, FAQ, theme, and sharing.</small></div></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="aim-capabilities">
+      <div class="aim-section-head"><p class="aim-kicker">What the AI helps create</p><h2>One draft, prepared for every place your menu needs to go.</h2></div>
+      <div class="aim-capabilities__grid">
+        <article><span>Menu</span><h3>Categories and descriptions</h3><p>Organize dishes into sections and draft concise, guest-facing item copy.</p></article>
+        <article><span>Story</span><h3>About your business</h3><p>Turn the details you provide into a clear introduction without inventing your history.</p></article>
+        <article><span>Answers</span><h3>Customer FAQ</h3><p>Draft useful answers around ordering, service, location, and the questions you confirm.</p></article>
+        <article><span>Look</span><h3>A matching theme</h3><p>Start with a visual direction suited to the business, then make it yours in the editor.</p></article>
+        <article><span>Share</span><h3>Mobile link and QR code</h3><p>Give guests a normal web menu they can open without installing an app.</p></article>
+        <article><span>Print</span><h3>Printable menu</h3><p>Keep a paper-friendly version aligned with the same menu content.</p></article>
+      </div>
+    </section>
+
+    <section class="aim-use-cases">
+      <div class="aim-section-head"><p class="aim-kicker">Built for changing menus</p><h2>Useful whether the menu fills a dining room or a truck window.</h2></div>
+      <div class="aim-use-cases__grid">
+        <article><b>Restaurants</b><p>Turn dinner notes into starters, mains, desserts, and drinks.</p></article>
+        <article><b>Cafes &amp; bakeries</b><p>Organize espresso, pastries, breakfast, and seasonal case items.</p></article>
+        <article><b>Food trucks</b><p>Build a compact menu for the line and update availability from your phone.</p></article>
+        <article><b>Bars &amp; caterers</b><p>Structure cocktails, small plates, packages, or event-specific offerings.</p></article>
+      </div>
+    </section>
+
+    <aside class="aim-accuracy">
+      <div class="aim-accuracy__mark">✓</div>
+      <div><p class="aim-kicker">AI drafts. Owners decide.</p><h2>Keep the speed. Keep control of the facts.</h2><p>Review every price, ingredient, allergen statement, dietary label, service detail, and availability status before publishing. NexMenus makes the draft faster; it does not replace the knowledge of the people preparing the food.</p></div>
+    </aside>
+
+    <section class="aim-faq" id="faq">
+      <div class="aim-section-head"><p class="aim-kicker">Questions before you start</p><h2>AI menu generator FAQ</h2></div>
+      <dl>
+        <div><dt>Is the NexMenus AI menu generator free?</dt><dd>Yes. You can start an AI-assisted restaurant menu, review the generated draft, and see the live menu preview without entering a credit card.</dd></div>
+        <div><dt>What information should I provide?</dt><dd>Start with your business name, business type, and city. Then add dish names and prices in plain language. Ingredients, preparation details, hours, and contact information help make the draft more useful.</dd></div>
+        <div><dt>What does the AI generate?</dt><dd>NexMenus organizes dishes into menu categories and can draft item descriptions, business copy, frequently asked questions, and a visual theme. You remain responsible for reviewing every detail before publishing.</dd></div>
+        <div><dt>Can I edit the generated menu?</dt><dd>Yes. Continue chatting to change names, prices, descriptions, categories, or business details. Claiming the draft into a free account gives you access to the full menu editor.</dd></div>
+        <div><dt>Does it create a QR code and printable menu?</dt><dd>Yes. A claimed NexMenus menu can be shared as a mobile-friendly link or QR code and used to produce a matching printable menu.</dd></div>
+        <div><dt>Can AI safely write allergen or dietary information?</dt><dd>AI can help draft wording, but restaurant owners must verify ingredients, allergen information, dietary claims, prices, and availability before publishing.</dd></div>
+      </dl>
+    </section>
+
+    <section class="aim-final">
+      <div><p class="aim-kicker">Your menu is already in your head</p><h2>Turn it into a storefront.</h2><p>Start with a business name and a few dishes. Review everything before you publish.</p></div>
+      <a href="#ai-builder">Create your menu with AI <span aria-hidden="true">↑</span></a>
+    </section>
+  </main>
+
+  <footer class="aim-footer">
+    <div><app-brand-logo [size]="19" /><p>© {{ year }} NexMenus</p></div>
+    <nav><a routerLink="/">Home</a><a routerLink="/blog">Blog</a><a routerLink="/privacy">Privacy</a><a routerLink="/terms">Terms</a></nav>
+  </footer>
+</div>

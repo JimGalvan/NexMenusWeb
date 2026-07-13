@@ -19,6 +19,11 @@ export const routes: Routes = [
   { path: 'privacy',  component: PrivacyPageComponent },
   { path: 'support',  component: SupportPageComponent },
   {
+    path: 'ai-menu-generator',
+    loadComponent: () =>
+      import('./pages/ai-menu-generator/ai-menu-generator-page').then(m => m.AiMenuGeneratorPageComponent),
+  },
+  {
     path: 'blog',
     pathMatch: 'full',
     loadComponent: () =>

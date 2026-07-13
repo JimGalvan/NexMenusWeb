@@ -1,5 +1,16 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, PLATFORM_ID, ViewChild, inject } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  PLATFORM_ID,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MenuBuilderEvent, MenuBuilderService } from '../../services/menu-builder.service';
 import { MenuBuilderSessionService } from '../../services/menu-builder-session.service';
@@ -16,8 +27,17 @@ type Recovery = { message: string; retryMessage: string };
   templateUrl: './menu-builder.html',
   styleUrl: './menu-builder.css',
 })
-export class MenuBuilderComponent {
+export class MenuBuilderComponent implements OnInit {
   @ViewChild('thread') private thread?: ElementRef<HTMLElement>;
+
+  @Input() embedded = false;
+  @Input() showStarterPrompts = false;
+  @Input() title = 'Build your menu with AI';
+  @Input() subtitle = 'Turn your dish list into an organized restaurant menu with AI-written descriptions. Review every detail, then publish a mobile menu, QR code, and printable PDF.';
+
+  @Output() previewUrlChange = new EventEmitter<string | null>();
+  @Output() draftVersionChange = new EventEmitter<number>();
+  @Output() stepChange = new EventEmitter<BuilderStep>();
 
   private readonly service = inject(MenuBuilderService);
   private readonly session = inject(MenuBuilderSessionService);
@@ -34,6 +54,13 @@ export class MenuBuilderComponent {
   resumeLabel: string | null = null;
   private sessionLabel: string | undefined;
 
+  readonly starterPrompts = [
+    { label: 'Restaurant', value: 'Oak & Ember, a barbecue restaurant in Fresno' },
+    { label: 'Cafe', value: 'Juniper Cafe, a neighborhood cafe and bakery in Portland' },
+    { label: 'Food truck', value: 'Coastal Tacos, a seafood taco truck in San Diego' },
+    { label: 'Bar', value: 'North Star, a cocktail bar with small plates in Seattle' },
+  ];
+
   constructor() {
     const saved = this.session.load();
     if (saved && (saved.previewUrl || saved.claimUrl)) {
@@ -43,6 +70,16 @@ export class MenuBuilderComponent {
       this.sessionLabel = saved.label;
       this.resumeLabel = saved.label ?? 'your menu';
     }
+  }
+
+  ngOnInit(): void {
+    this.previewUrlChange.emit(this.menuLinks.preview ?? null);
+    this.stepChange.emit(this.step);
+  }
+
+  useStarter(value: string): void {
+    if (this.streaming) return;
+    this.input = value;
   }
 
   get resumeLinks(): MenuLinks {
@@ -113,6 +150,8 @@ export class MenuBuilderComponent {
     this.resumeLabel = null;
     this.sessionLabel = undefined;
     this.session.clear();
+    this.previewUrlChange.emit(null);
+    this.stepChange.emit(this.step);
     this.refresh();
   }
 
@@ -158,9 +197,12 @@ export class MenuBuilderComponent {
     } else if (event.type === 'draft') {
       if (event.data.readyToClaim) this.step = 'preview';
       else if (this.step === 'business') this.step = 'items';
+      this.draftVersionChange.emit(event.data.version);
+      this.stepChange.emit(this.step);
       this.saveSession();
     } else if (event.type === 'card') {
       this.menuLinks = { ...this.menuLinks, [event.data.kind]: event.data.url };
+      if (event.data.kind === 'preview') this.previewUrlChange.emit(event.data.url);
       for (const entry of this.entries) {
         if (entry.role === 'assistant') entry.links = { ...this.menuLinks };
       }
