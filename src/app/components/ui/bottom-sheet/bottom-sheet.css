@@ -18,8 +18,18 @@
   max-width: 520px;
   width: 100%;
   margin: 0 auto;
+  /* Without a height cap, tall content (a long market or hours list) grows past
+     the top of the viewport, taking the sheet's own title and inputs with it
+     and leaving no way to scroll back up. Cap the sheet and let overflow
+     scroll; sheets with their own inner scroll region never reach this. */
+  max-height: 88dvh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 .sheet__handle {
+  flex: 0 0 auto;
   width: 40px;
   height: 5px;
   border-radius: 99px;

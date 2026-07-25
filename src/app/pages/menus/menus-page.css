@@ -157,10 +157,55 @@
   font-weight: 700;
 }
 
+/* Column layout so the name, search and actions stay put and only the market
+   grid scrolls — the list is long enough that a single scrolling sheet would
+   push the name field off-screen. */
+.create { display: flex; flex-direction: column; min-height: 0; }
 .create h2 { font-weight: 800; font-size: 18px; letter-spacing: -0.01em; }
 .create p { font-size: 13px; color: var(--muted); margin-top: 4px; line-height: 1.45; }
 .create .nx-input { margin-top: 16px; }
-.create__market { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+.create__search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 0 12px;
+  border-radius: 12px;
+  border: 1.5px solid var(--line, #e4e4ea);
+  background: var(--panel-2);
+  color: var(--faint);
+  flex: 0 0 auto;
+}
+.create__search input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 11px 0;
+  font: inherit;
+  font-size: 13.5px;
+  color: var(--text);
+}
+.create__search input::-webkit-search-cancel-button { cursor: pointer; }
+.create__market {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 44dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* room so the last row's focus ring isn't clipped by the scroll edge */
+  padding: 2px;
+}
+.create__market-empty {
+  grid-column: 1 / -1;
+  font-size: 13px;
+  color: var(--muted);
+  padding: 14px 2px;
+}
 .create__market-btn {
   display: flex;
   flex-direction: column;
@@ -174,7 +219,7 @@
 .create__market-btn.is-active { border-color: var(--brand); background: var(--surface); }
 .create__market-name { font-size: 13.5px; font-weight: 700; color: var(--text); }
 .create__market-cur { font-size: 11.5px; font-weight: 600; color: var(--faint); }
-.create__actions { display: flex; gap: 10px; margin-top: 14px; }
+.create__actions { display: flex; gap: 10px; margin-top: 14px; flex: 0 0 auto; }
 .create__cancel { width: auto; flex: 0 0 auto; background: var(--panel-2); border: none; }
 
 /* ---- toast ---- */

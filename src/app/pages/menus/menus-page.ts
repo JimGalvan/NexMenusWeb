@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
@@ -25,8 +25,25 @@ export class MenusPageComponent {
   newMenuName = signal('');
   newMenuMarket = signal<Market>('US');
   readonly markets = SUPPORTED_MARKETS;
+  /** Free-text filter over the market list; matches country, code or currency. */
+  marketQuery = signal('');
   creating = signal(false);
   toast = signal('');
+
+  /**
+   * Markets matching the query. Accent-insensitive so "espana" finds "España"
+   * and "mexico" finds "México" — the labels are written in each market's own
+   * language, which a plain substring match would hide from an ASCII keyboard.
+   */
+  readonly filteredMarkets = computed(() => {
+    const query = fold(this.marketQuery());
+    if (!query) return this.markets;
+    return this.markets.filter(market =>
+      fold(market.label).includes(query)
+      || fold(market.code).includes(query)
+      || fold(market.currency).includes(query),
+    );
+  });
 
   initials = menuInitials;
   updatedLabel = relativeTime;
@@ -80,7 +97,14 @@ export class MenusPageComponent {
   openCreate() {
     this.newMenuName.set('');
     this.newMenuMarket.set('US');
+    this.marketQuery.set('');
     this.createOpen.set(true);
+  }
+
+  /** Enter in the market search picks the only/first match instead of submitting. */
+  pickFirstMarket() {
+    const first = this.filteredMarkets()[0];
+    if (first) this.newMenuMarket.set(first.code);
   }
 
   confirmCreate() {
@@ -106,4 +130,9 @@ export class MenusPageComponent {
     this.toast.set(msg);
     this.toastTimer = setTimeout(() => this.toast.set(''), 1900);
   }
+}
+
+/** Lowercase and strip accents so "espana" matches "España". */
+function fold(value: string): string {
+  return value.trim().toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
 }
