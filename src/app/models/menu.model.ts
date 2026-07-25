@@ -20,6 +20,22 @@ export const SUPPORTED_MARKETS: { code: Market; label: string; currency: Currenc
   { code: 'GB', label: 'United Kingdom', currency: 'GBP' },
   { code: 'ES', label: 'España', currency: 'EUR' },
   { code: 'AU', label: 'Australia', currency: 'AUD' },
+  { code: 'NZ', label: 'New Zealand', currency: 'NZD' },
+  { code: 'IE', label: 'Ireland', currency: 'EUR' },
+  { code: 'DE', label: 'Deutschland', currency: 'EUR' },
+  { code: 'FR', label: 'France', currency: 'EUR' },
+  { code: 'IT', label: 'Italia', currency: 'EUR' },
+  { code: 'NL', label: 'Nederland', currency: 'EUR' },
+  { code: 'SG', label: 'Singapore', currency: 'SGD' },
+  { code: 'HK', label: 'Hong Kong', currency: 'HKD' },
+  { code: 'AE', label: 'United Arab Emirates', currency: 'AED' },
+  { code: 'ZA', label: 'South Africa', currency: 'ZAR' },
+  { code: 'BR', label: 'Brasil', currency: 'BRL' },
+  { code: 'IN', label: 'India', currency: 'INR' },
+  { code: 'PH', label: 'Philippines', currency: 'PHP' },
+  { code: 'MY', label: 'Malaysia', currency: 'MYR' },
+  { code: 'TH', label: 'Thailand', currency: 'THB' },
+  { code: 'ID', label: 'Indonesia', currency: 'IDR' },
 ];
 
 // ---- v2 properties ----
@@ -369,21 +385,40 @@ const CURRENCY_LOCALE: Record<string, string> = {
   GBP: 'en-GB',
   EUR: 'es-ES',
   AUD: 'en-AU',
+  NZD: 'en-NZ',
+  SGD: 'en-SG',
+  HKD: 'en-HK',
+  AED: 'en-AE',
+  ZAR: 'en-ZA',
+  BRL: 'pt-BR',
+  INR: 'en-IN',
+  PHP: 'en-PH',
+  MYR: 'en-MY',
+  THB: 'th-TH',
+  IDR: 'id-ID',
 };
 
-/** "14" + "USD" → "$14.00"; "12.5" + "EUR" → "12,50 €". */
+/**
+ * Currencies whose ISO minor unit (2) no longer matches how prices are quoted —
+ * sub-units are defunct, so menus use whole amounts. Mirrors the API's
+ * PRACTICAL_ZERO_DECIMAL set in MenuOperations. Everything else lets Intl apply
+ * the currency's own ISO default (USD → 2, JPY → 0).
+ */
+const PRACTICAL_ZERO_DECIMAL = new Set(['IDR', 'HUF']);
+
+/** "14" + "USD" → "$14.00"; "12.5" + "EUR" → "12,50 €"; "15000" + "IDR" → "Rp 15.000". */
 export function moneyLabel(amount: string | number, currency: Currency = 'USD'): string {
   const n = typeof amount === 'number' ? amount : parseFloat(amount);
   const safe = Number.isFinite(n) && n >= 0 ? n : 0;
+  const digits = PRACTICAL_ZERO_DECIMAL.has(currency) ? 0 : undefined;
   try {
     return new Intl.NumberFormat(CURRENCY_LOCALE[currency] ?? 'en-US', {
       style: 'currency',
       currency,
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
+      ...(digits !== undefined ? { minimumFractionDigits: digits, maximumFractionDigits: digits } : {}),
     }).format(safe);
   } catch {
-    return safe.toFixed(2) + ' ' + currency;
+    return safe.toFixed(digits ?? 2) + ' ' + currency;
   }
 }
 
