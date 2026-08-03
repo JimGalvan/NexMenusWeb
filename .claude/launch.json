@@ -2,6 +2,19 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "nexmenus-api",
+      "runtimeExecutable": "C:/Users/jimmy/IdeaProjects/NexMenusAPI/gradlew.bat",
+      "runtimeArgs": [
+        "-p",
+        "C:/Users/jimmy/IdeaProjects/NexMenusAPI",
+        "quarkusDev",
+        "-Dquarkus.profile=qa",
+        "-Dquarkus.http.cors.origins=http://localhost:4200,http://localhost:4399"
+      ],
+      "port": 8080,
+      "autoPort": false
+    },
+    {
       "name": "extract-designs",
       "runtimeExecutable": "node",
       "runtimeArgs": ["C:/Users/jimmy/AppData/Local/Temp/claude/C--Users-jimmy-WebstormProjects-NexMenusWeb/3932f372-3208-4971-b5c4-9f3fc58e717c/scratchpad/extract.js"],

@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
 import { Market, MenuSummary, SUPPORTED_MARKETS, menuInitials, relativeTime } from '../../models/menu.model';
 import { BottomSheetComponent } from '../../components/ui/bottom-sheet/bottom-sheet';
+import { PlanService } from '../../services/plan.service';
 
 @Component({
   selector: 'app-menus-page',
@@ -21,9 +22,20 @@ export class MenusPageComponent {
   /** Cover-strip image URLs per menu id, fetched lazily from the preview-images endpoint. */
   private readonly previews = signal<Record<string, string[]>>({});
 
+  readonly plans = inject(PlanService);
+
   createOpen = signal(false);
+  /** Shown instead of the create form once a free account is at its menu limit. */
+  upgradeOpen = signal(false);
   newMenuName = signal('');
   newMenuMarket = signal<Market>('US');
+
+  /**
+   * Whether another menu is allowed. The API enforces this too and is the real
+   * authority — this only decides whether to show the form or the nudge, so a
+   * stale cached plan costs a wasted tap, never a wrong outcome.
+   */
+  readonly canCreate = computed(() => this.plans.isPro() || this.menus().length < this.plans.freeMenuLimit);
   readonly markets = SUPPORTED_MARKETS;
   /** Free-text filter over the market list; matches country, code or currency. */
   marketQuery = signal('');
@@ -95,6 +107,10 @@ export class MenusPageComponent {
   }
 
   openCreate() {
+    if (!this.canCreate()) {
+      this.upgradeOpen.set(true);
+      return;
+    }
     this.newMenuName.set('');
     this.newMenuMarket.set('US');
     this.marketQuery.set('');
@@ -117,8 +133,16 @@ export class MenusPageComponent {
         this.createOpen.set(false);
         this.router.navigate(['/editor', menu.id]);
       },
-      error: () => {
+      error: (err: unknown) => {
         this.creating.set(false);
+        // The cached plan can lag the server (another tab, a just-lapsed
+        // subscription), so trust the API's refusal over our own guess and
+        // swap the form for the nudge rather than showing a dead-end error.
+        if (isMenuLimitError(err)) {
+          this.createOpen.set(false);
+          this.upgradeOpen.set(true);
+          return;
+        }
         this.flash('Could not create menu');
       },
     });
@@ -130,6 +154,12 @@ export class MenusPageComponent {
     this.toast.set(msg);
     this.toastTimer = setTimeout(() => this.toast.set(''), 1900);
   }
+}
+
+/** The API's plan-limit refusal (403 MENU_LIMIT_REACHED), whatever else went wrong. */
+function isMenuLimitError(err: unknown): boolean {
+  const error = err as { status?: number; error?: { code?: string } };
+  return error?.status === 403 && error?.error?.code === 'MENU_LIMIT_REACHED';
 }
 
 /** Lowercase and strip accents so "espana" matches "España". */

@@ -190,10 +190,18 @@ type MenuV2Wire = Omit<
 > & { items: MenuItemWire[] };
 export type PublicMenuV2Wire = Omit<
   PublicMenu,
-  'items' | 'uncategorizedItems' | 'phone' | 'address' | 'operatingHours' | 'logoUrl'
+  | 'items'
+  | 'uncategorizedItems'
+  | 'phone'
+  | 'address'
+  | 'operatingHours'
+  | 'logoUrl'
+  | 'showBranding'
 > & {
   items: PublicMenuItemWire[];
   uncategorizedItems: PublicMenuItemWire[];
+  /** Absent on API builds that predate plans; see `toPublicMenuFromV2`. */
+  showBranding?: boolean;
 };
 
 function toItem(raw: MenuItemWire): MenuItem {
@@ -237,6 +245,10 @@ export function toPublicMenuFromV2(raw: PublicMenuV2Wire): PublicMenu {
   return {
     ...raw,
     ...flat,
+    // Defaults to showing the badge: an API that has not shipped plans yet omits
+    // the field, and the safe reading of "unknown" is the free-tier behaviour.
+    // Falling back to `false` would silently strip branding from every menu.
+    showBranding: raw.showBranding !== false,
     properties: custom,
     items: raw.items.map(normalize),
     uncategorizedItems: raw.uncategorizedItems.map(normalize),

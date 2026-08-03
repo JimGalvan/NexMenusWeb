@@ -262,6 +262,12 @@ export interface PublicMenu {
   operatingHours: string | null;
   /** Owner's account email; present only when the owner opted to show it. */
   email: string | null;
+  /**
+   * Whether to render the "powered by NexMenus" footer. Free menus carry it,
+   * Pro pays to remove it. Comes from the API rather than the client because
+   * this page is server-rendered for diners who are never signed in.
+   */
+  showBranding: boolean;
   logoUrl: string | null;
   /** Custom (non-virtual) v2 properties; empty for v1-only responses. */
   properties: MenuProperty[];

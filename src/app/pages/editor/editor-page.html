@@ -216,23 +216,37 @@
           <section class="ed-detail-card">
             <div class="ed-detail-card__heading">
               <div><strong>Menu URL</strong><span>The link diners use to view your menu</span></div>
+              @if (!plans.isPro()) {
+                <span class="ed-pro-chip">Pro</span>
+              }
             </div>
 
             <label class="ed-field-label" for="menu-slug">Custom slug</label>
-            <div class="ed-slug">
+            <!-- Left visible but locked on Free: seeing your own URL and why it is
+                 fixed teaches what Pro buys, at the moment you want it. -->
+            <div class="ed-slug" [class.is-locked]="!plans.isPro()">
               <span class="ed-slug__prefix">{{ publicHost }}/m/</span>
               <input id="menu-slug" class="ed-slug__input" [ngModel]="slugDraft()"
                      (ngModelChange)="slugDraft.set($event)" (keyup.enter)="saveSlug()"
+                     [readonly]="!plans.isPro()"
+                     [attr.aria-describedby]="plans.isPro() ? null : 'menu-slug-pro'"
                      placeholder="your-restaurant" autocapitalize="off" autocomplete="off" spellcheck="false" />
             </div>
-            @if (slugDirty()) {
+            @if (!plans.isPro()) {
+              <p class="ed-slug__note" id="menu-slug-pro">
+                Choosing your own link is part of Pro ({{ plans.proPriceLabel }}).
+                <button type="button" class="ed-slug__upgrade" (click)="openUpgrade()">Upgrade</button>
+              </p>
+            } @else if (slugDirty()) {
               <p class="ed-slug__note">Your current link will keep working — it'll redirect to the new one.</p>
             }
             <div class="ed-slug__actions">
-              <button type="button" class="nx-btn nx-btn--primary ed-slug__save" [style.background]="slugDirty() ? accent() : null"
-                      [disabled]="!slugDirty() || slugSaving()" (click)="saveSlug()">
-                {{ slugSaving() ? 'Saving…' : 'Save URL' }}
-              </button>
+              @if (plans.isPro()) {
+                <button type="button" class="nx-btn nx-btn--primary ed-slug__save" [style.background]="slugDirty() ? accent() : null"
+                        [disabled]="!slugDirty() || slugSaving()" (click)="saveSlug()">
+                  {{ slugSaving() ? 'Saving…' : 'Save URL' }}
+                </button>
+              }
               <button type="button" class="nx-btn nx-btn--ghost ed-slug__copy" (click)="copyMenuLink()">Copy link</button>
             </div>
           </section>

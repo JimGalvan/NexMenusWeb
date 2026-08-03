@@ -16,14 +16,29 @@
     </section>
 
     <!-- plan -->
-    <!-- TODO: implement Plan -->
-    <!--    <section class="plan">-->
-    <!--        <div>-->
-    <!--            <div class="plan__label">Current plan</div>-->
-    <!--            <div class="plan__name">Pro · $15/mo</div>-->
-    <!--        </div>-->
-    <!--        <button class="plan__manage">Manage</button>-->
-    <!--    </section>-->
+    <section class="plan">
+        <div class="plan__info">
+            <div class="plan__label">Current plan</div>
+            <div class="plan__name">
+                {{ plans.planLabel() }}@if (plans.isPro()) { · {{ plans.proPriceLabel }}}
+            </div>
+            @if (plans.isPro() && renewsLabel()) {
+                <div class="plan__meta">Next payment {{ renewsLabel() }}</div>
+            } @else if (!plans.isPro()) {
+                <div class="plan__meta">
+                    {{ plans.freeMenuLimit === 1 ? 'One menu' : plans.freeMenuLimit + ' menus' }},
+                    with the NexMenus badge on your public menu
+                </div>
+            }
+        </div>
+        @if (plans.isPro()) {
+            @if (plans.canUpgrade()) {
+                <a class="plan__manage" [href]="plans.upgradeHref()">Manage</a>
+            }
+        } @else {
+            <a class="plan__manage plan__manage--upgrade" routerLink="/pricing">Upgrade</a>
+        }
+    </section>
 
     <!-- tutorials -->
     <section class="settings" aria-label="Guides and tutorials">

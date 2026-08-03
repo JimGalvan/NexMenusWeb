@@ -131,6 +131,7 @@ const STATIC_SITEMAP_ENTRIES: { path: string; changefreq: string; priority: stri
   { path: '/blog/how-to-start-restaurant-california', changefreq: 'monthly', priority: '0.7' },
   { path: '/blog/how-to-print-menus-for-restaurants', changefreq: 'monthly', priority: '0.7' },
   { path: '/blog/how-to-create-a-restaurant-menu', changefreq: 'monthly', priority: '0.7' },
+  { path: '/pricing', changefreq: 'monthly', priority: '0.8' },
   { path: '/terms', changefreq: 'yearly', priority: '0.2' },
   { path: '/privacy', changefreq: 'yearly', priority: '0.2' },
 ];

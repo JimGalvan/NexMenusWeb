@@ -23,6 +23,7 @@ import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 import { MenuService } from '../../services/menu.service';
 import { AuthService } from '../../services/auth.service';
+import { PlanService } from '../../services/plan.service';
 import {
   ContactMethod,
   MENU_ABOUT_PROPERTY,
@@ -271,6 +272,7 @@ export class EditorPageComponent {
   private router = inject(Router);
   private menuService = inject(MenuService);
   private auth = inject(AuthService);
+  readonly plans = inject(PlanService);
 
   /** The owner's account email — what diners see when "show email" is on. */
   readonly ownerEmail = computed(() => this.auth.account()?.email ?? '');
@@ -735,9 +737,20 @@ export class EditorPageComponent {
   removeFaq(index: number) { this.faqs.update(faqs => faqs.filter((_, i) => i !== index)); }
 
   // ---- menu URL ----
+
+  /** Sends a free user to the upgrade route; the API rejects the rename anyway. */
+  openUpgrade() {
+    const href = this.plans.upgradeHref();
+    if (href) window.location.href = href;
+    else this.router.navigate(['/pricing']);
+  }
+
   saveSlug() {
     const menu = this.menuModel();
     if (!menu || !this.slugDirty() || this.slugSaving()) return;
+    // Renaming is a Pro feature; the input is read-only on Free, so this only
+    // catches a programmatic call.
+    if (!this.plans.isPro()) return;
     this.slugSaving.set(true);
     this.menuService.updateSlug(this.menuId, this.slugDraft().trim()).subscribe({
       next: updated => {

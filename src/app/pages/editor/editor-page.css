@@ -349,6 +349,21 @@
 .ed-slug__actions { display: flex; gap: 10px; margin-top: 14px; }
 .ed-slug__copy { border: 1.5px solid var(--line); color: var(--text); }
 
+/* Locked on Free: readable and copyable, just not editable. */
+.ed-slug.is-locked { background: var(--panel-2, #f4f4f7); border-style: dashed; }
+.ed-slug.is-locked:focus-within { border-color: var(--line); box-shadow: none; }
+.ed-slug.is-locked .ed-slug__input { color: var(--muted-2); cursor: default; }
+.ed-slug__upgrade {
+  border: 0; background: none; padding: 0; margin-left: 2px;
+  font: inherit; font-weight: 700; color: var(--accent); cursor: pointer; text-decoration: underline;
+}
+.ed-pro-chip {
+  flex: 0 0 auto; align-self: center;
+  padding: 3px 9px; border-radius: 999px;
+  background: var(--accent-tint, #ececfa); color: var(--accent, #22224b);
+  font-size: 11px; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase;
+}
+
 .ed-formhead {
   display: flex;
   align-items: center;

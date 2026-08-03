@@ -19,6 +19,11 @@ export const routes: Routes = [
   { path: 'privacy',  component: PrivacyPageComponent },
   { path: 'support',  component: SupportPageComponent },
   {
+    path: 'pricing',
+    loadComponent: () =>
+      import('./pages/pricing/pricing-page').then(m => m.PricingPageComponent),
+  },
+  {
     path: 'ai-menu-generator',
     loadComponent: () =>
       import('./pages/ai-menu-generator/ai-menu-generator-page').then(m => m.AiMenuGeneratorPageComponent),

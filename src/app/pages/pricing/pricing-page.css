@@ -1,0 +1,265 @@
+:host {
+  display: block;
+}
+
+.pricing {
+  min-height: 100dvh;
+  background: var(--surface);
+  color: var(--text);
+}
+
+/* ---- nav ---- */
+
+.pricing-nav {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: rgba(255, 255, 255, 0.85);
+  border-bottom: 1px solid var(--line-soft);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.pricing-nav__inner,
+.pricing-hero,
+.pricing-grid,
+.pricing-faq,
+.pricing-footer__inner {
+  width: min(100%, 980px);
+  margin: 0 auto;
+  padding-inline: 20px;
+}
+
+.pricing-nav__inner {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pricing-nav__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-2);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* ---- hero ---- */
+
+.pricing-hero {
+  padding-top: 56px;
+  text-align: center;
+}
+
+.pricing-kicker {
+  color: var(--brand);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.pricing-hero h1 {
+  margin-top: 14px;
+  font-size: clamp(34px, 7vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+}
+
+.pricing-intro {
+  margin: 16px auto 0;
+  max-width: 56ch;
+  color: var(--text-2);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* ---- plan cards ---- */
+
+.pricing-grid {
+  margin-top: 44px;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+
+@media (min-width: 760px) {
+  .pricing-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.plan-card {
+  display: flex;
+  flex-direction: column;
+  padding: 26px 24px 24px;
+  border: 1.5px solid var(--line);
+  border-radius: 20px;
+  background: var(--panel, #fff);
+}
+
+.plan-card--pro {
+  border-color: var(--brand);
+  box-shadow: 0 12px 32px -18px rgba(34, 34, 75, 0.45);
+}
+
+.plan-card__title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.plan-card h2 {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.plan-card__badge {
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--accent-tint, #ececfa);
+  color: var(--brand);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.plan-card__price {
+  margin-top: 12px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.plan-card__amount {
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.plan-card__period {
+  color: var(--text-2);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.plan-card__tagline {
+  margin-top: 10px;
+  color: var(--text-2);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.plan-card__list {
+  margin: 22px 0 26px;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 11px;
+  flex: 1 1 auto;
+}
+
+.plan-card__list li {
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  gap: 10px;
+  align-items: start;
+  font-size: 14.5px;
+  line-height: 1.45;
+}
+
+.plan-card__list svg {
+  margin-top: 3px;
+  color: var(--brand);
+}
+
+.plan-card__cta {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.plan-card--pro .plan-card__cta {
+  background: var(--brand);
+}
+
+.plan-card__note {
+  margin-top: 10px;
+  color: var(--text-2);
+  font-size: 12.5px;
+  line-height: 1.45;
+  text-align: center;
+}
+
+/* ---- faq ---- */
+
+.pricing-faq {
+  margin-top: 56px;
+  padding-bottom: 64px;
+}
+
+.pricing-faq h2 {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.pricing-faq dl {
+  margin-top: 20px;
+  display: grid;
+  gap: 16px;
+}
+
+.pricing-faq__item {
+  padding: 18px 20px;
+  border: 1px solid var(--line-soft);
+  border-radius: 16px;
+  background: var(--panel-2, #fafafc);
+}
+
+.pricing-faq dt {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.pricing-faq dd {
+  margin: 8px 0 0;
+  color: var(--text-2);
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+
+/* ---- footer ---- */
+
+.pricing-footer {
+  border-top: 1px solid var(--line-soft);
+}
+
+.pricing-footer__inner {
+  padding-block: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pricing-footer__copy {
+  color: var(--text-2);
+  font-size: 13px;
+}
+
+.pricing-footer__links {
+  display: flex;
+  gap: 18px;
+  font-size: 13px;
+  font-weight: 600;
+}

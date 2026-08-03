@@ -50,8 +50,19 @@
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.55);
 }
+.plan__info { min-width: 0; }
 .plan__name { font-size: 18px; font-weight: 800; margin-top: 4px; }
+.plan__meta {
+  margin-top: 5px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.72);
+}
 .plan__manage {
+  flex: 0 0 auto;
+  margin-left: 14px;
+  display: inline-flex;
+  align-items: center;
   background: #fff;
   color: var(--brand);
   border: none;
@@ -59,6 +70,7 @@
   padding: 10px 16px;
   font-size: 13px;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .settings {

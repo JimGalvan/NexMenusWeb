@@ -89,7 +89,9 @@
             }
           </div>
         }
-        <div class="pr-footer__powered">Prices subject to change · Powered by NexMenus</div>
+        <!-- "Prices subject to change" is a disclaimer the restaurant wants on a
+             printed menu, so it stays on every tier; only the branding is paid for. -->
+        <div class="pr-footer__powered">Prices subject to change@if (menu()!.showBranding) { · Powered by NexMenus}</div>
       </footer>
     </div>
   </div>

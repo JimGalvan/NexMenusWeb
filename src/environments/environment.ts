@@ -10,4 +10,8 @@ export const environment = {
   apiVersion: apiVersion1,
   apiVersionV2: apiVersion2,
   supportEmail: '',
+  // Where "Upgrade to Pro" points. Empty falls back to a prefilled email to
+  // supportEmail, so billing can move to a hosted form or payment link by
+  // setting UPGRADE_URL — no code change.
+  upgradeUrl: '',
 };

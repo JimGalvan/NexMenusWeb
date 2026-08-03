@@ -9,7 +9,9 @@ import {
   AuthTokens,
   ChangePasswordRequest,
   LoginRequest,
+  Plan,
   RegisterRequest,
+  planOf,
 } from '../models/auth.model';
 
 const REFRESH_KEY = 'nx_refresh';
@@ -37,6 +39,15 @@ export class AuthService {
   // re-minted on demand. The account is hydrated lazily after a reload.
   readonly isAuthenticated = computed(() => !!this.refreshToken());
   getToken = () => this.accessToken();
+
+  /**
+   * The signed-in account's tier. Drives which upgrade prompts appear — never
+   * access to data. The cached account can be stale (or hand-edited in
+   * localStorage), so treat this as a hint for the UI and let the API be the
+   * authority: every gate is enforced server-side too.
+   */
+  readonly plan = computed<Plan>(() => planOf(this.account()));
+  readonly isPro = computed(() => this.plan() === 'PRO');
 
   // Single-flight refresh: concurrent 401s share one request because the
   // refresh token is single-use and rotates on every successful refresh.

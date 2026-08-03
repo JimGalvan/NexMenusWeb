@@ -1,0 +1,121 @@
+<div class="pricing">
+  <header class="pricing-nav">
+    <div class="pricing-nav__inner">
+      <a routerLink="/" aria-label="NexMenus home"><app-brand-logo [size]="21" /></a>
+      <a routerLink="/" class="pricing-nav__back" aria-label="Back to home">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M19 12H5M11 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        Back to home
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section class="pricing-hero">
+      <p class="pricing-kicker">Pricing</p>
+      <h1>Start free. Upgrade when you outgrow it.</h1>
+      <p class="pricing-intro">
+        Your free menu is a real, working menu — public link, QR code, photos and printing included,
+        no credit card, no trial clock.
+      </p>
+    </section>
+
+    <section class="pricing-grid" aria-label="Plans">
+      <!-- FREE -->
+      <article class="plan-card">
+        <header class="plan-card__head">
+          <h2>Free</h2>
+          <p class="plan-card__price"><span class="plan-card__amount">$0</span></p>
+          <p class="plan-card__tagline">Everything you need to put your menu online.</p>
+        </header>
+        <ul class="plan-card__list">
+          @for (feature of freeFeatures; track feature) {
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="m5 12 5 5L20 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              {{ feature }}
+            </li>
+          }
+        </ul>
+        @if (isAuthenticated()) {
+          <a routerLink="/app/menus" class="nx-btn nx-btn--ghost plan-card__cta">Go to your menus</a>
+        } @else {
+          <a routerLink="/register" class="nx-btn nx-btn--ghost plan-card__cta">Create your free menu</a>
+        }
+      </article>
+
+      <!-- PRO -->
+      <article class="plan-card plan-card--pro">
+        <header class="plan-card__head">
+          <div class="plan-card__title-row">
+            <h2>Pro</h2>
+            @if (plans.isPro()) {
+              <span class="plan-card__badge">Your plan</span>
+            }
+          </div>
+          <p class="plan-card__price">
+            <span class="plan-card__amount">{{ plans.proPrice }}</span>
+            <span class="plan-card__period">per {{ plans.proPeriod }}</span>
+          </p>
+          <p class="plan-card__tagline">For more than one menu — or a menu that's only yours.</p>
+        </header>
+        <ul class="plan-card__list">
+          @for (feature of proFeatures; track feature) {
+            <li>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="m5 12 5 5L20 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              {{ feature }}
+            </li>
+          }
+        </ul>
+        @if (plans.isPro()) {
+          <a routerLink="/app/account" class="nx-btn nx-btn--primary plan-card__cta">Manage your plan</a>
+        } @else if (plans.canUpgrade()) {
+          <a [href]="plans.upgradeHref()" class="nx-btn nx-btn--primary plan-card__cta">Upgrade to Pro</a>
+          <p class="plan-card__note">
+            We'll email you a payment link {{ plans.upgradeResponseTime }}. No card details are entered here.
+          </p>
+        } @else {
+          <a routerLink="/support" class="nx-btn nx-btn--primary plan-card__cta">Contact us to upgrade</a>
+        }
+      </article>
+    </section>
+
+    <section class="pricing-faq" aria-label="Pricing questions">
+      <h2>Before you upgrade</h2>
+      <dl>
+        <div class="pricing-faq__item">
+          <dt>Can I start free and upgrade later?</dt>
+          <dd>Yes, and that's the point. Nothing is time-limited — the free plan doesn't expire, and you can upgrade the day you need a second menu.</dd>
+        </div>
+        <div class="pricing-faq__item">
+          <dt>What happens to my menu if I stop paying?</dt>
+          <dd>Nothing disappears. Every menu you've made stays live, keeps its link, and stays editable. You go back to the free plan's one-menu allowance for anything new, and the NexMenus badge returns.</dd>
+        </div>
+        <div class="pricing-faq__item">
+          <dt>How do I actually pay?</dt>
+          <dd>Right now, personally. You tell us you want Pro, we email you a payment link, and we switch your account over. We're small enough that we'd rather talk to our first customers than build a checkout.</dd>
+        </div>
+        <div class="pricing-faq__item">
+          <dt>Do I need a credit card to start?</dt>
+          <dd>No. The free plan never asks for one.</dd>
+        </div>
+      </dl>
+    </section>
+  </main>
+
+  <footer class="pricing-footer">
+    <div class="pricing-footer__inner">
+      <app-brand-logo [size]="19" />
+      <p class="pricing-footer__copy">© {{ year }} NexMenus. All rights reserved.</p>
+      <div class="pricing-footer__links">
+        <a routerLink="/support">Support</a>
+        <a routerLink="/privacy">Privacy</a>
+        <a routerLink="/terms">Terms</a>
+      </div>
+    </div>
+  </footer>
+</div>

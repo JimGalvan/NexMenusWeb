@@ -16,6 +16,7 @@ const menuBuilderApiBaseUrl = process.env.MENU_BUILDER_API_BASE_URL ?? apiBaseUr
 const apiVersion = process.env.API_VERSION ?? 'v1';
 const apiVersionV2 = process.env.API_VERSION_V2 ?? 'v2';
 const supportEmail = process.env.SUPPORT_EMAIL ?? '';
+const upgradeUrl = process.env.UPGRADE_URL ?? '';
 
 const target = path.join(__dirname, '..', 'src', 'environments', 'environment.prod.ts');
 
@@ -29,10 +30,11 @@ export const environment = {
   apiVersion: apiVersion1,
   apiVersionV2: apiVersion2,
   supportEmail: ${JSON.stringify(supportEmail)},
+  upgradeUrl: ${JSON.stringify(upgradeUrl)},
 };
 `;
 
 fs.writeFileSync(target, contents);
 console.log(
-  `[set-env] wrote ${path.relative(process.cwd(), target)} (apiBaseUrl='${apiBaseUrl}', apiVersion='${apiVersion}', apiVersionV2='${apiVersionV2}', supportEmail='${supportEmail}')`,
+  `[set-env] wrote ${path.relative(process.cwd(), target)} (apiBaseUrl='${apiBaseUrl}', apiVersion='${apiVersion}', apiVersionV2='${apiVersionV2}', supportEmail='${supportEmail}', upgradeUrl='${upgradeUrl || '(mailto fallback)'}')`,
 );

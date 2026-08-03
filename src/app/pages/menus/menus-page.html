@@ -124,6 +124,32 @@
   </app-bottom-sheet>
 }
 
+@if (upgradeOpen()) {
+  <app-bottom-sheet (dismiss)="upgradeOpen.set(false)">
+    <div class="upsell">
+      <h2>Add another menu with Pro</h2>
+      <p>
+        Free includes {{ plans.freeMenuLimit === 1 ? 'one menu' : plans.freeMenuLimit + ' menus' }}.
+        Pro gives you unlimited menus, removes the NexMenus badge from your public
+        and printed menus, and lets you choose your own menu link.
+      </p>
+      <p class="upsell__meta">
+        {{ plans.proPriceLabel }} · we'll email you a payment link {{ plans.upgradeResponseTime }}.
+      </p>
+      <div class="upsell__actions">
+        <button class="nx-btn nx-btn--ghost" (click)="upgradeOpen.set(false)">Not now</button>
+        @if (plans.canUpgrade()) {
+          <a class="nx-btn nx-btn--primary" [href]="plans.upgradeHref()" (click)="upgradeOpen.set(false)">
+            Upgrade to Pro
+          </a>
+        } @else {
+          <a class="nx-btn nx-btn--primary" routerLink="/pricing" (click)="upgradeOpen.set(false)">See plans</a>
+        }
+      </div>
+    </div>
+  </app-bottom-sheet>
+}
+
 @if (toast()) {
   <div class="toast">
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">

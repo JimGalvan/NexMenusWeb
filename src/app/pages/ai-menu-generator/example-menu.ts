@@ -17,6 +17,8 @@ export const EXAMPLE_MENU: PublicMenu = {
   address: '1212 Olive Ave, Fresno, CA 93728',
   operatingHours: 'Wed–Sun · 11:00 AM – 9:00 PM',
   email: null,
+  // The sample is what a new (free) menu looks like, badge included.
+  showBranding: true,
   logoUrl: null,
   properties: [
     { name: 'accentColor', type: 'TEXT', value: '#37412f' },

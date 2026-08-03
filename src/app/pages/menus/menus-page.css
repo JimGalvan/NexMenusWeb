@@ -222,6 +222,15 @@
 .create__actions { display: flex; gap: 10px; margin-top: 14px; flex: 0 0 auto; }
 .create__cancel { width: auto; flex: 0 0 auto; background: var(--panel-2); border: none; }
 
+/* ---- upgrade nudge (shown instead of the create form at the free limit) ---- */
+.upsell { display: flex; flex-direction: column; }
+.upsell h2 { font-weight: 800; font-size: 18px; letter-spacing: -0.01em; }
+.upsell p { font-size: 13px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+.upsell__meta { font-weight: 600; color: var(--text); }
+.upsell__actions { display: flex; gap: 10px; margin-top: 18px; }
+.upsell__actions > * { flex: 1 1 0; display: inline-flex; align-items: center; justify-content: center; }
+.upsell__actions .nx-btn--ghost { background: var(--panel-2); border: none; }
+
 /* ---- toast ---- */
 .toast {
   position: fixed;
