@@ -89,9 +89,10 @@
             }
           </div>
         }
-        <!-- "Prices subject to change" is a disclaimer the restaurant wants on a
-             printed menu, so it stays on every tier; only the branding is paid for. -->
-        <div class="pr-footer__powered">Prices subject to change@if (menu()!.showBranding) { · Powered by NexMenus}</div>
+        <!-- Disclaimers the restaurant wants on a printed menu — a paper menu
+             outlives the prices and ingredients on it — so they stay on every
+             tier; only the branding is paid for. -->
+        <div class="pr-footer__powered">Prices subject to change · Ask staff about allergens@if (menu()!.showBranding) { · Powered by NexMenus}</div>
       </footer>
     </div>
   </div>

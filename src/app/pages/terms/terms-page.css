@@ -139,6 +139,7 @@
 }
 
 .terms-section ul,
+.terms-section ol,
 .terms-toc ol {
   margin: 14px 0 0 1.25rem;
 }

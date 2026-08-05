@@ -4,6 +4,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { safeReturnUrl } from '../../core/safe-return-url';
+import { LEGAL_VERSIONS } from '../../core/legal-versions';
 import { BrandLogoComponent } from '../../components/ui/brand-logo/brand-logo';
 
 @Component({
@@ -36,12 +37,20 @@ export class RegisterPageComponent {
 
     this.loading.set(true);
     this.error.set('');
-    this.authService.register({ email, password }).subscribe({
-      next: () => this.router.navigateByUrl(safeReturnUrl(this.route.snapshot.queryParamMap.get('returnUrl'))),
-      error: () => {
-        this.loading.set(false);
-        this.error.set('Could not create your account. Please try again.');
-      },
-    });
+    this.authService
+      .register({
+        email,
+        password,
+        termsVersion: LEGAL_VERSIONS.terms,
+        privacyVersion: LEGAL_VERSIONS.privacy,
+      })
+      .subscribe({
+        next: () =>
+          this.router.navigateByUrl(safeReturnUrl(this.route.snapshot.queryParamMap.get('returnUrl'))),
+        error: () => {
+          this.loading.set(false);
+          this.error.set('Could not create your account. Please try again.');
+        },
+      });
   }
 }

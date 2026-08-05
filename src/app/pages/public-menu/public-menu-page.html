@@ -224,6 +224,14 @@
                     @if (menu()!.phone) {
                         · {{ menu()!.phone }}
                     }</p>
+                <!-- Names the restaurant as the source of the menu, and sends
+                     allergen questions to the people who can actually answer
+                     them. Protects the restaurant as much as us, so it ships on
+                     every tier — only the branding below is paid for. -->
+                <p class="pm-footer__note">
+                    Menu information is provided by {{ menu()!.name }}. Please ask staff about
+                    allergens and dietary requirements.
+                </p>
                 @if (menu()!.showBranding) {
                     <a routerLink="/">Menu powered by <strong>NexMenus</strong></a>
                 }

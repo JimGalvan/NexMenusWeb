@@ -61,10 +61,11 @@ export class AuthService {
   }
 
   register(body: RegisterRequest): Observable<Account> {
-    // Registration does not log the user in, so chain a login afterward.
+    // Registration does not log the user in, so chain a login afterward — with
+    // only the credentials, since the login endpoint takes nothing else.
     return this.http
       .post<Account>(`${this.api}/accounts`, body)
-      .pipe(switchMap(() => this.login(body)));
+      .pipe(switchMap(() => this.login({ email: body.email, password: body.password })));
   }
 
   loadCurrentAccount(): Observable<Account> {

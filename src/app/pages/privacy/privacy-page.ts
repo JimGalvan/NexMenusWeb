@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BrandLogoComponent } from '../../components/ui/brand-logo/brand-logo';
 import { SeoService } from '../../services/seo.service';
+import { LEGAL_VERSIONS, formatLegalVersion } from '../../core/legal-versions';
 
 @Component({
   selector: 'app-privacy-page',
@@ -11,6 +12,8 @@ import { SeoService } from '../../services/seo.service';
 })
 export class PrivacyPageComponent {
   readonly year = new Date().getFullYear();
+  /** Rendered from the same constant recorded against an account at signup. */
+  readonly lastUpdated = formatLegalVersion(LEGAL_VERSIONS.privacy);
 
   constructor() {
     inject(SeoService).setPage({

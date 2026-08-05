@@ -15,7 +15,7 @@
     <section class="terms-hero">
       <p class="terms-kicker">Legal</p>
       <h1>Terms of Service</h1>
-      <p class="terms-updated">Last updated July 11, 2026</p>
+      <p class="terms-updated">Last updated {{ lastUpdated }}</p>
       <p class="terms-intro">These Legal Terms govern your access to and use of NexMenus, a digital menu service owned and operated by Galvan Digital LLC.</p>
       <div class="terms-rule" aria-hidden="true"></div>
     </section>
@@ -66,6 +66,7 @@
           <li><a href="/terms#menu-accuracy">Menu Accuracy and Liability Disclaimer</a></li>
           <li><a href="/terms#service-availability">Service Availability, Maintenance, and Technical Issues</a></li>
           <li><a href="/terms#pricing-subscriptions">Pricing, Subscriptions, and Payment Terms</a></li>
+          <li><a href="/terms#service-changes">Service Changes, Plan Discontinuation, and Remedies</a></li>
           <li><a href="/terms#data-export">Data Export and Account Termination</a></li>
           <li><a href="/terms#third-party-integrations">Third-Party Integrations and External Links</a></li>
           <li><a href="/terms#feedback">Feedback and Suggestions</a></li>
@@ -110,19 +111,20 @@
 
       <section class="terms-section" id="purchases-and-payment">
         <h2>5. Purchases and Payment</h2>
-        <p>We accept Visa, Mastercard, Discover, American Express, and Stripe.</p>
-        <p>You agree to provide current, complete, and accurate purchase and account information and to promptly update account and payment information. Sales tax will be added as deemed required. We may change prices at any time. All payments shall be in US dollars.</p>
-        <p>You agree to pay all charges at then-current prices and authorize us to charge your chosen payment provider. We may correct pricing errors even after requesting or receiving payment. We may refuse, limit, or cancel orders, including orders placed under the same account, payment method, billing address, or shipping address, and may limit or prohibit orders that appear to be placed by dealers, resellers, or distributors.</p>
+        <p>NexMenus does not currently operate an automated checkout. Paid plans are arranged directly with us: you tell us you would like to upgrade, we send you a payment link or invoice, and we activate the plan on your account once payment is received. Payment links we send are handled by a third-party payment processor, and your use of that processor is subject to its own terms and privacy policy. We do not collect or store full payment card details ourselves.</p>
+        <p>You agree to provide current, complete, and accurate account and billing information and to keep it up to date. Sales tax will be added where required. All payments are in US dollars. Prices are those stated on our pricing page at the time of purchase, and may change as described in "Subscriptions" below.</p>
+        <p>We may correct pricing errors even after requesting or receiving payment. We may refuse, limit, or cancel a purchase, including purchases associated with the same account, payment method, or billing address, and may limit or prohibit purchases that appear to be made by dealers, resellers, or distributors.</p>
       </section>
 
       <section class="terms-section" id="subscriptions">
         <h2>6. Subscriptions</h2>
         <h3>Billing and Renewal</h3>
-        <p>Your subscription will continue and automatically renew unless canceled. You consent to recurring charges without prior approval for each recurring charge until you cancel. The billing cycle is monthly.</p>
+        <p>A paid plan runs for the period you have paid for, currently one month unless we agree otherwise with you. We do not currently bill on an automatic recurring basis: we do not store your payment credentials, and we cannot charge you again without you completing a new payment. Before a paid period ends we will contact you about renewing. If you do not renew, your account returns to the Free plan.</p>
+        <p>If we introduce automatic recurring billing in the future, we will tell you before it applies to your account, obtain any consent required by law, and provide an online method of cancellation.</p>
         <h3>Cancellation</h3>
-        <p>You can cancel your subscription at any time by logging into your account. Cancellation takes effect at the end of the current paid term. Questions may be emailed to <a href="mailto:contact@nexmenus.com">contact@nexmenus.com</a>.</p>
+        <p>You can cancel at any time by emailing <a href="mailto:contact@nexmenus.com">contact@nexmenus.com</a>. Because billing is manual, simply choosing not to renew also ends the plan — there is no recurring charge to stop. Cancellation takes effect at the end of the period you have already paid for. We do not refund the remainder of a paid period except as described in "Service Changes, Plan Discontinuation, and Remedies" or where required by law.</p>
         <h3>Fee Changes</h3>
-        <p>We may make changes to subscription fees and will communicate price changes in accordance with applicable law.</p>
+        <p>We may make changes to subscription fees. A price change applies from your next paid period, and we will communicate it in advance in accordance with applicable law.</p>
       </section>
 
       <section class="terms-section" id="prohibited-activities">
@@ -273,31 +275,59 @@
 
       <section class="terms-section" id="pricing-subscriptions">
         <h2>30. Pricing, Subscriptions, and Payment Terms</h2>
-        <p>NexMenus offers multiple subscription tiers, including a Free plan and paid plans. Current plan details, features, and limitations appear on our landing page and subscription management interface. Payments are processed through Stripe, and users agree to Stripe's terms when making payments. Paid subscriptions renew automatically at the specified billing interval unless canceled at least 24 hours before the current billing period ends. Users must maintain accurate billing information. We may introduce or modify plans, features, limitations, or pricing with reasonable notice. No refunds or credits are provided for partial periods or unused services unless required by law. Canceled paid subscriptions remain active until the end of the current billing period, then revert to the Free plan or other applicable tier. We are not responsible for third-party payment processing errors or issues.</p>
+        <p>NexMenus offers a Free plan and at least one paid plan. Current plan details, features, limitations, and prices appear on our pricing page. Paid plans are arranged manually as described in "Purchases and Payment" and "Subscriptions"; we do not currently operate an automated checkout or bill on an automatic recurring basis.</p>
+        <p>Users must provide accurate billing information. We may introduce or modify plans, features, limitations, or pricing with reasonable notice. Except as described in "Service Changes, Plan Discontinuation, and Remedies," or where required by law, no refunds or credits are provided for partial periods or unused services.</p>
+        <p>When a paid plan ends, whether by cancellation, non-renewal, or otherwise, your account returns to the Free plan at the end of the period you have paid for. Menus you have already created remain published, keep their existing links, and remain editable; Free plan limits apply to creating additional menus, and Free plan branding returns to your public and printed menus.</p>
+        <p>Payments are handled by a third-party payment processor. We are not responsible for errors, delays, or failures caused by that processor, and your use of it is subject to that processor's own terms.</p>
+      </section>
+
+      <section class="terms-section" id="service-changes">
+        <h2>31. Service Changes, Plan Discontinuation, and Remedies</h2>
+        <p>NexMenus may modify, suspend, restrict, replace, or discontinue any feature, subscription plan, or all of the Services, temporarily or permanently, subject to applicable law. NexMenus does not guarantee that any particular feature, plan, menu URL, integration, storage method, or version of the Services will remain available for any particular period.</p>
+        <h3>Free Plan</h3>
+        <p>The Free Plan is provided without charge and without any commitment concerning availability, duration, functionality, maintenance, support, data retention, or continued operation.</p>
+        <p>To the maximum extent permitted by law, a Free Plan user is not entitled to a refund, credit, reimbursement, substitute service, replacement hosting, compensation for business interruption, compensation for loss of traffic or revenue, or other monetary payment resulting from the modification, suspension, or discontinuation of the Free Plan or the Services.</p>
+        <p>Nothing in this section limits any rights that cannot lawfully be waived. Any available data export will be governed by the Data Export and Account Termination section, the Privacy Policy, and applicable law.</p>
+        <h3>Plus Plan</h3>
+        <p>A Plus subscription provides access to the features identified for that plan during the applicable subscription period. NexMenus does not guarantee uninterrupted availability, error-free operation, any minimum uptime, or that the Plus Plan or Services will continue indefinitely.</p>
+        <p>If NexMenus permanently discontinues substantially all Plus Plan functionality for all Plus subscribers before the end of a period for which a user has prepaid, NexMenus will:</p>
+        <ol>
+          <li>stop future recurring charges;</li>
+          <li>provide a prorated refund of subscription fees paid for the unused portion of that prepaid period; and</li>
+          <li>provide a reasonable opportunity, ordinarily at least thirty days after notice of discontinuation, to request or download an export of the user's available menu data.</li>
+        </ol>
+        <p>The prorated refund applies only to amounts actually received by NexMenus for the unused prepaid period. It does not include prior billing periods, periods during which the Plus Plan was available, third-party charges, lost profits, lost revenue, advertising expenses, replacement-service costs, or other consequential losses.</p>
+        <p>Except where prohibited by law, the prorated refund described above is the user's exclusive contractual monetary remedy for NexMenus' permanent, service-wide discontinuation of the Plus Plan.</p>
+        <p>Temporary interruptions, maintenance, technical errors, individual account suspensions, enforcement actions, feature modifications, and a user's voluntary cancellation do not constitute permanent service-wide discontinuation and do not create a right to a refund except as expressly stated in these Terms or required by law.</p>
+        <h3>Data Availability</h3>
+        <p>Data exports are limited to data that remains available in NexMenus' active systems at the time of the request and that NexMenus is legally and technically permitted to provide. Users remain responsible for maintaining independent copies of their menus, images, pricing, descriptions, and other business information.</p>
+        <p>NexMenus does not guarantee perpetual storage or recovery of user data. After the applicable export period expires, data may be deleted in accordance with NexMenus' retention policies, Privacy Policy, legal obligations, and any applicable legal hold.</p>
+        <h3>Non-Waivable Rights</h3>
+        <p>Nothing in these Terms excludes or limits liability or remedies that cannot be excluded or limited under applicable law, including responsibility that cannot lawfully be waived for fraud, willful misconduct, or violations of law.</p>
       </section>
 
       <section class="terms-section" id="data-export">
-        <h2>31. Data Export and Account Termination</h2>
+        <h2>32. Data Export and Account Termination</h2>
         <p>Users may request a data export through account settings or support. Upon account termination, users have 30 days to request their data. After that, user data may be permanently deleted according to retention policies. NexMenus may maintain anonymized or aggregated data for statistical purposes. Account termination removes associated menus from public access and discontinues paid services without refund for any remaining subscription period.</p>
       </section>
 
       <section class="terms-section" id="third-party-integrations">
-        <h2>32. Third-Party Integrations and External Links</h2>
+        <h2>33. Third-Party Integrations and External Links</h2>
         <p>NexMenus may provide third-party integrations or links to external websites or resources for convenience. Galvan Digital LLC has no control over and assumes no responsibility for third-party content, privacy policies, or practices. Users agree Galvan Digital LLC is not responsible or liable for damage or loss caused by use of or reliance on third-party content, goods, or services.</p>
       </section>
 
       <section class="terms-section" id="feedback">
-        <h2>33. Feedback and Suggestions</h2>
+        <h2>34. Feedback and Suggestions</h2>
         <p>Any feedback, comments, ideas, improvements, or suggestions ("Suggestions") provided to Galvan Digital LLC with respect to NexMenus shall remain the sole and exclusive property of Galvan Digital LLC. We may use, copy, modify, publish, or redistribute Suggestions for any purpose without credit or compensation. By submitting Suggestions, users waive all rights to them and agree not to claim ownership or intellectual property rights over implementations.</p>
       </section>
 
       <section class="terms-section" id="anonymous-drafts">
-        <h2>34. Menu Drafts Created Through ChatGPT</h2>
+        <h2>35. Menu Drafts Created Through ChatGPT</h2>
         <p>NexMenus offers a plugin for ChatGPT that lets you create a private menu draft without a NexMenus account. Drafts are temporary: unclaimed drafts become inaccessible automatically (currently about 72 hours after creation), and their access credentials are revoked. The associated draft records and credentials are permanently deleted by scheduled cleanup after an additional retention period, currently up to seven days. Drafts are not published and cannot be published until they are claimed by signing in to or creating a NexMenus account, at which point the draft becomes part of your account and these Terms apply to it in full. Draft content is subject to the same content standards as the rest of the Services (see Prohibited Activities and User-Uploaded Content), and we may remove drafts that violate them. We are not responsible for the loss of unclaimed drafts that expire, and draft limits (such as the number of items or categories) may change at any time. Your use of ChatGPT itself is governed by OpenAI's own terms.</p>
       </section>
 
       <section class="terms-card" id="contact-us">
-        <h2>35. Contact Us</h2>
+        <h2>36. Contact Us</h2>
         <p>To resolve a complaint regarding the Services or receive further information regarding use of the Services, please contact us at:</p>
         <address>Galvan Digital LLC<br>2712 Loker Avenue West #1116<br>Carlsbad, CA 92010<br>United States<br>Phone: <a href="tel:+14425004658">(+1) 4425004658</a><br><a href="mailto:contact@nexmenus.com">contact@nexmenus.com</a></address>
       </section>

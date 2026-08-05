@@ -5,10 +5,17 @@ export interface LoginRequest {
   password: string;
 }
 
-// The accounts API only accepts email + password on registration.
+/**
+ * The version fields record which legal text the user agreed to, and are stored
+ * by the API against the new account. They come from `LEGAL_VERSIONS` rather
+ * than being typed in anywhere, so what is recorded is always what the signup
+ * form linked to.
+ */
 export interface RegisterRequest {
   email: string;
   password: string;
+  termsVersion: string;
+  privacyVersion: string;
 }
 
 export interface ChangePasswordRequest {
