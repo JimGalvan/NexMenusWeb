@@ -2,7 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
-import { Market, MenuSummary, SUPPORTED_MARKETS, menuInitials, relativeTime } from '../../models/menu.model';
+import { Market, MarketOption, MenuSummary, menuInitials, relativeTime } from '../../models/menu.model';
 import { BottomSheetComponent } from '../../components/ui/bottom-sheet/bottom-sheet';
 import { PlanService } from '../../services/plan.service';
 
@@ -28,7 +28,7 @@ export class MenusPageComponent {
   /** Shown instead of the create form once a free account is at its menu limit. */
   upgradeOpen = signal(false);
   newMenuName = signal('');
-  newMenuMarket = signal<Market>('US');
+  newMenuMarket = signal<Market | null>(null);
 
   /**
    * Whether another menu is allowed. The API enforces this too and is the real
@@ -36,7 +36,9 @@ export class MenusPageComponent {
    * stale cached plan costs a wasted tap, never a wrong outcome.
    */
   readonly canCreate = computed(() => this.plans.isPro() || this.menus().length < this.plans.freeMenuLimit);
-  readonly markets = SUPPORTED_MARKETS;
+  readonly markets = signal<MarketOption[]>([]);
+  readonly marketsLoading = signal(true);
+  readonly marketsError = signal(false);
   /** Free-text filter over the market list; matches country, code or currency. */
   marketQuery = signal('');
   creating = signal(false);
@@ -49,8 +51,8 @@ export class MenusPageComponent {
    */
   readonly filteredMarkets = computed(() => {
     const query = fold(this.marketQuery());
-    if (!query) return this.markets;
-    return this.markets.filter(market =>
+    if (!query) return this.markets();
+    return this.markets().filter(market =>
       fold(market.label).includes(query)
       || fold(market.code).includes(query)
       || fold(market.currency).includes(query),
@@ -76,7 +78,26 @@ export class MenusPageComponent {
   }
 
   constructor() {
+    this.loadMarkets();
     this.reload();
+  }
+
+  loadMarkets() {
+    this.marketsLoading.set(true);
+    this.marketsError.set(false);
+    this.menuService.listMarkets().subscribe({
+      next: markets => {
+        this.markets.set(markets);
+        const preferred = markets.find(market => market.code === 'US') ?? markets[0];
+        this.newMenuMarket.set(preferred?.code ?? null);
+        this.marketsLoading.set(false);
+      },
+      error: () => {
+        this.marketsLoading.set(false);
+        this.marketsError.set(true);
+        this.newMenuMarket.set(null);
+      },
+    });
   }
 
   private reload() {
@@ -112,7 +133,8 @@ export class MenusPageComponent {
       return;
     }
     this.newMenuName.set('');
-    this.newMenuMarket.set('US');
+    const preferred = this.markets().find(market => market.code === 'US') ?? this.markets()[0];
+    this.newMenuMarket.set(preferred?.code ?? null);
     this.marketQuery.set('');
     this.createOpen.set(true);
   }
@@ -125,9 +147,10 @@ export class MenusPageComponent {
 
   confirmCreate() {
     const name = this.newMenuName().trim();
-    if (!name || this.creating()) return;
+    const market = this.newMenuMarket();
+    if (!name || !market || this.creating()) return;
     this.creating.set(true);
-    this.menuService.createMenu({ name, market: this.newMenuMarket() }).subscribe({
+    this.menuService.createMenu({ name, market }).subscribe({
       next: menu => {
         this.creating.set(false);
         this.createOpen.set(false);

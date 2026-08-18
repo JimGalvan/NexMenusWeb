@@ -206,6 +206,7 @@
   color: var(--muted);
   padding: 14px 2px;
 }
+.create__market-empty button { padding: 0; border: 0; background: none; color: var(--brand); font: inherit; font-weight: 700; cursor: pointer; }
 .create__market-btn {
   display: flex;
   flex-direction: column;

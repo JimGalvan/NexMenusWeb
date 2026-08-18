@@ -9,34 +9,12 @@
 export type Market = string;
 export type Currency = string;
 
-/**
- * Markets offered in the create-menu picker. Keep in sync with the API's
- * `menus.supported-countries` config (SUPPORTED_COUNTRIES env var).
- */
-export const SUPPORTED_MARKETS: { code: Market; label: string; currency: Currency }[] = [
-  { code: 'US', label: 'United States', currency: 'USD' },
-  { code: 'MX', label: 'México', currency: 'MXN' },
-  { code: 'CA', label: 'Canada', currency: 'CAD' },
-  { code: 'GB', label: 'United Kingdom', currency: 'GBP' },
-  { code: 'ES', label: 'España', currency: 'EUR' },
-  { code: 'AU', label: 'Australia', currency: 'AUD' },
-  { code: 'NZ', label: 'New Zealand', currency: 'NZD' },
-  { code: 'IE', label: 'Ireland', currency: 'EUR' },
-  { code: 'DE', label: 'Deutschland', currency: 'EUR' },
-  { code: 'FR', label: 'France', currency: 'EUR' },
-  { code: 'IT', label: 'Italia', currency: 'EUR' },
-  { code: 'NL', label: 'Nederland', currency: 'EUR' },
-  { code: 'SG', label: 'Singapore', currency: 'SGD' },
-  { code: 'HK', label: 'Hong Kong', currency: 'HKD' },
-  { code: 'AE', label: 'United Arab Emirates', currency: 'AED' },
-  { code: 'ZA', label: 'South Africa', currency: 'ZAR' },
-  { code: 'BR', label: 'Brasil', currency: 'BRL' },
-  { code: 'IN', label: 'India', currency: 'INR' },
-  { code: 'PH', label: 'Philippines', currency: 'PHP' },
-  { code: 'MY', label: 'Malaysia', currency: 'MYR' },
-  { code: 'TH', label: 'Thailand', currency: 'THB' },
-  { code: 'ID', label: 'Indonesia', currency: 'IDR' },
-];
+/** One entry from GET /api/v1/metadata/markets. */
+export interface MarketOption {
+  code: Market;
+  label: string;
+  currency: Currency;
+}
 
 // ---- v2 properties ----
 
@@ -379,10 +357,6 @@ export interface ApiError {
 
 // ---- helpers ----
 
-export function currencyFor(market: Market): Currency {
-  return SUPPORTED_MARKETS.find(m => m.code === market)?.currency ?? 'USD';
-}
-
 /** Price display is formatted by the menu's market, not the viewer's locale (Q7). */
 const CURRENCY_LOCALE: Record<string, string> = {
   USD: 'en-US',
@@ -457,10 +431,11 @@ export function slugify(name: string): string {
   );
 }
 
-/** Normalize any price input to the contract's "0.00" decimal string. */
+/** Preserve up to three decimals while keeping the editor's usual two-digit shape. */
 export function formatPrice(amount: string | number): string {
   const n = typeof amount === 'number' ? amount : parseFloat(amount);
-  return Number.isFinite(n) && n >= 0 ? n.toFixed(2) : '0.00';
+  if (!Number.isFinite(n) || n < 0) return '0.00';
+  return n.toFixed(3).replace(/0$/, '');
 }
 
 /** Diner-facing compact price label: whole amounts drop cents ("$26", "$12.50"). */

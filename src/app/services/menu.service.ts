@@ -9,6 +9,7 @@ import {
   Category,
   CreateMenuRequest,
   MenuMediaKind,
+  MarketOption,
   MENU_PROPERTY_KEYS,
   Menu,
   MenuItem,
@@ -44,6 +45,7 @@ export class MenuService {
   /** v2 carries contact/logo (and any future menu data) as a generic property list. */
   private readonly apiV2 = `${environment.apiBaseUrl}/api/${environment.apiVersionV2}/menus`;
   private readonly publicApiV2 = `${environment.apiBaseUrl}/api/${environment.apiVersionV2}/public/menus`;
+  private readonly marketMetadataApi = `${environment.apiBaseUrl}/api/${environment.apiVersion}/metadata/markets`;
 
   /** Last-used brand accent fallback; saved menus persist their own accent as a v2 property. */
   readonly accent = signal<string>(safeStorage.getItem(ACCENT_KEY) ?? '#22224b');
@@ -57,6 +59,11 @@ export class MenuService {
 
   listMenus(): Observable<MenuSummary[]> {
     return this.http.get<MenuSummary[]>(this.api);
+  }
+
+  /** Server-owned catalog so country expansion never requires a frontend release. */
+  listMarkets(): Observable<MarketOption[]> {
+    return this.http.get<MarketOption[]>(this.marketMetadataApi);
   }
 
   getMenu(menuId: string): Observable<Menu> {
