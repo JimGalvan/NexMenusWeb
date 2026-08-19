@@ -85,18 +85,32 @@
                     } @else {
                         <button class="pm-action pm-action--primary" type="button" disabled>Contact</button>
                     }
-                    <button class="pm-action pm-action--icon" type="button" (click)="share()"
-                            aria-label="Share this menu">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                            <circle cx="18" cy="5" r="2.4" stroke="currentColor" stroke-width="1.7"/>
-                            <circle cx="6" cy="12" r="2.4" stroke="currentColor" stroke-width="1.7"/>
-                            <circle cx="18" cy="19" r="2.4" stroke="currentColor" stroke-width="1.7"/>
-                            <path d="M8 11l8-5M8 13l8 5" stroke="currentColor" stroke-width="1.7"/>
-                        </svg>
-                        <span>Share</span>
-                    </button>
+                    @if (instagramUrl(); as instagram) {
+                        <a class="pm-action pm-action--icon" [href]="instagram" target="_blank"
+                           rel="noopener noreferrer" [attr.aria-label]="'Open ' + menu()!.name + ' on Instagram'">
+                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor"
+                                      stroke-width="1.8"/>
+                                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/>
+                                <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
+                            </svg>
+                            <span>Instagram</span>
+                        </a>
+                    } @else {
+                        <button class="pm-action pm-action--icon" type="button" (click)="share()"
+                                aria-label="Share this menu">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <circle cx="18" cy="5" r="2.4" stroke="currentColor" stroke-width="1.7"/>
+                                <circle cx="6" cy="12" r="2.4" stroke="currentColor" stroke-width="1.7"/>
+                                <circle cx="18" cy="19" r="2.4" stroke="currentColor" stroke-width="1.7"/>
+                                <path d="M8 11l8-5M8 13l8 5" stroke="currentColor" stroke-width="1.7"/>
+                            </svg>
+                            <span>Share</span>
+                        </button>
+                    }
                     <button class="pm-action pm-action--icon pm-action--more" type="button"
-                            (click)="infoOpen.set(!infoOpen())" aria-label="More restaurant links">
+                            (click)="infoOpen.set(!infoOpen())" aria-label="More restaurant links"
+                            [attr.aria-expanded]="infoOpen()" aria-controls="pm-more-links">
                         <svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true">
                             <circle cx="5" cy="12" r="1.4"/>
                             <circle cx="12" cy="12" r="1.4"/>
@@ -106,13 +120,22 @@
                 </div>
 
                 @if (infoOpen()) {
-                    <div class="pm-more">
+                    <div class="pm-more" id="pm-more-links">
                         @if (menu()!.email) {
                             <a [href]="'mailto:' + menu()!.email"><span>✉</span><b>Contact</b><small>{{ menu()!.email }}</small></a>
                         }
-                        @if (instagramUrl(); as instagram) {
-                            <a [href]="instagram" target="_blank"
-                               rel="noopener noreferrer"><span>◎</span><b>Instagram</b><small>&#64;{{ instagramHandle() }}</small></a>
+                        @if (instagramUrl()) {
+                            <button type="button" (click)="share()">
+                                <span aria-hidden="true">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                        <circle cx="18" cy="5" r="2.4" stroke="currentColor" stroke-width="1.7"/>
+                                        <circle cx="6" cy="12" r="2.4" stroke="currentColor" stroke-width="1.7"/>
+                                        <circle cx="18" cy="19" r="2.4" stroke="currentColor" stroke-width="1.7"/>
+                                        <path d="M8 11l8-5M8 13l8 5" stroke="currentColor" stroke-width="1.7"/>
+                                    </svg>
+                                </span>
+                                <b>Share menu</b><small>Send this menu to someone</small>
+                            </button>
                         }
                         @if (!previewMode()) {
                             <a [routerLink]="['/m', menu()!.slug, 'print']"><span>▣</span><b>Print menu</b><small>Printable

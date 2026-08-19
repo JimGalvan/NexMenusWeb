@@ -13,7 +13,6 @@ import {
   cuisinesFrom,
   faqsFrom,
   highlightsFrom,
-  instagramHandleFrom,
   instagramUrlFrom,
   menuInitials,
   moneyLabel,
@@ -79,7 +78,6 @@ export class PublicMenuPageComponent implements OnInit {
   selectedPhoto = signal<PublicMenuItem | null>(null);
 
   readonly initials = computed(() => (this.menu() ? menuInitials(this.menu()!.name) : ''));
-  readonly instagramHandle = computed(() => instagramHandleFrom(this.menu()?.properties));
   readonly instagramUrl = computed(() => instagramUrlFrom(this.menu()?.properties));
   readonly contactMethod = computed(() => contactMethodFrom(this.menu()?.properties));
   readonly coverUrl = computed(() => coverUrlFrom(this.menu()?.properties));
