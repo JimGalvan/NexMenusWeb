@@ -13,6 +13,7 @@ import {
   cuisinesFrom,
   faqsFrom,
   highlightsFrom,
+  instagramHandleFrom,
   instagramUrlFrom,
   menuInitials,
   moneyLabel,
@@ -74,10 +75,11 @@ export class PublicMenuPageComponent implements OnInit {
   });
 
   activeCatId = signal<string>('');
-  infoOpen = signal(false);
+  openFaqIndex = signal(0);
   selectedPhoto = signal<PublicMenuItem | null>(null);
 
   readonly initials = computed(() => (this.menu() ? menuInitials(this.menu()!.name) : ''));
+  readonly instagramHandle = computed(() => instagramHandleFrom(this.menu()?.properties));
   readonly instagramUrl = computed(() => instagramUrlFrom(this.menu()?.properties));
   readonly contactMethod = computed(() => contactMethodFrom(this.menu()?.properties));
   readonly coverUrl = computed(() => coverUrlFrom(this.menu()?.properties));
@@ -206,6 +208,10 @@ export class PublicMenuPageComponent implements OnInit {
 
   closePhoto() {
     this.selectedPhoto.set(null);
+  }
+
+  toggleFaq(index: number) {
+    this.openFaqIndex.update(open => (open === index ? -1 : index));
   }
 }
 
