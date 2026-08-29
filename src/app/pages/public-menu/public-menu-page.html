@@ -191,7 +191,12 @@
                                     <img [src]="item.imageUrl" [alt]="item.name" loading="lazy" width="56" height="56"/>
                                 </button>
                             } @else {
-                                <span class="pm-item__photo" aria-hidden="true"></span>
+                                <span class="pm-item__photo pm-item__photo--empty" aria-hidden="true">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                        <path d="M7 3v7M4.5 3v4.5A2.5 2.5 0 0 0 7 10m2.5-7v4.5A2.5 2.5 0 0 1 7 10m0 0v11M16.5 3v18m0-18c2.1 1.2 3 3.1 3 5.5 0 2.3-1 3.8-3 4.5"
+                                              stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </span>
                             }
                             <div class="pm-item__body">
                                 <div>
