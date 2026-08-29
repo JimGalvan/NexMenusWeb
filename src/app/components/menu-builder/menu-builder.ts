@@ -19,7 +19,7 @@ type MenuLinks = { preview?: string; claim?: string };
 
 type ChatEntry = { kind: 'message'; role: 'user' | 'assistant'; text: string; links?: MenuLinks };
 type BuilderStep = 'business' | 'items' | 'preview';
-type Recovery = { message: string; retryMessage: string };
+type Recovery = { message: string; retryMessage: string; allowStartOver: boolean };
 
 @Component({
   selector: 'app-menu-builder',
@@ -168,7 +168,7 @@ export class MenuBuilderComponent implements OnInit {
     try {
       this.conversationId ||= await this.service.startConversation();
       this.saveSession();
-      await this.service.sendMessage(this.conversationId, message, event => this.receive(event));
+      await this.service.sendMessage(this.conversationId, message, event => this.receive(event, message));
     } catch (error) {
       // The server conversation store is in-memory; if our stored id expired,
       // transparently continue in a fresh conversation (links stay intact).
@@ -183,6 +183,7 @@ export class MenuBuilderComponent implements OnInit {
           ? 'Couldn’t send that message. Check your connection and try again.'
           : detail,
         retryMessage: message,
+        allowStartOver: true,
       };
     } finally {
       this.streaming = false;
@@ -191,7 +192,7 @@ export class MenuBuilderComponent implements OnInit {
     }
   }
 
-  private receive(event: MenuBuilderEvent): void {
+  private receive(event: MenuBuilderEvent, sentMessage: string): void {
     if (event.type === 'assistant') {
       this.entries.push({ kind: 'message', role: 'assistant', text: event.data.text, links: { ...this.menuLinks } });
     } else if (event.type === 'draft') {
@@ -208,7 +209,9 @@ export class MenuBuilderComponent implements OnInit {
       }
       this.saveSession();
     } else if (event.type === 'error') {
-      this.recovery = { message: event.data.message, retryMessage: '' };
+      // The agent is busy / hit a transient error — offer to resend the same
+      // message rather than a full reset (Start over stays available below).
+      this.recovery = { message: event.data.message, retryMessage: sentMessage, allowStartOver: false };
     }
     this.refresh();
     this.scrollToLatest();

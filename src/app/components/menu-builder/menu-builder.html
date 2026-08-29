@@ -47,7 +47,7 @@
             </div>
           </div>
         }
-        @if (recovery) {<div class="lp-chat__row lp-chat__row--assistant"><div class="lp-chat__recovery" role="alert"><p>{{ recovery.message }}</p><div class="lp-chat__recovery-actions">@if (recovery.retryMessage) {<button type="button" (click)="retry()" [disabled]="streaming">Retry message</button>}<button type="button" class="lp-chat__recovery-start" (click)="reset()" [disabled]="streaming">Start over</button></div></div></div>}
+        @if (recovery) {<div class="lp-chat__row lp-chat__row--assistant"><div class="lp-chat__recovery" role="alert"><p>{{ recovery.message }}</p><div class="lp-chat__recovery-actions">@if (recovery.retryMessage) {<button type="button" (click)="retry()" [disabled]="streaming">Try again</button>}@if (recovery.allowStartOver) {<button type="button" class="lp-chat__recovery-start" (click)="reset()" [disabled]="streaming">Start over</button>}</div></div></div>}
         @if (streaming) {<div class="lp-chat__row lp-chat__row--assistant"><div class="lp-chat__bubble lp-chat__bubble--assistant lp-chat__typing" aria-label="Building your menu"><span></span><span></span><span></span></div></div>}
       </div>
     }
