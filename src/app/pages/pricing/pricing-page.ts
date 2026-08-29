@@ -36,7 +36,7 @@ export class PricingPageComponent {
 
   readonly proFeatures = [
     'Everything in Free',
-    'Unlimited menus — one per location or service',
+    'Unlimited menus for your business — one per location or service',
     'No NexMenus badge on your public menu',
     'Clean, unbranded printable menu',
     'Choose your own menu link',
@@ -47,7 +47,7 @@ export class PricingPageComponent {
     inject(SeoService).setPage({
       title: 'Pricing | NexMenus',
       description:
-        'NexMenus pricing: a free plan with one menu, QR code and printable menu, and Pro at $9/month for unlimited menus, your own link and no NexMenus badge.',
+        'NexMenus pricing: a free plan with one menu, QR code and printable menu, and Pro at $9/month for unlimited menus for one business, your own link and no NexMenus badge.',
       canonicalPath: '/pricing',
     });
   }
