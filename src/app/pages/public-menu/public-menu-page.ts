@@ -1,4 +1,16 @@
-import { Component, OnInit, computed, effect, inject, input, signal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  ElementRef,
+  OnInit,
+  afterNextRender,
+  computed,
+  effect,
+  inject,
+  input,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
 import { AuthService } from '../../services/auth.service';
@@ -29,6 +41,17 @@ const CAT_GRADIENTS: Record<string, string> = {
   Plates: 'linear-gradient(135deg,#eedfcc,#dbc1a5)',
 };
 
+/** Nearest ancestor that scrolls, or null to mean the viewport. */
+function scrollParentOf(element: HTMLElement): HTMLElement | null {
+  for (let node = element.parentElement; node; node = node.parentElement) {
+    const overflowY = getComputedStyle(node).overflowY;
+    if (overflowY === 'auto' || overflowY === 'scroll') {
+      return node;
+    }
+  }
+  return null;
+}
+
 /** Sentinel category id for the uncategorized group's pill. */
 const UNCATEGORIZED = '__uncategorized__';
 
@@ -50,6 +73,7 @@ export class PublicMenuPageComponent implements OnInit {
   private menuService = inject(MenuService);
   private authService = inject(AuthService);
   private seo = inject(SeoService);
+  private destroyRef = inject(DestroyRef);
 
   /**
    * When set, this component becomes a pure renderer of the given menu (used
@@ -73,6 +97,14 @@ export class PublicMenuPageComponent implements OnInit {
     this.menu.set(provided);
     this.loading.set(false);
   });
+
+  /**
+   * The sticky bar carries the restaurant's name and order button, both of
+   * which the hero already shows at full size — so it stays out of the way
+   * until the hero has scrolled past and it is the only copy left.
+   */
+  readonly topbarPinned = signal(false);
+  private readonly heroEnd = viewChild<ElementRef<HTMLElement>>('heroEnd');
 
   activeCatId = signal<string>('');
   openFaqIndex = signal(0);
@@ -100,6 +132,38 @@ export class PublicMenuPageComponent implements OnInit {
 
   money(amount: string | number): string {
     return moneyLabel(amount, this.menu()?.currency ?? 'USD');
+  }
+
+  constructor() {
+    afterNextRender(() => this.watchHero());
+  }
+
+  /**
+   * Pins the bar once the sentinel below the hero actions scrolls off the top.
+   * Comparing against rootBounds rather than zero keeps it unpinned while the
+   * sentinel is merely below the fold, which is where every visitor starts.
+   */
+  private watchHero(): void {
+    const sentinel = this.heroEnd()?.nativeElement;
+    if (!sentinel || typeof IntersectionObserver === 'undefined') {
+      // Nothing to hide behind, or no observer: leave the bar up rather than
+      // stranding the only order button behind a measurement we cannot take.
+      this.topbarPinned.set(true);
+      return;
+    }
+    // This component also renders inside a scrolling pane — the generator's
+    // preview — where the page itself never moves. Observe against whatever
+    // actually scrolls this instance, or the viewport when nothing does.
+    const root = scrollParentOf(sentinel);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const limit = entry.rootBounds ? entry.rootBounds.top : 0;
+        this.topbarPinned.set(!entry.isIntersecting && entry.boundingClientRect.top < limit);
+      },
+      { root },
+    );
+    observer.observe(sentinel);
+    this.destroyRef.onDestroy(() => observer.disconnect());
   }
 
   ngOnInit() {

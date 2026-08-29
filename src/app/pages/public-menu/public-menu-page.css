@@ -7,12 +7,15 @@
 
 .pm-editor-link{position:fixed;top:66px;left:14px;z-index:50;padding:9px 12px;background:var(--ink);color:#fff!important;text-decoration:none;font-size:12px;font-weight:600;box-shadow:0 3px 10px rgba(32,30,29,.2)}
 
-.pm-topbar{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--paper) 94%,transparent);box-shadow:0 1px 2px rgba(45,43,43,.14);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.pm-topbar{position:sticky;top:0;z-index:40;visibility:hidden;transform:translateY(-100%);transition:transform .18s ease,visibility .18s ease;background:color-mix(in srgb,var(--paper) 94%,transparent);box-shadow:0 1px 2px rgba(45,43,43,.14);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.pm-topbar.is-pinned{visibility:visible;transform:none}
+@media(prefers-reduced-motion:reduce){.pm-topbar{transition:none}}
+/* Watched by the IntersectionObserver that pins the bar; never drawn. */
+.pm-hero-end{height:1px;margin-top:-1px}
 .pm-topbar__inner{display:flex;align-items:center;gap:10px;width:min(100%,1000px);height:54px;margin:auto;padding:0 20px}
 .pm-topbar__logo{display:grid;width:28px;height:28px;flex:0 0 auto;place-items:center;object-fit:cover;border-radius:2px;background:var(--surface);font-size:11px;font-weight:600;letter-spacing:.02em}
 .pm-topbar__identity{display:flex;min-width:0;flex:1;align-items:baseline;gap:10px}
 .pm-topbar__identity strong{overflow:hidden;font-size:17px;font-weight:600;letter-spacing:-.015em;text-overflow:ellipsis;white-space:nowrap}
-.pm-topbar__identity span{overflow:hidden;color:var(--muted);font-size:13px;text-overflow:ellipsis;white-space:nowrap}
 .pm-topbar__action{display:inline-flex;min-height:34px;flex:0 0 auto;align-items:center;justify-content:center;gap:7px;padding:7px 12px;border:0;border-radius:2px;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap}
 .pm-topbar__social{background:var(--surface);color:#aa0b56!important}.pm-topbar__order{background:var(--accent);color:#fff!important}
 
@@ -84,7 +87,7 @@ button.pm-item__photo{cursor:pointer}.pm-item__photo img{display:block;width:100
   .pm-lower{margin-top:34px;padding-top:26px}
 }
 @container(max-width:560px){
-  .pm-topbar__identity span,.pm-topbar__social span{display:none}
+  .pm-topbar__social span{display:none}
   .pm-topbar__social{width:34px;padding-inline:0}
   .pm-topbar__action{padding-inline:10px}
   .pm-editor-link{top:62px}

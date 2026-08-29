@@ -11,7 +11,7 @@
             <a class="pm-editor-link" [routerLink]="['/editor', editorMenuId]">← Back to editor</a>
         }
 
-        <header class="pm-topbar">
+        <header class="pm-topbar" [class.is-pinned]="topbarPinned()">
             <div class="pm-topbar__inner">
                 @if (menu()!.logoUrl) {
                     <img class="pm-topbar__logo" [src]="menu()!.logoUrl" [alt]="menu()!.name + ' logo'"/>
@@ -21,9 +21,6 @@
 
                 <div class="pm-topbar__identity">
                     <strong>{{ menu()!.name }}</strong>
-                    @if (menu()!.address) {
-                        <span>{{ menu()!.address }}</span>
-                    }
                 </div>
 
                 @if (instagramUrl(); as instagram) {
@@ -48,11 +45,10 @@
 
         <div class="pm-page">
             <nav class="pm-breadcrumb" aria-label="Breadcrumb">
-                <a routerLink="/">NexMenus</a><span>/</span>
+                <a routerLink="/">NexMenus</a>
                 @if (city(); as menuCity) {
-                    <span>{{ menuCity }}</span><span>/</span>
+                    <span>/</span><strong>{{ menuCity }}</strong>
                 }
-                <strong>{{ menu()!.name }}</strong>
             </nav>
 
             @if (coverUrl(); as cover) {
@@ -140,6 +136,8 @@
                     }
                 </div>
             }
+
+            <div #heroEnd class="pm-hero-end" aria-hidden="true"></div>
 
             @if (menu()!.operatingHours || menu()!.address || menu()!.phone || menu()!.email) {
                 <section class="pm-details" aria-label="Business details">
