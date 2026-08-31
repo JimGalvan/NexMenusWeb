@@ -1,0 +1,72 @@
+<div class="builder-page">
+  <header class="builder-page__head">
+    <div>
+      <p class="builder-page__eyebrow">AI menu builder</p>
+      <h1>Build a menu by chatting</h1>
+      <p>Create a new menu or choose one you already have, then describe the changes naturally.</p>
+    </div>
+  </header>
+
+  <section class="builder-target" aria-labelledby="builder-target-label">
+    <div>
+      <label id="builder-target-label" for="builder-target">Work on</label>
+      <select
+        id="builder-target"
+        [ngModel]="targetMenuId() ?? ''"
+        (ngModelChange)="selectTarget($event)">
+        <option value="">A new menu</option>
+        @for (menu of menus(); track menu.id) {
+          <option [value]="menu.id">{{ menu.name }}</option>
+        }
+      </select>
+    </div>
+    <p>
+      @if (targetMenu()) {
+        AI changes to <strong>{{ targetMenu()!.name }}</strong> take effect immediately.
+      } @else {
+        Your new menu stays private until you save it to your account.
+      }
+    </p>
+  </section>
+
+  <div class="builder-workspace">
+    <aside class="builder-history" aria-label="Recent AI chats">
+      <div class="builder-history__label">
+        <span>Recent chats</span>
+        <small>Last 20</small>
+      </div>
+
+      @if (historyLoading()) {
+        <p class="builder-history__empty">Loading history…</p>
+      } @else {
+        <div class="builder-history__list">
+          @for (conversation of conversations(); track conversation.id) {
+            <button
+              type="button"
+              [class.is-active]="selectedId() === conversation.id"
+              (click)="openConversation(conversation)">
+              <span class="builder-history__title">{{ conversation.title }}</span>
+              <span class="builder-history__meta">
+                {{ conversation.menuId && conversation.status === 'COMPLETED' ? 'Open menu' : conversation.menuId ? 'Editing menu' : conversation.readyToClaim ? 'Ready to save' : 'In progress' }}
+                · {{ updatedLabel(conversation.updatedAt) }}
+              </span>
+            </button>
+          } @empty {
+            <p class="builder-history__empty">Your AI chats will appear here.</p>
+          }
+        </div>
+      }
+    </aside>
+
+    <main class="builder-chat">
+      <app-menu-builder
+        [embedded]="true"
+        [accountMode]="true"
+        [accountConversationId]="selectedId()"
+        [accountTargetMenuId]="targetMenuId()"
+        [accountTargetMenuName]="targetMenu()?.name ?? null"
+        (accountActivity)="reloadHistory()"
+        (menuCreated)="onMenuCreated($event)" />
+    </main>
+  </div>
+</div>

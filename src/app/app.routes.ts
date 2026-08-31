@@ -108,6 +108,12 @@ export const routes: Routes = [
     children: [
       { path: '',        redirectTo: 'menus', pathMatch: 'full' },
       { path: 'menus',   component: MenusPageComponent },
+      {
+        path: 'builder',
+        loadComponent: () =>
+          import('./pages/account-menu-builder/account-menu-builder-page')
+            .then(m => m.AccountMenuBuilderPageComponent),
+      },
       { path: 'share',   component: SharePageComponent },
       { path: 'account', component: AccountPageComponent },
     ],
