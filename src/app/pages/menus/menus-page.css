@@ -164,6 +164,12 @@
 .create h2 { font-weight: 800; font-size: 18px; letter-spacing: -0.01em; }
 .create p { font-size: 13px; color: var(--muted); margin-top: 4px; line-height: 1.45; }
 .create .nx-input { margin-top: 16px; }
+.create__ai { display: flex; align-items: center; gap: 11px; margin-top: 16px; padding: 13px; border-radius: 13px; color: #fff; background: var(--brand); box-shadow: var(--shadow-brand); }
+.create__ai-mark { display: grid; place-items: center; width: 34px; height: 34px; flex: 0 0 auto; border-radius: 10px; background: rgba(255,255,255,.12); }
+.create__ai > span:nth-child(2) { display: flex; min-width: 0; flex: 1; flex-direction: column; }
+.create__ai strong { font-size: 13.5px; }.create__ai small { margin-top: 1px; color: rgba(255,255,255,.62); font-size: 11px; }
+.create__or { display: flex; align-items: center; gap: 10px; margin: 15px 0 0; color: var(--faint); font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+.create__or::before,.create__or::after { content: ''; height: 1px; flex: 1; background: var(--line); }
 .create__search {
   display: flex;
   align-items: center;

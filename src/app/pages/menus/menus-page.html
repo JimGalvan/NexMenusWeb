@@ -87,6 +87,12 @@
     <div class="create">
       <h2>Create new menu</h2>
       <p>Give it a name and pick a market — you can change everything else later.</p>
+      <a class="create__ai" routerLink="/app/builder" (click)="createOpen.set(false)">
+        <span class="create__ai-mark" aria-hidden="true">✦</span>
+        <span><strong>Create with AI</strong><small>Describe your menu in a chat</small></span>
+        <span aria-hidden="true">→</span>
+      </a>
+      <div class="create__or"><span>or start blank</span></div>
       <input class="nx-input" placeholder="e.g. Dinner, Weekend Brunch, Drinks"
              [ngModel]="newMenuName()" (ngModelChange)="newMenuName.set($event)"
              (keyup.enter)="confirmCreate()" autofocus />
