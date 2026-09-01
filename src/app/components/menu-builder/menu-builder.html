@@ -31,7 +31,7 @@
                 <div class="lp-chat__menu-actions" aria-label="Menu actions">
                   @if (entry.links?.preview) { <a [href]="entry.links?.preview" target="_blank" rel="noopener">View menu <span aria-hidden="true">↗</span></a> }
                   @if (!accountMode && entry.links?.claim) { <a [href]="entry.links?.claim">Claim menu <span aria-hidden="true">→</span></a> }
-                  @if (entry.links?.editor) { <a [href]="entry.links?.editor">Open editor <span aria-hidden="true">→</span></a> }
+                  @if (entry.links?.editor) { <a [routerLink]="entry.links?.editor">Open editor <span aria-hidden="true">→</span></a> }
                 </div>
               }
             </div>

@@ -14,6 +14,7 @@ import {
   inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { MenuBuilderEvent, MenuBuilderService } from '../../services/menu-builder.service';
 import { MenuBuilderSessionService } from '../../services/menu-builder-session.service';
@@ -26,7 +27,7 @@ type Recovery = { message: string; retryMessage: string; allowStartOver: boolean
 
 @Component({
   selector: 'app-menu-builder',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './menu-builder.html',
   styleUrl: './menu-builder.css',
 })
