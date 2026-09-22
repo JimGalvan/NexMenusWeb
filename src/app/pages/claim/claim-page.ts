@@ -5,6 +5,8 @@ import { Observable, catchError, of, switchMap } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { DraftService } from '../../services/draft.service';
 import { MenuBuilderSessionService } from '../../services/menu-builder-session.service';
+import { PlanService } from '../../services/plan.service';
+import { isMenuLimitError } from '../../core/plan-limit-error';
 import { SeoService } from '../../services/seo.service';
 import { DraftClaimStatus } from '../../models/draft.model';
 import { BrandLogoComponent } from '../../components/ui/brand-logo/brand-logo';
@@ -16,7 +18,8 @@ type ClaimState =
   | 'expired'
   | 'invalid'
   | 'claiming'
-  | 'unavailable';
+  | 'unavailable'
+  | 'limit';
 
 /**
  * Landing page for the one-time claim link handed out by ChatGPT. Shows the
@@ -37,6 +40,7 @@ export class ClaimPageComponent {
   private builderSession = inject(MenuBuilderSessionService);
   private seo = inject(SeoService);
   readonly auth = inject(AuthService);
+  readonly plans = inject(PlanService);
 
   private readonly token = this.route.snapshot.paramMap.get('token') ?? '';
   readonly state = signal<ClaimState>('loading');
@@ -128,6 +132,12 @@ export class ClaimPageComponent {
         if (code === 'DRAFT_EXPIRED') {
           this.builderSession.clearForClaimToken(this.token);
           this.state.set('expired');
+          return;
+        }
+        // A full plan is not a failure to retry: the claim rolled back, so the
+        // draft and this link both survive and work the moment there is room.
+        if (isMenuLimitError(error)) {
+          this.state.set('limit');
           return;
         }
         this.state.set('unclaimed');

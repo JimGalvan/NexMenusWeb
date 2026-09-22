@@ -60,6 +60,32 @@
         <a class="nx-btn nx-btn--primary auth__submit claim__cta" routerLink="/app">Go to my menus</a>
       }
 
+      @case ('limit') {
+        <header class="auth__head">
+          <h1>Your plan is full</h1>
+          <p>
+            Free includes {{ plans.freeMenuLimit === 1 ? 'one menu' : plans.freeMenuLimit + ' menus' }},
+            and yours is already in use. Nothing was lost — <strong>{{ displayName() }}</strong> is still
+            waiting, and this link works the moment you have room.
+          </p>
+        </header>
+
+        <p class="claim__hint">
+          Pro gives you unlimited menus for your business, removes the NexMenus badge, and lets you
+          choose your own menu link. {{ plans.proPriceLabel }} · we'll email you a payment link
+          {{ plans.upgradeResponseTime }}.
+        </p>
+
+        @if (plans.canUpgrade()) {
+          <a class="nx-btn nx-btn--primary auth__submit claim__cta" [href]="plans.upgradeHref()">
+            Upgrade to Pro
+          </a>
+        } @else {
+          <a class="nx-btn nx-btn--primary auth__submit claim__cta" routerLink="/pricing">See plans</a>
+        }
+        <a class="nx-btn auth__submit claim__cta claim__cta--secondary" routerLink="/app">Go to my menus</a>
+      }
+
       @case ('expired') {
         <header class="auth__head">
           <h1>This draft has expired</h1>

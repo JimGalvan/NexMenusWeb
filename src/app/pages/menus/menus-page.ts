@@ -5,6 +5,7 @@ import { MenuService } from '../../services/menu.service';
 import { Market, MarketOption, MenuSummary, menuInitials, relativeTime } from '../../models/menu.model';
 import { BottomSheetComponent } from '../../components/ui/bottom-sheet/bottom-sheet';
 import { PlanService } from '../../services/plan.service';
+import { isMenuLimitError } from '../../core/plan-limit-error';
 
 @Component({
   selector: 'app-menus-page',
@@ -177,12 +178,6 @@ export class MenusPageComponent {
     this.toast.set(msg);
     this.toastTimer = setTimeout(() => this.toast.set(''), 1900);
   }
-}
-
-/** The API's plan-limit refusal (403 MENU_LIMIT_REACHED), whatever else went wrong. */
-function isMenuLimitError(err: unknown): boolean {
-  const error = err as { status?: number; error?: { code?: string } };
-  return error?.status === 403 && error?.error?.code === 'MENU_LIMIT_REACHED';
 }
 
 /** Lowercase and strip accents so "espana" matches "España". */
