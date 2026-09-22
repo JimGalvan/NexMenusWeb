@@ -70,4 +70,15 @@ export class MenuBuilderSessionService {
       // ignore
     }
   }
+
+  /**
+   * Drops the session once its claim link is spent. Without this the resume
+   * banner keeps offering a dead "Claim menu" link for the rest of the 72h
+   * window. Scoped to the matching token so an unrelated draft survives.
+   */
+  clearForClaimToken(claimToken: string): void {
+    if (!claimToken) return;
+    const session = this.load();
+    if (session?.claimUrl?.includes(claimToken)) this.clear();
+  }
 }

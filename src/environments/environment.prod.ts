@@ -8,4 +8,5 @@ export const environment = {
   apiVersion: apiVersion1,
   apiVersionV2: apiVersion2,
   supportEmail: "",
+  upgradeUrl: "",
 };

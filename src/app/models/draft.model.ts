@@ -69,6 +69,7 @@ export interface DraftClaimStatus {
   businessName: string | null;
   menuName: string | null;
   expiresAt: string;
+  claimedMenuId?: string | null;
 }
 
 /** POST /api/v1/draft-claims/{token} */

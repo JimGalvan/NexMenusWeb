@@ -15,30 +15,64 @@
       "autoPort": false
     },
     {
+      "name": "nexmenus-api-drafts",
+      "runtimeExecutable": "C:/Users/jimmy/IdeaProjects/NexMenusAPI/gradlew.bat",
+      "runtimeArgs": [
+        "-p",
+        "C:/Users/jimmy/IdeaProjects/NexMenusAPI",
+        "quarkusDev",
+        "-Dquarkus.profile=qa",
+        "-Dquarkus.http.cors.origins=http://localhost:4200,http://localhost:4399",
+        "-Ddrafts.enabled=true",
+        "-Ddrafts.claim-enabled=true",
+        "-Ddrafts.preview-enabled=true",
+        "-Ddrafts.web-base-url=http://localhost:4399"
+      ],
+      "port": 8080,
+      "autoPort": false
+    },
+    {
       "name": "extract-designs",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["C:/Users/jimmy/AppData/Local/Temp/claude/C--Users-jimmy-WebstormProjects-NexMenusWeb/3932f372-3208-4971-b5c4-9f3fc58e717c/scratchpad/extract.js"],
+      "runtimeArgs": [
+        "C:/Users/jimmy/AppData/Local/Temp/claude/C--Users-jimmy-WebstormProjects-NexMenusWeb/3932f372-3208-4971-b5c4-9f3fc58e717c/scratchpad/extract.js"
+      ],
       "port": 4999,
       "autoPort": false
     },
     {
       "name": "nexmenus",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["start", "--", "--port", "4399"],
+      "runtimeArgs": [
+        "start",
+        "--",
+        "--port",
+        "4399"
+      ],
       "port": 4399,
       "autoPort": false
     },
     {
       "name": "nexmenus-alt2",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["start", "--", "--port", "4397"],
+      "runtimeArgs": [
+        "start",
+        "--",
+        "--port",
+        "4397"
+      ],
       "port": 4397,
       "autoPort": false
     },
     {
       "name": "nexmenus-alt",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["start", "--", "--port", "4398"],
+      "runtimeArgs": [
+        "start",
+        "--",
+        "--port",
+        "4398"
+      ],
       "port": 4398,
       "autoPort": false
     }
