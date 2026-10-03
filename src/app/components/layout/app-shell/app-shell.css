@@ -14,7 +14,9 @@
   flex: 0 0 auto;
   position: sticky;
   top: 0;
-  z-index: 20;
+  /* Above the tab bar: the report-issue sheet renders inside this header, so
+     the header's stacking level is the sheet's. */
+  z-index: 30;
   height: 56px;
   padding: 0 18px;
   background: var(--surface);
@@ -22,6 +24,11 @@
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid var(--line-soft);
+}
+.shell__top-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .shell__avatar {
   width: 38px;
@@ -90,6 +97,7 @@
     height: 100dvh;
     position: sticky;
     top: 0;
+    z-index: 30; /* holds the report-issue sheet; keep it above page content */
     flex: 0 0 auto;
     display: flex;
     flex-direction: column;
@@ -124,11 +132,15 @@
     color: var(--brand);
   }
 
+  .shell__side-foot {
+    margin-top: auto;
+    padding-bottom: 8px;
+  }
+
   .shell__user {
     display: flex;
     align-items: center;
     gap: 11px;
-    margin-top: auto;
     padding: 10px 8px;
     border-top: 1px solid var(--line-soft);
   }
