@@ -1,9 +1,7 @@
 import {
   Component,
-  DestroyRef,
   ElementRef,
   OnInit,
-  afterNextRender,
   computed,
   effect,
   inject,
@@ -11,6 +9,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MenuService } from '../../services/menu.service';
 import { AuthService } from '../../services/auth.service';
@@ -27,7 +26,6 @@ import {
   highlightsFrom,
   instagramHandleFrom,
   instagramUrlFrom,
-  menuInitials,
   moneyLabel,
 } from '../../models/menu.model';
 
@@ -41,17 +39,6 @@ const CAT_GRADIENTS: Record<string, string> = {
   Plates: 'linear-gradient(135deg,#eedfcc,#dbc1a5)',
 };
 
-/** Nearest ancestor that scrolls, or null to mean the viewport. */
-function scrollParentOf(element: HTMLElement): HTMLElement | null {
-  for (let node = element.parentElement; node; node = node.parentElement) {
-    const overflowY = getComputedStyle(node).overflowY;
-    if (overflowY === 'auto' || overflowY === 'scroll') {
-      return node;
-    }
-  }
-  return null;
-}
-
 /** Sentinel category id for the uncategorized group's pill. */
 const UNCATEGORIZED = '__uncategorized__';
 
@@ -63,9 +50,13 @@ interface Pill {
 /** Diner-facing public menu (photo-forward direction A). Themeable per restaurant. */
 @Component({
   selector: 'app-public-menu-page',
-  imports: [RouterLink],
+  imports: [RouterLink, NgTemplateOutlet],
   templateUrl: './public-menu-page.html',
   styleUrl: './public-menu-page.css',
+  host: {
+    '(document:click)': 'moreOpen.set(false)',
+    '(document:keydown.escape)': 'moreOpen.set(false)',
+  },
 })
 export class PublicMenuPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
@@ -73,7 +64,6 @@ export class PublicMenuPageComponent implements OnInit {
   private menuService = inject(MenuService);
   private authService = inject(AuthService);
   private seo = inject(SeoService);
-  private destroyRef = inject(DestroyRef);
 
   /**
    * When set, this component becomes a pure renderer of the given menu (used
@@ -98,19 +88,15 @@ export class PublicMenuPageComponent implements OnInit {
     this.loading.set(false);
   });
 
-  /**
-   * The sticky bar carries the restaurant's name and order button, both of
-   * which the hero already shows at full size — so it stays out of the way
-   * until the hero has scrolled past and it is the only copy left.
-   */
-  readonly topbarPinned = signal(false);
-  private readonly heroEnd = viewChild<ElementRef<HTMLElement>>('heroEnd');
+  private readonly sectionNav = viewChild<ElementRef<HTMLElement>>('sectionNav');
+  private readonly itemList = viewChild<ElementRef<HTMLElement>>('itemList');
 
   activeCatId = signal<string>('');
   openFaqIndex = signal(0);
   selectedPhoto = signal<PublicMenuItem | null>(null);
+  /** Phone layout's overflow menu (email, share, print). */
+  readonly moreOpen = signal(false);
 
-  readonly initials = computed(() => (this.menu() ? menuInitials(this.menu()!.name) : ''));
   readonly instagramHandle = computed(() => instagramHandleFrom(this.menu()?.properties));
   readonly instagramUrl = computed(() => instagramUrlFrom(this.menu()?.properties));
   readonly contactMethod = computed(() => contactMethodFrom(this.menu()?.properties));
@@ -120,6 +106,16 @@ export class PublicMenuPageComponent implements OnInit {
   readonly highlights = computed(() => highlightsFrom(this.menu()?.properties));
   readonly faqs = computed(() => faqsFrom(this.menu()?.properties));
   readonly city = computed(() => extractCity(this.menu()?.address ?? null));
+  /**
+   * Header location text. A full street address is too long for the info row,
+   * so it shrinks to the city; a short one ("Encinitas, CA") is already the
+   * right size and its second part is a region, not a city.
+   */
+  readonly locationLabel = computed(() => {
+    const address = this.menu()?.address?.trim();
+    if (!address) return null;
+    return address.split(',').filter(part => part.trim()).length > 2 ? this.city() ?? address : address;
+  });
   readonly directionsHref = computed(() => {
     const address = this.menu()?.address;
     return address ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}` : null;
@@ -129,41 +125,22 @@ export class PublicMenuPageComponent implements OnInit {
     if (!phone) return null;
     return (this.contactMethod() === 'call' ? 'tel:' : 'sms:') + phone;
   });
+  /** The button only says "Order"; this tells screen readers how. */
+  readonly orderLabel = computed(() => {
+    const phone = this.menu()?.phone ?? '';
+    return this.contactMethod() === 'call' ? `Order: call ${phone}` : `Order: text ${phone}`;
+  });
+  /** Hours are free text, often multi-line; the header shows them on one line. */
+  readonly hoursSummary = computed(() =>
+    (this.menu()?.operatingHours ?? '')
+      .split('\n')
+      .map(line => line.trim())
+      .filter(Boolean)
+      .join(' · '),
+  );
 
   money(amount: string | number): string {
     return moneyLabel(amount, this.menu()?.currency ?? 'USD');
-  }
-
-  constructor() {
-    afterNextRender(() => this.watchHero());
-  }
-
-  /**
-   * Pins the bar once the sentinel below the hero actions scrolls off the top.
-   * Comparing against rootBounds rather than zero keeps it unpinned while the
-   * sentinel is merely below the fold, which is where every visitor starts.
-   */
-  private watchHero(): void {
-    const sentinel = this.heroEnd()?.nativeElement;
-    if (!sentinel || typeof IntersectionObserver === 'undefined') {
-      // Nothing to hide behind, or no observer: leave the bar up rather than
-      // stranding the only order button behind a measurement we cannot take.
-      this.topbarPinned.set(true);
-      return;
-    }
-    // This component also renders inside a scrolling pane — the generator's
-    // preview — where the page itself never moves. Observe against whatever
-    // actually scrolls this instance, or the viewport when nothing does.
-    const root = scrollParentOf(sentinel);
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        const limit = entry.rootBounds ? entry.rootBounds.top : 0;
-        this.topbarPinned.set(!entry.isIntersecting && entry.boundingClientRect.top < limit);
-      },
-      { root },
-    );
-    observer.observe(sentinel);
-    this.destroyRef.onDestroy(() => observer.disconnect());
   }
 
   ngOnInit() {
@@ -237,12 +214,27 @@ export class PublicMenuPageComponent implements OnInit {
     return menu.items.filter(i => i.categoryId === id);
   });
 
-  itemCountFor(categoryId: string): number {
-    const menu = this.menu();
-    if (!menu) return 0;
-    return categoryId === UNCATEGORIZED
-      ? menu.uncategorizedItems.length
-      : menu.items.filter(item => item.categoryId === categoryId).length;
+  /**
+   * Swaps the list to another category. The section nav is sticky, so a
+   * diner can switch from far down a long list; bring them back to the top
+   * of the new one instead of leaving them past its end.
+   */
+  selectCategory(id: string) {
+    this.activeCatId.set(id);
+    const nav = this.sectionNav()?.nativeElement;
+    const list = this.itemList()?.nativeElement;
+    // Only when the list has scrolled up under the stuck nav. Measuring against
+    // the nav rather than the viewport also works inside the generator's
+    // scrolling preview pane, where the page itself never moves.
+    if (nav && list && list.getBoundingClientRect().top < nav.getBoundingClientRect().bottom) {
+      list.scrollIntoView({ block: 'start' });
+    }
+  }
+
+  toggleMore(event: Event) {
+    // Keep this click from reaching the document listener that closes the menu.
+    event.stopPropagation();
+    this.moreOpen.update(open => !open);
   }
 
   gradientFor(cat: string): string {

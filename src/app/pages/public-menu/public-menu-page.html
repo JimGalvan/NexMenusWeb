@@ -6,138 +6,210 @@
         <a routerLink="/" class="nx-btn nx-btn--primary">Go to NexMenus</a>
     </div>
 } @else {
-    <main class="pm" [class.has-editor-link]="ownerMenuId()" [style.--accent]="accent()">
+    <main class="pm" [style.--accent]="accent()">
         @if (ownerMenuId(); as editorMenuId) {
             <a class="pm-editor-link" [routerLink]="['/editor', editorMenuId]">← Back to editor</a>
         }
 
-        <header class="pm-topbar" [class.is-pinned]="topbarPinned()">
-            <div class="pm-topbar__inner">
-                @if (menu()!.logoUrl) {
-                    <img class="pm-topbar__logo" [src]="menu()!.logoUrl" [alt]="menu()!.name + ' logo'"/>
-                } @else {
-                    <span class="pm-topbar__logo pm-topbar__logo--fallback">{{ initials() }}</span>
-                }
+        @if (coverUrl(); as cover) {
+            <img class="pm-cover" [src]="cover" [alt]="menu()!.name + ' cover'"/>
+        }
 
-                <div class="pm-topbar__identity">
-                    <strong>{{ menu()!.name }}</strong>
+        <header class="pm-head">
+            <div class="pm-head__top">
+                <div class="pm-head__identity">
+                    <h1>{{ menu()!.name }}</h1>
+                    @if (menu()!.description) {
+                        <p class="pm-tagline"
+                           [class.is-placeholder]="previewMode() && menu()!.description === 'No menu description yet'">
+                            {{ menu()!.description }}
+                        </p>
+                    }
                 </div>
 
-                @if (instagramUrl(); as instagram) {
-                    <a class="pm-topbar__action pm-topbar__social" [href]="instagram" target="_blank"
-                       rel="noopener noreferrer" [attr.aria-label]="'Open ' + menu()!.name + ' on Instagram'">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                            <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.7"/>
-                            <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.7"/>
-                            <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
-                        </svg>
-                        <span>&#64;{{ instagramHandle() }}</span>
-                    </a>
-                }
+                <!-- Phone layout: the icons ride next to the name; email, share and
+                     print fold into the overflow menu. -->
+                <div class="pm-head__compact-actions">
+                    @if (instagramUrl(); as instagram) {
+                        <a class="pm-icon-btn pm-icon-btn--instagram" [href]="instagram" target="_blank"
+                           rel="noopener noreferrer" [attr.aria-label]="'Open ' + menu()!.name + ' on Instagram'">
+                            <svg class="pm-ico" viewBox="0 0 24 24" aria-hidden="true">
+                                <rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/>
+                            </svg>
+                        </a>
+                    }
+                    <div class="pm-more">
+                        <button type="button" class="pm-icon-btn" (click)="toggleMore($event)"
+                                [attr.aria-expanded]="moreOpen()" aria-haspopup="menu"
+                                [attr.aria-label]="menu()!.email ? 'More: email, share' : 'More: share'">
+                            <svg class="pm-ico" viewBox="0 0 24 24" aria-hidden="true">
+                                <circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/>
+                            </svg>
+                        </button>
+                        @if (moreOpen()) {
+                            <div class="pm-more__menu" role="menu" (click)="$event.stopPropagation()">
+                                @if (menu()!.email) {
+                                    <a role="menuitem" [href]="'mailto:' + menu()!.email" (click)="moreOpen.set(false)">
+                                        <svg class="pm-ico" viewBox="0 0 24 24" aria-hidden="true">
+                                            <rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>
+                                        </svg>
+                                        Email
+                                    </a>
+                                }
+                                <button type="button" role="menuitem" (click)="share(); moreOpen.set(false)">
+                                    <svg class="pm-ico" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M12 3v12M7 8l5-5 5 5M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/>
+                                    </svg>
+                                    Share
+                                </button>
+                                @if (!previewMode()) {
+                                    <a role="menuitem" [routerLink]="['/m', menu()!.slug, 'print']">
+                                        <svg class="pm-ico" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M7 8V3h10v5M7 15h10v6H7v-6Z"/><rect x="4" y="8" width="16" height="7" rx="1.5"/>
+                                        </svg>
+                                        Print menu
+                                    </a>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
 
                 @if (phoneHref(); as href) {
-                    <a class="pm-topbar__action pm-topbar__order" [href]="href">
-                        {{ contactMethod() === 'call' ? 'Call to Order' : 'Text to Order' }}
+                    <a class="pm-order pm-order--head" [href]="href" [attr.aria-label]="orderLabel()">
+                        <ng-container *ngTemplateOutlet="orderIcon"/>
+                        <span class="pm-order__stack">
+                            <span class="pm-order__label">Order</span>
+                            <span class="pm-order__phone">{{ menu()!.phone }}</span>
+                        </span>
                     </a>
                 }
             </div>
-        </header>
 
-        <div class="pm-page">
-            <nav class="pm-breadcrumb" aria-label="Breadcrumb">
-                <a routerLink="/">NexMenus</a>
-                @if (city(); as menuCity) {
-                    <span>/</span><strong>{{ menuCity }}</strong>
-                }
-            </nav>
-
-            @if (coverUrl(); as cover) {
-                <figure class="pm-hero">
-                    <img [src]="cover" [alt]="menu()!.name + ' cover'"/>
-                </figure>
-            }
-
-            <header class="pm-identity" [class.pm-identity--no-cover]="!coverUrl()">
-                <h1>{{ menu()!.name }}</h1>
-                @if (menu()!.description) {
-                    <p class="pm-tagline"
-                       [class.is-placeholder]="previewMode() && menu()!.description === 'No menu description yet'">
-                        {{ menu()!.description }}
-                    </p>
-                }
-
-                @if (cuisines().length || highlights().length) {
-                    <div class="pm-tags" aria-label="Restaurant details">
-                        @for (cuisine of cuisines(); track cuisine) {
-                            <span class="pm-tag pm-tag--neutral"
-                                  [class.is-placeholder]="previewMode() && cuisine === 'no cuisine yet'">{{ cuisine }}</span>
-                        }
-                        @for (highlight of highlights(); track highlight) {
-                            <span class="pm-tag pm-tag--accent"
-                                  [class.is-placeholder]="previewMode() && highlight === 'no highlights yet'">{{ highlight }}</span>
-                        }
-                    </div>
-                }
-            </header>
-
-            @if (phoneHref() || instagramUrl() || directionsHref() || !previewMode()) {
-                <div class="pm-actions" aria-label="Restaurant actions">
-                    @if (phoneHref(); as href) {
-                        <a class="pm-action pm-action--primary" [href]="href">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                <path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.6 9.6 0 0 1-2.8-.4L4 21l1.6-4.4A8.2 8.2 0 0 1 3.6 11.5C3.6 6.9 7.6 3.2 12.3 3.2S21 6.9 21 11.5Z"
-                                      stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span>{{ contactMethod() === 'call' ? 'Call to Order' : 'Text to Order' }}</span>
-                        </a>
-                    }
-
-                    @if (instagramUrl(); as instagram) {
-                        <a class="pm-action pm-action--instagram" [href]="instagram" target="_blank"
-                           rel="noopener noreferrer">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.7"/>
-                                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.7"/>
-                                <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
-                            </svg>
-                            <span>Instagram</span>
-                        </a>
-                    }
-
-                    @if (directionsHref(); as directions) {
-                        <a class="pm-action pm-action--secondary" [href]="directions" target="_blank"
-                           rel="noopener noreferrer">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                <path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11Z" stroke="currentColor"
-                                      stroke-width="1.8"/>
-                                <circle cx="12" cy="10" r="2.6" stroke="currentColor" stroke-width="1.8"/>
-                            </svg>
-                            <span>Directions</span>
-                        </a>
-                    }
-
-                    <button class="pm-action pm-action--secondary" type="button" (click)="share()">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                            <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M12 15V3M8 7l4-4 4 4"
-                                  stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <div class="pm-info" aria-label="Restaurant details">
+                @if (hoursSummary(); as hours) {
+                    <span class="pm-info__item">
+                        <svg class="pm-ico" viewBox="0 0 24 24" aria-hidden="true">
+                            <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
                         </svg>
-                        <span>Share</span>
-                    </button>
+                        <span>{{ hours }}</span>
+                    </span>
+                }
+                @if (directionsHref(); as directions) {
+                    <a class="pm-info__item pm-info__link" [href]="directions" target="_blank" rel="noopener noreferrer"
+                       [attr.aria-label]="'Directions to ' + menu()!.address">
+                        <svg class="pm-ico" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>
+                        </svg>
+                        <span>{{ locationLabel() }}</span>
+                    </a>
+                }
+                @if (highlights().length) {
+                    <span class="pm-info__item"
+                          [class.is-placeholder]="previewMode() && highlights()[0] === 'no highlights yet'">
+                        <svg class="pm-ico" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M5 8h14l-1 12H6L5 8zM9 8V6a3 3 0 0 1 6 0v2"/>
+                        </svg>
+                        <span>{{ highlights().join(' · ') }}</span>
+                    </span>
+                }
+                @if (cuisines().length) {
+                    <span class="pm-info__item pm-info__item--cuisine"
+                          [class.is-placeholder]="previewMode() && cuisines()[0] === 'no cuisine yet'">
+                        <svg class="pm-ico" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M7 3v7M4.5 3v4.5A2.5 2.5 0 0 0 7 10m2.5-7v4.5A2.5 2.5 0 0 1 7 10m0 0v11M16.5 3v18m0-18c2.1 1.2 3 3.1 3 5.5 0 2.3-1 3.8-3 4.5"/>
+                        </svg>
+                        <span>{{ cuisines().join(' · ') }}</span>
+                    </span>
+                }
 
-                    @if (!previewMode()) {
-                        <a class="pm-action pm-action--secondary" [routerLink]="['/m', menu()!.slug, 'print']">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                <path d="M7 8V3h10v5M7 15h10v6H7v-6Z" stroke="currentColor" stroke-width="1.8"
-                                      stroke-linejoin="round"/>
-                                <rect x="4" y="8" width="16" height="7" rx="1.5" stroke="currentColor" stroke-width="1.8"/>
+                <div class="pm-info__actions">
+                    @if (instagramUrl(); as instagram) {
+                        <a class="pm-social" [href]="instagram" target="_blank" rel="noopener noreferrer"
+                           [attr.aria-label]="'Open ' + menu()!.name + ' on Instagram'">
+                            <svg class="pm-ico" viewBox="0 0 24 24" aria-hidden="true">
+                                <rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/>
                             </svg>
-                            <span>Print menu</span>
+                            Instagram
+                        </a>
+                    }
+                    @if (menu()!.email) {
+                        <a class="pm-icon-btn" [href]="'mailto:' + menu()!.email" aria-label="Email">
+                            <svg class="pm-ico" viewBox="0 0 24 24" aria-hidden="true">
+                                <rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>
+                            </svg>
+                        </a>
+                    }
+                    <button type="button" class="pm-icon-btn" (click)="share()" aria-label="Share">
+                        <svg class="pm-ico" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 3v12M7 8l5-5 5 5M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/>
+                        </svg>
+                    </button>
+                    @if (!previewMode()) {
+                        <a class="pm-icon-btn" [routerLink]="['/m', menu()!.slug, 'print']" aria-label="Print menu">
+                            <svg class="pm-ico" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M7 8V3h10v5M7 15h10v6H7v-6Z"/><rect x="4" y="8" width="16" height="7" rx="1.5"/>
+                            </svg>
                         </a>
                     }
                 </div>
-            }
+            </div>
+        </header>
 
-            <div #heroEnd class="pm-hero-end" aria-hidden="true"></div>
+        @if (pills().length) {
+            <nav #sectionNav class="pm-nav" aria-label="Menu sections">
+                <div class="pm-nav__inner scrollarea" role="tablist">
+                    @for (pill of pills(); track pill.id) {
+                        <button type="button" role="tab" [attr.aria-selected]="currentCatId() === pill.id"
+                                [class.is-active]="currentCatId() === pill.id"
+                                (click)="selectCategory(pill.id)">
+                            {{ pill.name }}
+                        </button>
+                    }
+                </div>
+            </nav>
+        }
+
+        <div class="pm-page">
+            <section #itemList class="pm-items" aria-label="Menu">
+                @for (item of items(); track item.id) {
+                    <article class="pm-item" [class.is-sold]="item.soldOut">
+                        @if (item.imageUrl) {
+                            <button type="button" class="pm-item__photo" (click)="openPhoto(item)"
+                                    [attr.aria-label]="'Open photo of ' + item.name">
+                                <img [src]="item.imageUrl" [alt]="item.name" loading="lazy" width="64" height="64"/>
+                            </button>
+                        }
+                        <div class="pm-item__body">
+                            <h3>{{ item.name }}</h3>
+                            @if (item.description) {
+                                <p>{{ item.description }}</p>
+                            }
+                            @if (item.soldOut) {
+                                <small>Sold out</small>
+                            }
+                        </div>
+                        @if (+item.priceAmount > 0) {
+                            <span class="pm-item__price">{{ money(item.priceAmount) }}</span>
+                        }
+                    </article>
+                } @empty {
+                    @if (previewMode()) {
+                        <div class="pm-draft-empty">
+                            <span class="pm-draft-empty__icon" aria-hidden="true">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                                    <path d="M7 3v7M4.5 3v4.5A2.5 2.5 0 0 0 7 10m2.5-7v4.5A2.5 2.5 0 0 1 7 10m0 0v11M16.5 3v18m0-18c2.1 1.2 3 3.1 3 5.5 0 2.3-1 3.8-3 4.5"
+                                          stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                            <strong>No items yet</strong>
+                            <p>Tell the AI builder what to add—dish names and prices are enough to start.</p>
+                        </div>
+                    } @else {
+                        <p class="pm-items__empty">No items yet</p>
+                    }
+                }
+            </section>
 
             @if (menu()!.operatingHours || menu()!.address || menu()!.phone || menu()!.email) {
                 <section class="pm-details" aria-label="Business details">
@@ -167,70 +239,6 @@
                     }
                 </section>
             }
-
-            <section class="pm-menu" aria-labelledby="menu-title">
-                <div class="pm-menu__head">
-                    <h2 id="menu-title">Menu</h2>
-                    <div class="pm-tabs scrollarea" role="tablist" aria-label="Menu categories">
-                        @for (pill of pills(); track pill.id) {
-                            <button type="button" role="tab" [attr.aria-selected]="currentCatId() === pill.id"
-                                    [class.is-active]="currentCatId() === pill.id"
-                                    (click)="activeCatId.set(pill.id)">
-                                {{ pill.name }} ({{ itemCountFor(pill.id) }})
-                            </button>
-                        }
-                    </div>
-                </div>
-
-                <div class="pm-items">
-                    @for (item of items(); track item.id) {
-                        <article class="pm-item" [class.is-sold]="item.soldOut">
-                            @if (item.imageUrl) {
-                                <button type="button" class="pm-item__photo has-image" (click)="openPhoto(item)"
-                                        [attr.aria-label]="'Open photo of ' + item.name">
-                                    <img [src]="item.imageUrl" [alt]="item.name" loading="lazy" width="56" height="56"/>
-                                </button>
-                            } @else {
-                                <span class="pm-item__photo pm-item__photo--empty" aria-hidden="true">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                        <path d="M7 3v7M4.5 3v4.5A2.5 2.5 0 0 0 7 10m2.5-7v4.5A2.5 2.5 0 0 1 7 10m0 0v11M16.5 3v18m0-18c2.1 1.2 3 3.1 3 5.5 0 2.3-1 3.8-3 4.5"
-                                              stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                </span>
-                            }
-                            <div class="pm-item__body">
-                                <div>
-                                    <h3>{{ item.name }}</h3>
-                                    @if (+item.priceAmount > 0) {
-                                        <strong>{{ money(item.priceAmount) }}</strong>
-                                    }
-                                </div>
-                                @if (item.description) {
-                                    <p>{{ item.description }}</p>
-                                }
-                                @if (item.soldOut) {
-                                    <small>Sold out</small>
-                                }
-                            </div>
-                        </article>
-                    } @empty {
-                        @if (previewMode()) {
-                            <div class="pm-draft-empty">
-                                <span class="pm-draft-empty__icon" aria-hidden="true">
-                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                                        <path d="M7 3v7M4.5 3v4.5A2.5 2.5 0 0 0 7 10m2.5-7v4.5A2.5 2.5 0 0 1 7 10m0 0v11M16.5 3v18m0-18c2.1 1.2 3 3.1 3 5.5 0 2.3-1 3.8-3 4.5"
-                                              stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                </span>
-                                <strong>No items yet</strong>
-                                <p>Tell the AI builder what to add—dish names and prices are enough to start.</p>
-                            </div>
-                        } @else {
-                            <p class="pm-items__empty">No items yet</p>
-                        }
-                    }
-                </div>
-            </section>
 
             @if (about() || faqs().length) {
                 <section class="pm-lower">
@@ -286,7 +294,30 @@
                 }
             </footer>
         </div>
+
+        <!-- Phone layout only: the order button docks to the bottom of the screen. -->
+        @if (phoneHref(); as href) {
+            <div class="pm-order-bar">
+                <a class="pm-order" [href]="href" [attr.aria-label]="orderLabel()">
+                    <ng-container *ngTemplateOutlet="orderIcon"/>
+                    <span class="pm-order__label">Order</span>
+                    <span class="pm-order__phone">{{ menu()!.phone }}</span>
+                </a>
+            </div>
+        }
     </main>
+
+    <ng-template #orderIcon>
+        @if (contactMethod() === 'call') {
+            <svg class="pm-ico" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/>
+            </svg>
+        } @else {
+            <svg class="pm-ico" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>
+            </svg>
+        }
+    </ng-template>
 
     @if (selectedPhoto(); as item) {
         <div class="pm-lightbox" (click)="closePhoto()" role="dialog" aria-modal="true"
