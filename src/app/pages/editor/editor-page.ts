@@ -48,6 +48,7 @@ import {
 } from '../../models/menu.model';
 import { BottomSheetComponent } from '../../components/ui/bottom-sheet/bottom-sheet';
 import { ImageCropperComponent } from '../../components/ui/image-cropper/image-cropper';
+import { ReportIssueButtonComponent } from '../../components/ui/report-issue-button/report-issue-button';
 
 type Status = 'available' | 'sold' | 'hidden';
 type Screen = 'overview' | 'details' | 'managecats' | 'edit';
@@ -263,7 +264,7 @@ export class FilePondPickDirective implements AfterViewInit, OnDestroy {
  */
 @Component({
   selector: 'app-editor-page',
-  imports: [FormsModule, RouterLink, BottomSheetComponent, TimePickerDirective, FilePondPickDirective, SortableDirective, ImageCropperComponent],
+  imports: [FormsModule, RouterLink, BottomSheetComponent, TimePickerDirective, FilePondPickDirective, SortableDirective, ImageCropperComponent, ReportIssueButtonComponent],
   templateUrl: './editor-page.html',
   styleUrl: './editor-page.css',
 })

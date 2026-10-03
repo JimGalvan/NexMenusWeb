@@ -1,0 +1,31 @@
+@if (supportEmail) {
+  <button type="button" class="ri-trigger" [class.ri-trigger--nav]="variant() === 'nav'" (click)="show()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M5 21V4.5h10.5l-1.5 3.5 1.5 3.5H5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span>Report an issue</span>
+  </button>
+
+  @if (open()) {
+    <app-bottom-sheet (dismiss)="open.set(false)">
+      <div class="ri-sheet" role="dialog" aria-labelledby="ri-title">
+        <h2 id="ri-title" class="ri-sheet__title">Report an issue</h2>
+        <p class="ri-sheet__lead">
+          Something broken or not working as expected? Email us and we'll reply there.
+          The page you're on and your account are already filled in.
+        </p>
+
+        <a class="nx-btn nx-btn--primary" [href]="href()" (click)="open.set(false)">Write the email</a>
+        <button type="button" class="nx-btn nx-btn--ghost" (click)="open.set(false)">Cancel</button>
+
+        <p class="ri-sheet__foot">
+          Opens your email app with a message to <strong>{{ supportEmail }}</strong>.
+          No email app?
+          <button type="button" class="ri-sheet__copy" (click)="copyAddress()">
+            {{ copied() ? 'Address copied' : 'Copy the address' }}
+          </button>
+        </p>
+      </div>
+    </app-bottom-sheet>
+  }
+}

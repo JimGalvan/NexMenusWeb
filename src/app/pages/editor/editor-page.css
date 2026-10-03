@@ -719,6 +719,7 @@
     height: 100dvh;
     position: sticky;
     top: 0;
+    z-index: 30; /* holds the report-issue sheet; keep it above the editor */
     flex: 0 0 auto;
     display: flex;
     flex-direction: column;
@@ -789,6 +790,8 @@
     flex: 0 0 auto;
     margin-top: 6px;
   }
+
+  .ed-desktop__foot { margin-top: auto; }
 
   .ed {
     width: 760px;
