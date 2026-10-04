@@ -46,13 +46,13 @@ import {
   moneyLabel,
   slugify,
 } from '../../models/menu.model';
+import { DEFAULT_HOURS, HoursRow, cloneHours, formatOperatingHours, groupHours, parseOperatingHours } from '../../models/hours.model';
 import { BottomSheetComponent } from '../../components/ui/bottom-sheet/bottom-sheet';
 import { ImageCropperComponent } from '../../components/ui/image-cropper/image-cropper';
 import { ReportIssueButtonComponent } from '../../components/ui/report-issue-button/report-issue-button';
 
 type Status = 'available' | 'sold' | 'hidden';
 type Screen = 'overview' | 'details' | 'managecats' | 'edit';
-type DayKey = 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun';
 type HoursTimeField = 'openTime' | 'closeTime';
 
 interface EditorItem {
@@ -65,15 +65,6 @@ interface EditorItem {
   photoUrl: string;
   /** A freshly picked file, uploaded after the item is saved. */
   photoFile?: File;
-}
-
-interface EditorHoursRow {
-  key: DayKey;
-  day: string;
-  shortDay: string;
-  closed: boolean;
-  openTime: string;
-  closeTime: string;
 }
 
 interface EditorHoursSummaryRow {
@@ -90,15 +81,6 @@ const LOGO_MAX_SIZE_LABEL = '5MB';
 const ITEM_PHOTO_ASPECT = 4 / 3;
 const COVER_PHOTO_ASPECT = 16 / 7;
 type CropTarget = 'logo' | 'cover' | 'item';
-const DEFAULT_HOURS: EditorHoursRow[] = [
-  { key: 'mon', day: 'Monday', shortDay: 'Mon', closed: false, openTime: '09:00', closeTime: '22:00' },
-  { key: 'tue', day: 'Tuesday', shortDay: 'Tue', closed: false, openTime: '09:00', closeTime: '22:00' },
-  { key: 'wed', day: 'Wednesday', shortDay: 'Wed', closed: false, openTime: '09:00', closeTime: '22:00' },
-  { key: 'thu', day: 'Thursday', shortDay: 'Thu', closed: false, openTime: '09:00', closeTime: '22:00' },
-  { key: 'fri', day: 'Friday', shortDay: 'Fri', closed: false, openTime: '09:00', closeTime: '22:00' },
-  { key: 'sat', day: 'Saturday', shortDay: 'Sat', closed: false, openTime: '10:00', closeTime: '23:00' },
-  { key: 'sun', day: 'Sunday', shortDay: 'Sun', closed: true, openTime: '09:00', closeTime: '22:00' },
-];
 const CAT_GRADIENTS: Record<string, string> = {
   Starters: 'linear-gradient(135deg,#e2ecd9,#c7d9ba)',
   'From the Sea': 'linear-gradient(135deg,#d6e7f0,#b6d2e2)',
@@ -340,7 +322,7 @@ export class EditorPageComponent {
   customCuisines = computed(() => this.cuisines().filter(value => !this.cuisineOptions.includes(value)));
   readonly highlightOptions = ['Family friendly', 'Local pickup', 'Delivery', 'Outdoor seating', 'Vegetarian options'];
 
-  hoursRows = signal<EditorHoursRow[]>(cloneHours(DEFAULT_HOURS));
+  hoursRows = signal<HoursRow[]>(cloneHours(DEFAULT_HOURS));
   hoursSheetOpen = signal(false);
   private hoursTouched = signal(false);
 
@@ -702,7 +684,7 @@ export class EditorPageComponent {
     this.updateHours(index, row => ({ ...row, [field]: value }));
   }
 
-  private updateHours(index: number, updater: (row: EditorHoursRow) => EditorHoursRow) {
+  private updateHours(index: number, updater: (row: HoursRow) => HoursRow) {
     this.hoursRows.update(rows => rows.map((row, i) => (i === index ? updater(row) : row)));
     this.hoursTouched.set(true);
   }
@@ -964,96 +946,12 @@ export class EditorPageComponent {
   }
 }
 
-function cloneHours(rows: EditorHoursRow[]): EditorHoursRow[] {
-  return rows.map(row => ({ ...row }));
-}
-
-function formatOperatingHours(rows: EditorHoursRow[]): string {
-  return groupHours(rows)
-    .map(group => {
-      const day = group.start.key === group.end.key ? group.start.shortDay : group.start.shortDay + '-' + group.end.shortDay;
-      return day + ' ' + group.text;
-    })
-    .join('; ');
-}
-
-function summarizeHours(rows: EditorHoursRow[]): EditorHoursSummaryRow[] {
+function summarizeHours(rows: HoursRow[]): EditorHoursSummaryRow[] {
   return groupHours(rows).map(group => ({
     dayLabel: group.start.key === group.end.key ? group.start.day : group.start.day + ' - ' + group.end.day,
     timeLabel: group.text,
     closed: group.text === 'Closed',
   }));
-}
-
-function groupHours(rows: EditorHoursRow[]): { start: EditorHoursRow; end: EditorHoursRow; text: string }[] {
-  const groups: { start: EditorHoursRow; end: EditorHoursRow; text: string }[] = [];
-  for (const row of rows) {
-    const text = row.closed ? 'Closed' : formatTime(row.openTime) + ' - ' + formatTime(row.closeTime);
-    const last = groups.at(-1);
-    if (last?.text === text) last.end = row;
-    else groups.push({ start: row, end: row, text });
-  }
-  return groups;
-}
-function formatTime(time: string): string {
-  const [hourRaw, minuteRaw = '00'] = time.split(':');
-  const hour = Number(hourRaw);
-  const minute = Number(minuteRaw);
-  if (!Number.isFinite(hour) || !Number.isFinite(minute)) return time;
-  const suffix = hour >= 12 ? 'PM' : 'AM';
-  const displayHour = hour % 12 || 12;
-  return `${displayHour}:${String(minute).padStart(2, '0')} ${suffix}`;
-}
-
-function parseOperatingHours(text: string): EditorHoursRow[] | null {
-  const rows = cloneHours(DEFAULT_HOURS).map(row => ({ ...row, closed: true }));
-  const parts = text.split(/[;\n]+/).map(part => part.trim()).filter(Boolean);
-  if (parts.length === 0) return null;
-
-  for (const part of parts) {
-    const match = /^(Every day|[A-Za-z]{3}(?:-[A-Za-z]{3})?)\s+(.+)$/i.exec(part);
-    if (!match) return null;
-
-    const dayIndexes = indexesForDayLabel(match[1]);
-    if (!dayIndexes.length) return null;
-
-    const hoursText = match[2].trim();
-    const closed = /^Closed$/i.test(hoursText);
-    const timeMatch = /^(.+?)\s*-\s*(.+)$/.exec(hoursText);
-    if (!closed && !timeMatch) return null;
-
-    for (const index of dayIndexes) {
-      rows[index].closed = closed;
-      if (timeMatch) {
-        rows[index].openTime = parseTime(timeMatch[1]) ?? rows[index].openTime;
-        rows[index].closeTime = parseTime(timeMatch[2]) ?? rows[index].closeTime;
-      }
-    }
-  }
-
-  return rows;
-}
-
-function indexesForDayLabel(label: string): number[] {
-  if (/^Every day$/i.test(label)) return DEFAULT_HOURS.map((_, index) => index);
-  const shortDays = DEFAULT_HOURS.map(row => row.shortDay.toLowerCase());
-  const [start, end] = label.toLowerCase().split('-');
-  const startIndex = shortDays.indexOf(start);
-  const endIndex = end ? shortDays.indexOf(end) : startIndex;
-  if (startIndex < 0 || endIndex < startIndex) return [];
-  return Array.from({ length: endIndex - startIndex + 1 }, (_, offset) => startIndex + offset);
-}
-
-function parseTime(value: string): string | null {
-  const match = /^(\d{1,2})(?::(\d{2}))?\s*(AM|PM)$/i.exec(value.trim());
-  if (!match) return null;
-  let hour = Number(match[1]);
-  const minute = Number(match[2] ?? '0');
-  const suffix = match[3].toUpperCase();
-  if (hour < 1 || hour > 12 || minute < 0 || minute > 59) return null;
-  if (suffix === 'PM' && hour !== 12) hour += 12;
-  if (suffix === 'AM' && hour === 12) hour = 0;
-  return `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
 }
 
 function sameMembers(a: readonly string[], b: readonly string[]): boolean {

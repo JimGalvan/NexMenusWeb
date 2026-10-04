@@ -28,6 +28,7 @@ import {
   instagramUrlFrom,
   moneyLabel,
 } from '../../models/menu.model';
+import { parseOperatingHours, weeklyHoursGroups } from '../../models/hours.model';
 
 const CAT_GRADIENTS: Record<string, string> = {
   Starters: 'linear-gradient(135deg,#e2ecd9,#c7d9ba)',
@@ -130,14 +131,24 @@ export class PublicMenuPageComponent implements OnInit {
     const phone = this.menu()?.phone ?? '';
     return this.contactMethod() === 'call' ? `Order: call ${phone}` : `Order: text ${phone}`;
   });
-  /** Hours are free text, often multi-line; the header shows them on one line. */
-  readonly hoursSummary = computed(() =>
-    (this.menu()?.operatingHours ?? '')
-      .split('\n')
-      .map(line => line.trim())
-      .filter(Boolean)
-      .join(' · '),
-  );
+  readonly hoursText = computed(() => this.menu()?.operatingHours?.trim() ?? '');
+  /** Empty when the hours are free text the editor's format doesn't cover. */
+  readonly hoursGroups = computed(() => {
+    const rows = this.hoursText() ? parseOperatingHours(this.hoursText()) : null;
+    return rows ? weeklyHoursGroups(rows) : [];
+  });
+  /**
+   * Hours short enough for the header row ("Every day 9 AM – 10 PM"). Anything
+   * longer folds behind the Hours toggle so it can't swamp the header.
+   */
+  readonly hoursInline = computed(() => {
+    const groups = this.hoursGroups();
+    if (groups.length) return groups.length === 1 && !groups[0].closed ? `${groups[0].days} ${groups[0].hours}` : null;
+    const text = this.hoursText();
+    return text && !/[\n;]/.test(text) && text.length <= 40 ? text : null;
+  });
+  /** Starts closed, so the server render and the first client render match. */
+  readonly hoursOpen = signal(false);
 
   money(amount: string | number): string {
     return moneyLabel(amount, this.menu()?.currency ?? 'USD');
